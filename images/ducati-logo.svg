@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 540" width="500" height="540">
+  <!-- Shield background -->
+  <path d="M250 10
+    C150 10, 30 60, 10 160
+    C-10 260, 60 400, 250 530
+    C440 400, 510 260, 490 160
+    C470 60, 350 10, 250 10 Z"
+    fill="#E3000F"/>
+
+  <!-- White curved stripe -->
+  <path d="M25 220
+    C80 180, 160 165, 250 170
+    C340 175, 420 195, 475 230
+    L490 210
+    C440 170, 355 148, 250 143
+    C145 138, 60 158, 10 200 Z"
+    fill="white"/>
+
+  <!-- DUCATI text -->
+  <text x="250" y="155"
+    font-family="Arial Black, Arial, sans-serif"
+    font-size="98"
+    font-weight="900"
+    font-style="italic"
+    fill="white"
+    text-anchor="middle"
+    letter-spacing="-2">DUCATI</text>
+</svg>
