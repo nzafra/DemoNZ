@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 580" width="500" height="580">
+  <!-- Outer gold border shadow -->
+  <path d="M250 8 C160 8, 28 55, 8 165 C-12 275, 62 420, 250 572 C438 420, 512 275, 492 165 C472 55, 340 8, 250 8 Z"
+    fill="#8B6914" />
+
+  <!-- Gold border -->
+  <path d="M250 18 C163 18, 38 63, 18 168 C-2 273, 68 414, 250 560 C432 414, 502 273, 482 168 C462 63, 337 18, 250 18 Z"
+    fill="url(#goldGrad)" />
+
+  <!-- Black shield inner -->
+  <path d="M250 42 C170 42, 58 83, 40 178 C22 273, 86 406, 250 540 C414 406, 478 273, 460 178 C442 83, 330 42, 250 42 Z"
+    fill="url(#blackGrad)" />
+
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5D060"/>
+      <stop offset="40%" style="stop-color:#D4A017"/>
+      <stop offset="70%" style="stop-color:#C9850A"/>
+      <stop offset="100%" style="stop-color:#A8720A"/>
+    </linearGradient>
+    <linearGradient id="blackGrad" x1="0%" y1="0%" x2="60%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a2a2a"/>
+      <stop offset="50%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#000000"/>
+    </linearGradient>
+    <linearGradient id="textGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#F5D060"/>
+      <stop offset="50%" style="stop-color:#D4A017"/>
+      <stop offset="100%" style="stop-color:#A8720A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- LAMBORGHINI text -->
+  <text x="250" y="118"
+    font-family="Arial Narrow, Arial, sans-serif"
+    font-size="52"
+    font-weight="900"
+    fill="url(#textGold)"
+    text-anchor="middle"
+    letter-spacing="2">LAMBORGHINI</text>
+
+  <!-- Bull silhouette (simplified) -->
+  <!-- Body -->
+  <ellipse cx="245" cy="350" rx="90" ry="65" fill="url(#goldGrad)" transform="rotate(-15 245 350)"/>
+  <!-- Head -->
+  <ellipse cx="155" cy="295" rx="48" ry="38" fill="url(#goldGrad)" transform="rotate(-30 155 295)"/>
+  <!-- Neck -->
+  <path d="M175 310 C185 320, 195 330, 205 340 C195 325, 185 310, 175 298 Z" fill="url(#goldGrad)"/>
+  <!-- Horns -->
+  <path d="M135 268 C115 248, 98 238, 88 230" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <path d="M158 262 C158 242, 162 228, 168 218" stroke="url(#goldGrad)" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <!-- Front legs -->
+  <rect x="168" y="398" width="22" height="75" rx="8" fill="url(#goldGrad)" transform="rotate(-10 168 398)"/>
+  <rect x="210" y="405" width="22" height="72" rx="8" fill="url(#goldGrad)" transform="rotate(5 210 405)"/>
+  <!-- Rear legs -->
+  <rect x="290" y="400" width="22" height="72" rx="8" fill="url(#goldGrad)" transform="rotate(-5 290 400)"/>
+  <rect x="328" y="395" width="22" height="75" rx="8" fill="url(#goldGrad)" transform="rotate(10 328 395)"/>
+  <!-- Tail -->
+  <path d="M330 310 C360 280, 375 265, 368 248" stroke="url(#goldGrad)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M368 248 C375 235, 370 225, 360 228" stroke="url(#goldGrad)" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <!-- Snout detail -->
+  <ellipse cx="120" cy="308" rx="18" ry="14" fill="url(#goldGrad)" transform="rotate(-20 120 308)"/>
+  <!-- Eye -->
+  <circle cx="138" cy="278" r="5" fill="#000"/>
+</svg>
