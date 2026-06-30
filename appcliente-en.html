@@ -1626,7 +1626,7 @@
           <option value="demo">demo</option>
         </select>
       </div>
-      <h1 id="saludoNombre">¡Hola, Jorge!</h1>
+      <h1 id="saludoNombre">Hello, Jorge!</h1>
       <p>Welcome to your online banking</p>
       <button id="btnSolicitarAtencion" class="btn" style="background-color: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); padding: 0.75rem 1.5rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s; width: auto;">
         <i class="bi bi-geo-alt"></i><span>I'm at the branch</span>
@@ -1720,7 +1720,7 @@
         <div class="product-balance positive">$85,450.00</div>
         <div class="product-details">
           <div class="product-detail-item">
-            <span class="product-detail-label">Available</span>
+            <span class="product-detail-label">Disponible</span>
             <span class="product-detail-value">$85,450.00</span>
           </div>
           <div class="product-detail-item">
@@ -1748,7 +1748,7 @@
             <span class="product-detail-value">$50,000.00</span>
           </div>
           <div class="product-detail-item">
-            <span class="product-detail-label">Available</span>
+            <span class="product-detail-label">Disponible</span>
             <span class="product-detail-value">$37,650.00</span>
           </div>
           <div class="product-detail-item">
@@ -1836,7 +1836,7 @@
 
             <div id="citaAgendaWrap">
               <div class="field" id="citaSucursalWrap">
-                <label for="citaSucursal">Sucursal</label>
+                <label for="citaSucursal">Branch</label>
                 <select id="citaSucursal">
                   <option value="" disabled selected>Choose a branch</option>
                   <option value="Numia Reforma — CDMX">Numia Reforma — Av. Paseo de la Reforma 510</option>
@@ -1913,7 +1913,7 @@
       <div class="san-promo-popup-body">
         <span class="san-promo-popup-badge">Exclusive offer</span>
         <div class="san-promo-popup-highlight">
-          <strong>Up to $1,000,000</strong>
+          <strong>Hasta $1.000.000</strong>
           <span>Preferential rate · 36 installments</span>
         </div>
         <ul class="san-promo-popup-features">
@@ -2200,7 +2200,7 @@
         stepsContainer.innerHTML = `
           <div class="alert alert-danger">
             <i class="bi bi-exclamation-triangle me-2"></i>
-            Error al procesar la solicitud: ${err.message}
+            Error processing the request: ${err.message}
             <br><small>Revisa la consola para más detalles.</small>
           </div>
         `;
@@ -2231,7 +2231,7 @@
         if (obj.score) lineas.push(`Score: ${obj.score}`);
         if (obj.status) lineas.push(`Status: ${obj.status}`);
         if (obj.ok !== undefined) lineas.push(`Status: ${obj.ok ? 'OK' : 'Error'}`);
-        if (obj.exists !== undefined) lineas.push(`Exists: ${obj.exists ? 'Yes' : 'No'}`);
+        if (obj.exists !== undefined) lineas.push(`Exists: ${obj.exists ? 'Sí' : 'No'}`);
         
         // Manejar objetos anidados importantes
         if (obj.customerType && typeof obj.customerType === 'object') {
@@ -2330,7 +2330,7 @@
         
         // Si después de todo el procesamiento no hay texto útil, no mostrar nada
         if (!texto || texto.trim() === '') {
-          return '<div class="conversation-output"><div class="conversation-line"><em style="color: var(--numia-text-light);">Information processed correctly</em></div></div>';
+          return '<div class="conversation-output"><div class="conversation-line"><em style="color: var(--numia-text-light);">Información procesada correctamente</em></div></div>';
         }
         
         // Formatear como conversación - dividir por líneas y formatear
@@ -2399,7 +2399,7 @@
           const toolName = content.name || 
                           content.tool_name || 
                           content.tool_use?.name || 
-                          'Herramienta desconocida';
+                          'Unknown tool';
           
           const friendlyName = formatearNombrePasoAmigable(toolName);
           
@@ -2425,7 +2425,7 @@
               } else {
                 // Intentar extraer solo campos útiles
                 const camposUtiles = [];
-                if (toolOutput.ok !== undefined) camposUtiles.push(`Estado: ${toolOutput.ok ? 'OK' : 'Error'}`);
+                if (toolOutput.ok !== undefined) camposUtiles.push(`Status: ${toolOutput.ok ? 'OK' : 'Error'}`);
                 if (toolOutput.score) camposUtiles.push(`Score: ${toolOutput.score}`);
                 if (toolOutput.dni) camposUtiles.push(`DNI: ${toolOutput.dni}`);
                 
@@ -2446,7 +2446,7 @@
             `;
           } else {
             // Si no hay output o es muy complejo, mostrar solo el nombre de la herramienta ejecutada
-            outputHtml = '<div class="step-output-content"><em style="color: var(--numia-text-light);">Tool executed successfully</em></div>';
+            outputHtml = '<div class="step-output-content"><em style="color: var(--numia-text-light);">Herramienta ejecutada correctamente</em></div>';
           }
           
           stepItem.innerHTML = `
@@ -2456,7 +2456,7 @@
               </div>
               <div style="flex: 1;">
                 <div class="step-title">${escapeHtml(friendlyName)}</div>
-                <div class="step-duration">Step ${index + 1}</div>
+                <div class="step-duration">Paso ${index + 1}</div>
               </div>
             </div>
             <div class="step-content">
@@ -2644,10 +2644,10 @@
               <i class="bi bi-cash-coin me-2"></i>Loans
             </button>
             <button class="btn-opcion-presencial btn w-100" data-opcion="tarjetas" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-              <i class="bi bi-credit-card me-2"></i>Tarjetas
+              <i class="bi bi-credit-card me-2"></i>Cards
             </button>
             <button class="btn-opcion-presencial btn w-100" data-opcion="inversiones" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-              <i class="bi bi-graph-up-arrow me-2"></i>Inversiones
+              <i class="bi bi-graph-up-arrow me-2"></i>Investments
             </button>
           </div>
         `;
@@ -2860,7 +2860,7 @@
           if (data.averageWaitingTime !== undefined) {
             const minutos = Math.floor(data.averageWaitingTime / 60);
             const segundos = data.averageWaitingTime % 60;
-            resultadoHtml += `<p class="mb-2"><strong>Estimated wait time:</strong> ${minutos} min ${segundos} sec</p>`;
+            resultadoHtml += `<p class="mb-2"><strong>Estimated wait time:</strong> ${minutos} min ${segundos} seg</p>`;
           }
           
           if (tipo === 'videollamada' && data.videoCallUrl) {
@@ -2883,9 +2883,9 @@
         } finally {
           btn.disabled = false;
           if (tipo === 'videollamada') {
-            btn.innerHTML = '<i class="bi bi-camera-video"></i>Video call';
+            btn.innerHTML = '<i class="bi bi-camera-video"></i>Videollamada';
           } else {
-            btn.innerHTML = '<i class="bi bi-geo-alt"></i>In-person';
+            btn.innerHTML = '<i class="bi bi-geo-alt"></i>Presencial';
           }
         }
       }
@@ -2937,7 +2937,7 @@
           if (data.averageWaitingTime !== undefined) {
             const minutos = Math.floor(data.averageWaitingTime / 60);
             const segundos = data.averageWaitingTime % 60;
-            resultadoHtml += `<div style="color: #ffffff; margin-bottom: 0.5rem;"><strong>Tiempo de espera estimado:</strong> ${minutos} min ${segundos} seg</div>`;
+            resultadoHtml += `<div style="color: #ffffff; margin-bottom: 0.5rem;"><strong>Estimated wait time:</strong> ${minutos} min ${segundos} seg</div>`;
           }
           
           // Si es videollamada, mostrar el enlace
@@ -3027,7 +3027,7 @@
         } finally {
           if (triggerBtn) {
             triggerBtn.disabled = false;
-            triggerBtn.innerHTML = originalHtml || '<i class="bi bi-camera-video"></i> Video call';
+            triggerBtn.innerHTML = originalHtml || '<i class="bi bi-camera-video"></i> Videollamada';
           }
         }
       };
@@ -3311,13 +3311,13 @@
 
       function obtenerResumenCitaDemo(motivo, nombre) {
         if (motivo === 'Prestamos') {
-          return 'Recommendation for ' + nombre + ':\n\n**Suggested service type**: Immediate video call\n\nThe client has inquired about loans in the last 30 days and has active products compatible with digital pre-qualification. Credit score: 720.\n\n- Suggest video call: Yes\n- Estimated video call time: ~8 min\n- Estimated branch time: ~45 min';
+          return 'Recommendation for ' + nombre + ':\n\n**Tipo de atención sugerida**: Videollamada inmediata\n\nEl cliente consultó préstamos en los últimos 30 días y tiene productos activos compatibles con precalificación digital. Score crediticio: 720.\n\n- Sugerir videollamada: Sí\n- Tiempo estimado videollamada: ~8 min\n- Tiempo estimado sucursal: ~45 min';
         }
         if (motivo === 'Tarjetas') {
-          return 'Recommendation for ' + nombre + ':\n\n**Suggested service type**: Branch\n\nHistory of credit card inquiries. For credit limit increase or replacement, scheduling an in-person appointment is recommended.\n\n- Suggest video call: No\n- Video call available for general inquiries.';
+          return 'Recomendación para ' + nombre + ':\n\n**Tipo de atención sugerida**: Sucursal\n\nHistorial de gestiones sobre tarjeta de crédito. Para aumento de límite o reposición conviene agendar turno presencial.\n\n- Sugerir videollamada: No\n- Videollamada disponible para consultas generales.';
         }
         if (motivo === 'Transferencias') {
-          return 'Recommendation for ' + nombre + ':\n\n**Suggested service type**: Self-service in app\n\nThe transfer can be completed in seconds from the Numia Bank app, without a turn or branch visit. If the client prefers help, guided chat or immediate video call is suggested.\n\n- Suggest video call: Yes\n- Estimated time in app: ~2 min\n- No branch appointment required';
+          return 'Recomendación para ' + nombre + ':\n\n**Tipo de atención sugerida**: Autogestión en app\n\nLa transferencia puede completarse en segundos desde la app Numia Bank, sin turno ni sucursal. Si el cliente prefiere ayuda, se sugiere chat guiado o videollamada inmediata.\n\n- Sugerir videollamada: Sí\n- Tiempo estimado en app: ~2 min\n- No requiere agendar sucursal';
         }
         return '';
       }
@@ -3539,9 +3539,9 @@
             ? new Date(citaFecha.value + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
             : '';
           if (citaSuccessText) {
-            citaSuccessText.textContent = 'Your appointment for ' + citaMotivo.toLowerCase() + ' at branch' +
+            citaSuccessText.textContent = 'Tu cita por ' + citaMotivo.toLowerCase() + ' en sucursal' +
               (lugar ? ' (' + lugar + ')' : '') +
-              ' has been scheduled for ' + fechaFmt + ' at ' + (citaHoraInput ? citaHoraInput.value : '') + '.';
+              ' quedó agendada para el ' + fechaFmt + ' a las ' + (citaHoraInput ? citaHoraInput.value : '') + ' hs.';
           }
           if (citaSuccess) {
             citaSuccess.classList.add('active');
