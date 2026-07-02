@@ -772,13 +772,6 @@
         <h2>Select an option</h2>
         <p class="subtitle">Choose how you wish to proceed</p>
         <div class="opciones-grid" id="menuInicialGrid">
-          <!-- Opción Avatar -->
-          <div class="opcion-card" id="opcionAvatar" style="cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
-            <div class="opcion-icon" style="color: var(--numia-azul);">
-              <i class="bi bi-person-circle"></i>
-            </div>
-            <div class="opcion-title">Avatar</div>
-          </div>
           <!-- Opción Options menu -->
           <div class="opcion-card" id="opcionMenu" style="cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
             <div class="opcion-icon" style="color: var(--numia-azul);">
@@ -1372,47 +1365,13 @@
             }, index * delayPaso);
           });
 
-          const mensaje = `I need assistance regarding ${opcion}. ID: ${dniIngresado}`;
+          const HARDCODED_RESPONSES = {
+            prestamos: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 742**\n\nThe client has a credit score of 742, placing them in the high-value segment. A digital onboarding process was abandoned 14 days ago, indicating active interest in a personal loan product.\n\n- **Recommended product:** Personal Loan up to $1,000,000\n- **Suggested rate:** 18.5% APR (preferential)\n- **Term:** 12 to 48 installments\n- **Pre-approval status:** Pre-approved\n\n**Tipo de atención sugerida**: Videollamada\n- Sugerir videollamada: Sí\n- Estimated video call time: ~8 min\n- Estimated branch wait time: ~40 min\n\nRecommendation: Initiate video call immediately to capture the client's intent and complete the loan application digitally.`,
+            tarjetas: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 718**\n\nThe client holds an active checking account with consistent transaction activity over the past 6 months. No current credit card on file — high cross-sell opportunity.\n\n- **Recommended product:** Numia Bank Platinum Credit Card\n- **Pre-approved limit:** $500,000\n- **Annual fee:** Waived for first year\n- **Rewards:** 2x points on all purchases\n\n**Tipo de atención sugerida**: Videollamada\n- Sugerir videollamada: Sí\n- Estimated video call time: ~6 min\n- Estimated branch wait time: ~35 min\n\nRecommendation: Offer card via video call — activation can be completed remotely in under 10 minutes.`,
+            inversiones: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 761**\n\nThe client has a savings account with an average balance of $2,800,000 over the last 3 months, currently earning below-market returns. Strong candidate for investment product migration.\n\n- **Recommended product:** Fixed-Term Investment (FTI) — 30/60/90 days\n- **Current rate available:** 9.2% annual\n- **Minimum investment:** $100,000\n- **Capital guarantee:** 100%\n\n**Tipo de atención sugerida**: Videollamada\n- Sugerir videollamada: Sí\n- Estimated video call time: ~10 min\n- Estimated branch wait time: ~50 min\n\nRecommendation: Connect client with investment advisor via video call to present portfolio options and lock in the preferential rate.`
+          };
 
-          let messageText = null;
-          try {
-            const response = await fetch(JOURNEY_API_URL, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': JOURNEY_API_KEY,
-                'Origin': 'journeybuilder.numia.co'
-              },
-              body: JSON.stringify({
-                input_value: mensaje,
-                input_type: 'chat'
-              })
-            });
-
-            if (!response.ok) {
-              throw new Error(`Server error (${response.status})`);
-            }
-
-            const data = await response.json();
-            console.log('Respuesta completa de la API:', JSON.stringify(data, null, 2));
-
-            if (data.outputs?.[0]?.outputs?.[0]) {
-              const innerOutput = data.outputs[0].outputs[0];
-              if (innerOutput.artifacts?.message) {
-                messageText = typeof innerOutput.artifacts.message === 'string'
-                  ? innerOutput.artifacts.message
-                  : innerOutput.artifacts.message.message || JSON.stringify(innerOutput.artifacts.message);
-              } else if (innerOutput.outputs?.message?.message) {
-                messageText = innerOutput.outputs.message.message;
-              } else if (innerOutput.results?.message?.text) {
-                messageText = innerOutput.results.message.text;
-              }
-            }
-          } catch (apiErr) {
-            const transcurrido = Date.now() - pasosInicio;
-            await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurrido)); });
-            throw apiErr;
-          }
+          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
