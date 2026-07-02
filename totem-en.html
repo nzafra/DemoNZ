@@ -1296,34 +1296,15 @@
         const scoring = extraerScoring(messageText);
         const textoLower = messageText.toLowerCase();
         const diceNoOPresencial =
-          textoLower.includes('sugerir videollamada: no') ||
-          textoLower.includes('sugerir videollamada:no') ||
-          textoLower.includes('**sugerir videollamada:** no') ||
-          textoLower.includes('**sugerir videollamada:**no') ||
-          (textoLower.includes('tipo de atención sugerida:') && textoLower.includes('presencial')) ||
-          (textoLower.includes('tipo de atención sugerida') && textoLower.includes('presencial'));
+          textoLower.includes('suggest video call: no') ||
+          textoLower.includes('suggested service type: in-person') ||
+          textoLower.includes('suggested service type: branch');
         let tieneVideollamadaTexto = false;
         if (!diceNoOPresencial) {
           tieneVideollamadaTexto =
-            textoLower.includes('- sugerir videollamada: si') ||
-            textoLower.includes('- sugerir videollamada: sí') ||
-            textoLower.includes('sugerir videollamada: si') ||
-            textoLower.includes('sugerir videollamada: sí') ||
-            textoLower.includes('**sugerir videollamada:** si') ||
-            textoLower.includes('**sugerir videollamada:** sí') ||
-            textoLower.includes('**sugerir videollamada:**si') ||
-            textoLower.includes('**sugerir videollamada:**sí') ||
-            textoLower.includes('**sugerir videollamada**: si') ||
-            textoLower.includes('**sugerir videollamada**: sí') ||
-            textoLower.includes('**sugerir videollamada**:si') ||
-            textoLower.includes('**sugerir videollamada**:sí') ||
-            textoLower.includes('tipo de atención sugerida: videollamada') ||
-            textoLower.includes('tipo de atención sugerida:videollamada') ||
-            textoLower.includes('**tipo de atención sugerida**: videollamada') ||
-            textoLower.includes('**tipo de atención sugerida**:videollamada') ||
-            textoLower.includes('**tipo de atención sugerida**: videollamada.') ||
-            (textoLower.includes('tipo de atención sugerida') && textoLower.includes('videollamada')) ||
-            (textoLower.includes('**tipo de atención sugerida**') && textoLower.includes('videollamada'));
+            textoLower.includes('suggest video call: yes') ||
+            textoLower.includes('suggested service type: video call') ||
+            (textoLower.includes('suggested service type') && textoLower.includes('video call'));
         }
         const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
         recomendacionVideollamada = tieneVideollamada;
@@ -1366,9 +1347,9 @@
           });
 
           const HARDCODED_RESPONSES = {
-            prestamos: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 742**\n\nThe client has a credit score of 742, placing them in the high-value segment. A digital onboarding process was abandoned 14 days ago, indicating active interest in a personal loan product.\n\n- **Recommended product:** Personal Loan up to $1,000,000\n- **Suggested rate:** 18.5% APR (preferential)\n- **Term:** 12 to 48 installments\n- **Pre-approval status:** Pre-approved\n\n**Tipo de atención sugerida**: Videollamada\n- Sugerir videollamada: Sí\n- Estimated video call time: ~8 min\n- Estimated branch wait time: ~40 min\n\nRecommendation: Initiate video call immediately to capture the client's intent and complete the loan application digitally.`,
-            tarjetas: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 718**\n\nThe client holds an active checking account with consistent transaction activity over the past 6 months. No current credit card on file — high cross-sell opportunity.\n\n- **Recommended product:** Numia Bank Platinum Credit Card\n- **Pre-approved limit:** $500,000\n- **Annual fee:** Waived for first year\n- **Rewards:** 2x points on all purchases\n\n**Tipo de atención sugerida**: Videollamada\n- Sugerir videollamada: Sí\n- Estimated video call time: ~6 min\n- Estimated branch wait time: ~35 min\n\nRecommendation: Offer card via video call — activation can be completed remotely in under 10 minutes.`,
-            inversiones: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 761**\n\nThe client has a savings account with an average balance of $2,800,000 over the last 3 months, currently earning below-market returns. Strong candidate for investment product migration.\n\n- **Recommended product:** Fixed-Term Investment (FTI) — 30/60/90 days\n- **Current rate available:** 9.2% annual\n- **Minimum investment:** $100,000\n- **Capital guarantee:** 100%\n\n**Tipo de atención sugerida**: Videollamada\n- Sugerir videollamada: Sí\n- Estimated video call time: ~10 min\n- Estimated branch wait time: ~50 min\n\nRecommendation: Connect client with investment advisor via video call to present portfolio options and lock in the preferential rate.`
+            prestamos: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 742**\n\nThe client has a credit score of 742, placing them in the high-value segment. A digital onboarding process was abandoned 14 days ago, indicating active interest in a personal loan product.\n\n- **Recommended product:** Personal Loan up to $1,000,000\n- **Suggested rate:** 18.5% APR (preferential)\n- **Term:** 12 to 48 installments\n- **Pre-approval status:** Pre-approved\n\n**Suggested service type**: Video call\n- Suggest video call: Yes\n- Estimated video call time: ~8 min\n- Estimated branch wait time: ~40 min\n\nRecommendation: Initiate video call immediately to capture the client's intent and complete the loan application digitally.`,
+            tarjetas: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 718**\n\nThe client holds an active checking account with consistent transaction activity over the past 6 months. No current credit card on file — high cross-sell opportunity.\n\n- **Recommended product:** Numia Bank Platinum Credit Card\n- **Pre-approved limit:** $500,000\n- **Annual fee:** Waived for first year\n- **Rewards:** 2x points on all purchases\n\n**Suggested service type**: Video call\n- Suggest video call: Yes\n- Estimated video call time: ~6 min\n- Estimated branch wait time: ~35 min\n\nRecommendation: Offer card via video call — activation can be completed remotely in under 10 minutes.`,
+            inversiones: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 761**\n\nThe client has a savings account with an average balance of $2,800,000 over the last 3 months, currently earning below-market returns. Strong candidate for investment product migration.\n\n- **Recommended product:** Fixed-Term Investment (FTI) — 30/60/90 days\n- **Current rate available:** 9.2% annual\n- **Minimum investment:** $100,000\n- **Capital guarantee:** 100%\n\n**Suggested service type**: Video call\n- Suggest video call: Yes\n- Estimated video call time: ~10 min\n- Estimated branch wait time: ~50 min\n\nRecommendation: Connect client with investment advisor via video call to present portfolio options and lock in the preferential rate.`
           };
 
           const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
