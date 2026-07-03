@@ -890,138 +890,38 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Elementos de las pantallas iniciales
-      const screenMenuInicial = document.getElementById('screenMenuInicial');
-      const screenAvatar = document.getElementById('screenAvatar');
-      const opcionAvatar = document.getElementById('opcionAvatar');
-      const opcionMenu = document.getElementById('opcionMenu');
-      const btnCerrarAvatar = document.getElementById('btnCerrarAvatar');
-      
-      // Event listener para opción Avatar - Redirigir a página separada
-      if (opcionAvatar) {
-        opcionAvatar.addEventListener('click', () => {
-          console.log('🎭 Redirigiendo a página de Avatar...');
-          window.location.href = 'avatar.html';
-        });
+      // "Back to menu" button — resets to DNI entry screen
+      function volverAlInicio() {
+        // Hide all screens
+        document.getElementById('screenOpciones').classList.remove('active');
+        document.getElementById('screenConfirmacion').classList.remove('active');
+        const screenAvatar = document.getElementById('screenAvatar');
+        if (screenAvatar) screenAvatar.classList.remove('active');
+
+        // Reset DNI and show DNI screen
+        dniIngresado = '';
+        actualizarDisplay();
+        document.getElementById('screenDni').style.display = 'block';
+
+        // Hide log panel
+        const logContainer = document.querySelector('.log-container');
+        if (logContainer) logContainer.classList.remove('visible');
+
+        // Restore layout
+        const totemContent = document.querySelector('.totem-content');
+        if (totemContent) totemContent.style.padding = '1.5rem 2rem';
+        const totemHeader = document.querySelector('.totem-header');
+        if (totemHeader) totemHeader.style.display = 'flex';
       }
-      
-      // Event listener para cerrar el avatar y volver al menú inicial
-      // Usar delegación de eventos para asegurar que funcione
+
       document.addEventListener('click', function(e) {
         if (e.target && (e.target.id === 'btnCerrarAvatar' || e.target.closest('#btnCerrarAvatar'))) {
           e.preventDefault();
           e.stopPropagation();
-          
-          // Si el avatar está activo, cerrarlo
-          if (screenAvatar && screenAvatar.classList.contains('active')) {
-            screenAvatar.classList.remove('active');
-          }
-          
-          // Mostrar el menú inicial
-          if (screenMenuInicial) {
-            screenMenuInicial.classList.remove('hidden');
-          }
-          
-          // Ocultar pantalla de opciones (préstamos, tarjetas, inversiones)
-          const screenOpcionesEl = document.getElementById('screenOpciones');
-          if (screenOpcionesEl) {
-            screenOpcionesEl.classList.remove('active');
-          }
-          
-          // Ocultar pantalla de confirmación si está activa
-          const screenConfirmacionEl = document.getElementById('screenConfirmacion');
-          if (screenConfirmacionEl) {
-            screenConfirmacionEl.classList.remove('active');
-          }
-          
-          // Ocultar otras pantallas
-          const screenDniEl = document.getElementById('screenDni');
-          if (screenDniEl) {
-            screenDniEl.style.display = 'none';
-          }
-          
-          // Restaurar el padding del contenedor
-          const totemContent = document.querySelector('.totem-content');
-          if (totemContent) {
-            totemContent.style.padding = '1.5rem 2rem';
-          }
-          
-          // Mostrar el header del totem
-          const totemHeader = document.querySelector('.totem-header');
-          if (totemHeader) {
-            totemHeader.style.display = 'flex';
-          }
+          volverAlInicio();
         }
       });
-      
-      // También agregar listener directo por si acaso
-      if (btnCerrarAvatar) {
-        btnCerrarAvatar.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          if (screenAvatar && screenAvatar.classList.contains('active')) {
-            screenAvatar.classList.remove('active');
-          }
-          
-          if (screenMenuInicial) {
-            screenMenuInicial.classList.remove('hidden');
-          }
-          
-          // Ocultar pantalla de opciones (préstamos, tarjetas, inversiones)
-          const screenOpcionesEl = document.getElementById('screenOpciones');
-          if (screenOpcionesEl) {
-            screenOpcionesEl.classList.remove('active');
-          }
-          
-          // Ocultar pantalla de confirmación si está activa
-          const screenConfirmacionEl = document.getElementById('screenConfirmacion');
-          if (screenConfirmacionEl) {
-            screenConfirmacionEl.classList.remove('active');
-          }
-          
-          const screenDniEl = document.getElementById('screenDni');
-          if (screenDniEl) {
-            screenDniEl.style.display = 'none';
-          }
-          
-          const totemContent = document.querySelector('.totem-content');
-          if (totemContent) {
-            totemContent.style.padding = '1.5rem 2rem';
-          }
-          
-          const totemHeader = document.querySelector('.totem-header');
-          if (totemHeader) {
-            totemHeader.style.display = 'flex';
-          }
-        });
-      }
-      
-      // Event listener para opción Options menu
-      if (opcionMenu) {
-        opcionMenu.addEventListener('click', () => {
-          screenMenuInicial.classList.add('hidden');
-          screenAvatar.classList.remove('active');
-          
-          // Mostrar pantalla DNI
-          const screenDniElement = document.getElementById('screenDni');
-          if (screenDniElement) {
-            screenDniElement.style.display = 'block';
-          }
-          
-          // Restaurar el padding del contenedor
-          const totemContent = document.querySelector('.totem-content');
-          if (totemContent) {
-            totemContent.style.padding = '1.5rem 2rem';
-          }
-          
-          // Mostrar el header del totem
-          const totemHeader = document.querySelector('.totem-header');
-          if (totemHeader) {
-            totemHeader.style.display = 'flex';
-          }
-        });
-      }
+
       
       // Configuración de la API Journey Builder
       const JOURNEY_API_URL = 'https://api.journeybuilder.numia.co/api/v1/run/d83a2fbd-f8d0-468f-9ecd-375709fd149f?stream=false';
