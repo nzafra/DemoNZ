@@ -2883,7 +2883,7 @@
           if (data.averageWaitingTime !== undefined) {
             const minutos = Math.floor(data.averageWaitingTime / 60);
             const segundos = data.averageWaitingTime % 60;
-            resultadoHtml += `<p class="mb-1" style="font-size:1.2rem; font-weight:700;">You're all set ✓</p><p class="mb-2" style="color:#6b7280; font-size:0.9rem;">We've notified the right specialist that you're here.</p><p class="mb-0"><strong>Estimated wait:</strong> ${minutos} min</p>`;
+            resultadoHtml += `<p class="mb-0"><strong>Estimated wait:</strong> ${minutos} min</p>`;
           }
           
           if (tipo === 'videollamada' && data.videoCallUrl) {
