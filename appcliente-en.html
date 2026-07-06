@@ -1959,6 +1959,19 @@
   </div>
 
 
+  <!-- Specialist notification popup -->
+  <div id="specialistPopup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
+    <div style="background:white; border-radius:20px; padding:2rem 1.75rem; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation: popIn 0.3s ease;">
+      <div style="font-size:3rem; margin-bottom:0.75rem;">✅</div>
+      <h3 style="font-size:1.15rem; font-weight:700; color:#1f2937; margin-bottom:0.5rem;">We've notified the right specialist that you're here.</h3>
+      <p style="font-size:0.88rem; color:#6b7280; margin-bottom:1.5rem;">They're being briefed on your profile and reason for visit right now.</p>
+      <button id="btnSpecialistPopupOk" style="background:var(--numia-azul); color:white; border:none; border-radius:12px; padding:0.85rem 2rem; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%;">Got it</button>
+    </div>
+  </div>
+  <style>
+    @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -2097,12 +2110,12 @@
           ]
         },
         inversiones: {
-          title: 'What do you need with Investments?',
-          subtitle: 'Your savings account has idle funds ready to invest',
+          title: 'Based on your investment history',
+          subtitle: 'Jorge, your last FTI matured on June 30 — here's what we suggest:',
           items: [
-            { icon: 'bi-piggy-bank', label: 'Open a Fixed-Term Investment', hint: 'Up to 9.2% annual rate' },
-            { icon: 'bi-bar-chart-line', label: 'Review my investment portfolio', hint: 'Current balance & performance' },
-            { icon: 'bi-arrow-repeat', label: 'Renew an existing investment', hint: 'Auto-renew available' },
+            { icon: 'bi-star-fill', label: 'Renew FTI · $2,800,000 at 9.2%', hint: 'Same term, better rate than last time · Recommended' },
+            { icon: 'bi-piggy-bank', label: 'Open a new FTI — 90 days', hint: 'Lock in today's rate before it changes' },
+            { icon: 'bi-bar-chart-line', label: 'Review my full portfolio', hint: 'Performance + upcoming maturities' },
             { icon: 'bi-three-dots', label: 'Something else', hint: '' }
           ]
         }
@@ -2589,8 +2602,8 @@
           summaryContent.appendChild(resumenTexto);
           summarySection.style.display = 'block';
           
-          // Mostrar botones en la APP MÓVIL (no en el log)
-          mostrarOpcionesEnApp(tieneVideollamada);
+          // Mostrar popup de notificación al especialista y luego los botones
+          mostrarPopupEspecialista(() => mostrarOpcionesEnApp(tieneVideollamada));
           
           // Scroll automático al final del log
           setTimeout(() => {
@@ -2604,6 +2617,19 @@
         }
       }
       
+      function mostrarPopupEspecialista(callback) {
+        const popup = document.getElementById('specialistPopup');
+        if (!popup) { callback(); return; }
+        popup.style.display = 'flex';
+        const btn = document.getElementById('btnSpecialistPopupOk');
+        function dismiss() {
+          popup.style.display = 'none';
+          btn.removeEventListener('click', dismiss);
+          callback();
+        }
+        btn.addEventListener('click', dismiss);
+      }
+
       function mostrarOpcionesEnApp(tieneVideollamada) {
         // El botón ya está en el header, no necesitamos ocultarlo
         
