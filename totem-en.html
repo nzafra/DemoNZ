@@ -1153,26 +1153,34 @@
       btnContinuar.addEventListener('click', () => {
         if (dniIngresado.length === 0) return;
 
-        // Antes de las opciones, mostrar el pop-up de hipoteca pre-aprobada
+        // Primero mostrar "How can we help you?" y encima el pop-up de hipoteca
+        mostrarPantallaOpciones();
         mostrarPopupHipoteca();
       });
 
-      // Pop-up de hipoteca pre-aprobada (entre ingreso de ID y opciones)
+      // Pop-up de hipoteca pre-aprobada (sobre la pantalla de opciones)
       function mostrarPopupHipoteca() {
         const popup = document.getElementById('mortgagePopup');
         const btnYes = document.getElementById('btnMortgageYes');
         const btnNo = document.getElementById('btnMortgageNo');
-        if (!popup || !btnYes || !btnNo) { mostrarPantallaOpciones(); return; }
+        if (!popup || !btnYes || !btnNo) return;
         popup.style.display = 'flex';
-        function cerrar(interesado) {
-          mortgageSignal = interesado;
+        function limpiar() {
           popup.style.display = 'none';
           btnYes.removeEventListener('click', onYes);
           btnNo.removeEventListener('click', onNo);
-          mostrarPantallaOpciones();
         }
-        function onYes() { cerrar(true); }
-        function onNo() { cerrar(false); }
+        function onYes() {
+          // Interesado: guardar señal y disparar el análisis de hipoteca directamente
+          mortgageSignal = true;
+          limpiar();
+          llamarAgenteConOpcionTotem('hipoteca');
+        }
+        function onNo() {
+          // No: cerrar y permitir continuar con el flujo normal (Loans/Cards/Investments)
+          mortgageSignal = false;
+          limpiar();
+        }
         btnYes.addEventListener('click', onYes);
         btnNo.addEventListener('click', onNo);
       }
@@ -1444,7 +1452,38 @@ WHY
 • Branch wait time: 20 min
 
 EXPECTED OUTCOME
-Lock in preferential rate + higher assets under management`
+Lock in preferential rate + higher assets under management`,
+            hipoteca: `Customer Journey Analysis — ID: ${dniIngresado}
+
+1 · Customer context
+Jorge is identified. At check-in he expressed interest in his pre-approved mortgage offer. Credit score: 742 — high-value segment with strong repayment capacity.
+
+2 · Intent & opportunity
+Active mortgage intent detected. Pre-approved offer available:
+• Mortgage up to $750,000
+• Preferential rate for existing customers
+• Terms up to 20 years
+
+3 · Real-time capacity
+• Mortgage specialist: available now
+• Branch wait time: ~25 min
+
+4 · Recommended journey
+Suggested service type: Video call
+Suggest video call: Yes
+
+────────────────────
+DECISION
+Recommend video call with a mortgage specialist
+
+WHY
+• Active mortgage intent expressed at check-in
+• Pre-approved offer up to $750,000 available
+• Mortgage specialist available now
+• Branch wait time: 25 min
+
+EXPECTED OUTCOME
+Faster resolution + higher conversion on a high-value product`
           };
 
           const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
