@@ -2681,10 +2681,28 @@
         // Mostrar la sección
         opcionesAtencionSection.style.display = 'block';
         
-        // Scroll a la sección
+        // El contenedor que hace scroll es la pantalla activa (.san-screen), no .mobile-app-content
+        const scroller = document.getElementById('sanScreenHome') || document.querySelector('.mobile-app-content');
+
+        // Añadir un espaciador para que las opciones puedan quedar solas en pantalla
+        let spacer = document.getElementById('opcionesSpacer');
+        if (!spacer) {
+          spacer = document.createElement('div');
+          spacer.id = 'opcionesSpacer';
+          opcionesAtencionSection.parentNode.appendChild(spacer);
+        }
+        spacer.style.height = (scroller ? scroller.clientHeight : 600) + 'px';
+
+        // Scroll a la sección de opciones (que quede en pantalla, no el balance)
         setTimeout(() => {
-          opcionesAtencionSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }, 100);
+          if (scroller) {
+            const rSec = opcionesAtencionSection.getBoundingClientRect();
+            const rCont = scroller.getBoundingClientRect();
+            scroller.scrollBy({ top: (rSec.top - rCont.top) - 12, behavior: 'smooth' });
+          } else {
+            opcionesAtencionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 200);
       }
       
       function mostrarOpcionesPresencial() {
