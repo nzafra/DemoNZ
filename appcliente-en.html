@@ -1626,7 +1626,7 @@
           <option value="demo">demo</option>
         </select>
       </div>
-      <h1 id="saludoNombre">Hello, Jorge!</h1>
+      <h1 id="saludoNombre">Hi, Jorge!</h1>
       <p>Welcome to your online banking</p>
       <button id="btnSolicitarAtencion" class="btn" style="background-color: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); padding: 0.75rem 1.5rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s; width: auto;">
         <i class="bi bi-geo-alt"></i><span>I'm at the branch</span>
@@ -1635,8 +1635,8 @@
 
     <div class="san-promo-loan" id="sanPromoLoan" role="button" tabindex="0" aria-label="Pre-approved loan — request advisory">
       <button type="button" class="san-promo-close" id="btnCerrarPromoLoan" aria-label="Close"><i class="bi bi-x"></i></button>
-      <div class="san-promo-loan-text">You have an approved loan at a preferential rate</div>
-      <div class="san-promo-loan-amount">$1,000,000 in 36 installments</div>
+      <div class="san-promo-loan-text">You're pre-approved for a loan at a preferred rate</div>
+      <div class="san-promo-loan-amount">Up to $1M · 36-month term</div>
     </div>
 
     <button type="button" class="numia-agendar-card" id="btnAgendarCita">
@@ -1650,15 +1650,15 @@
 
     <div class="san-ejecutivo-section">
       <div class="san-ejecutivo-head">
-        <h2>Talk to my advisor</h2>
+        <h2>Connect with my advisor</h2>
         <button type="button" id="btnVerCentroAyuda">See all</button>
       </div>
       <div class="san-ejecutivo-card">
         <div class="san-ejecutivo-top">
           <img class="san-ejecutivo-avatar" src="https://i.pravatar.cc/112?img=33" width="52" height="52" alt="Ejecutivo Numia" />
           <div>
-            <strong>I'm Martín Restrepo</strong>
-            <span>Your Numia advisor · Contact me via</span>
+            <strong>Martín Restrepo</strong>
+            <span>Your dedicated advisor · Contact me via</span>
           </div>
         </div>
         <div class="san-ejecutivo-contact">
@@ -1720,7 +1720,7 @@
         <div class="product-balance positive">$85,450.00</div>
         <div class="product-details">
           <div class="product-detail-item">
-            <span class="product-detail-label">Disponible</span>
+            <span class="product-detail-label">Available credit</span>
             <span class="product-detail-value">$85,450.00</span>
           </div>
           <div class="product-detail-item">
@@ -1741,23 +1741,23 @@
             <i class="bi bi-credit-card-2-front"></i>
           </div>
         </div>
-        <div class="product-balance negative">-$12,350.00</div>
+        <div class="product-balance" style="color: var(--numia-text);">Balance: $12,350.00</div>
         <div class="product-details">
           <div class="product-detail-item">
             <span class="product-detail-label">Credit limit</span>
             <span class="product-detail-value">$50,000.00</span>
           </div>
           <div class="product-detail-item">
-            <span class="product-detail-label">Disponible</span>
+            <span class="product-detail-label">Available credit</span>
             <span class="product-detail-value">$37,650.00</span>
           </div>
           <div class="product-detail-item">
-            <span class="product-detail-label">Closing date</span>
-            <span class="product-detail-value">15th of each month</span>
+            <span class="product-detail-label">Statement closing date</span>
+            <span class="product-detail-value">July 15</span>
           </div>
           <div class="product-detail-item">
-            <span class="product-detail-label">Payment date</span>
-            <span class="product-detail-value">30th of each month</span>
+            <span class="product-detail-label">Payment due date</span>
+            <span class="product-detail-value">July 30</span>
           </div>
         </div>
       </div>
@@ -1772,7 +1772,7 @@
 
     <!-- Sección de opciones de atención (se mostrará después del análisis) -->
     <div id="opcionesAtencionSection" class="dni-input-section" style="display: none;">
-      <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">Select your preference</h3>
+      <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">Get help faster</h3>
       <div id="opcionesAtencionContainer" style="display: flex; flex-direction: column; gap: 1rem;">
         <!-- Los botones se agregarán aquí dinámicamente -->
       </div>
@@ -2008,11 +2008,11 @@
       if (nombreSelector && saludoNombre) {
         nombreSelector.addEventListener('change', function() {
           const nombreSeleccionado = this.value;
-          saludoNombre.textContent = `Hello, ${nombreSeleccionado}!`;
+          saludoNombre.textContent = `Hi, ${nombreSeleccionado}!`;
         });
         
         // Inicializar saludo con el valor por defecto
-        saludoNombre.textContent = `Hello, ${nombreSelector.value}!`;
+        saludoNombre.textContent = `Hi, ${nombreSelector.value}!`;
       }
 
       // Elementos del DOM
@@ -2548,9 +2548,9 @@
         btnVideollamada.className = 'btn w-100';
         btnVideollamada.style.cssText = 'background-color: var(--numia-success); color: white; border: none; padding: 1rem 1.5rem; border-radius: 12px; font-weight: 600; margin-bottom: 0.75rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem;';
         if (tieneVideollamada) {
-          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Video call</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">✓ Recommended option - Less wait</span>';
+          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Video call</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Recommended · Available now</span>';
         } else {
-          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Video call</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Less wait</span>';
+          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Video call</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Available now</span>';
         }
         btnVideollamada.addEventListener('click', async () => {
           await solicitarAtencionApp('videollamada', btnVideollamada);
@@ -2561,7 +2561,7 @@
         const btnPresencial = document.createElement('button');
         btnPresencial.className = 'btn';
         btnPresencial.style.cssText = 'background-color: var(--numia-azul); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 10px; font-weight: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem; width: auto; margin: 0 auto; font-size: 0.9rem;';
-        btnPresencial.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-geo-alt"></i><span>Continue in person</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Option with more wait</span>';
+        btnPresencial.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-geo-alt"></i><span>Continue in person</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Estimated wait: 15 min</span>';
         btnPresencial.addEventListener('click', async (e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -2603,16 +2603,20 @@
         
         // Mostrar opciones
         opcionesPresencialContainer.innerHTML = `
-          <h4 style="font-size: 1.1rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">How can we help you?</h4>
+          <h4 style="font-size: 1.1rem; font-weight: 600; color: var(--numia-text); margin-bottom: 0.25rem; text-align: center;">What do you need help with?</h4>
+          <p style="font-size: 0.85rem; color: var(--numia-text-light); text-align: center; margin-bottom: 1rem;">We detected you're at the branch, Jorge</p>
           <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-            <button class="btn-opcion-presencial btn w-100" data-opcion="prestamos" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-              <i class="bi bi-cash-coin me-2"></i>Loans
+            <button class="btn-opcion-presencial btn w-100" data-opcion="tarjetas" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+              <i class="bi bi-arrow-up-circle me-2"></i>Increase my credit limit
             </button>
             <button class="btn-opcion-presencial btn w-100" data-opcion="tarjetas" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-              <i class="bi bi-credit-card me-2"></i>Cards
+              <i class="bi bi-credit-card me-2"></i>Replace my card
             </button>
-            <button class="btn-opcion-presencial btn w-100" data-opcion="inversiones" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-              <i class="bi bi-graph-up-arrow me-2"></i>Investments
+            <button class="btn-opcion-presencial btn w-100" data-opcion="tarjetas" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+              <i class="bi bi-flag me-2"></i>Dispute a transaction
+            </button>
+            <button class="btn-opcion-presencial btn w-100" data-opcion="tarjetas" style="background-color: white; color: var(--numia-text-light); border: 2px solid #e5e7eb; padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+              <i class="bi bi-three-dots me-2"></i>Something else
             </button>
           </div>
         `;
@@ -2793,7 +2797,7 @@
           if (data.averageWaitingTime !== undefined) {
             const minutos = Math.floor(data.averageWaitingTime / 60);
             const segundos = data.averageWaitingTime % 60;
-            resultadoHtml += `<p class="mb-2"><strong>Estimated wait time:</strong> ${minutos} min ${segundos} seg</p>`;
+            resultadoHtml += `<p class="mb-1" style="font-size:1.1rem;"><strong>You're all set</strong></p><p class="mb-2" style="color:#6b7280;">We've notified the right specialist that you're here.</p><p class="mb-2"><strong>Estimated wait:</strong> ${minutos} min</p>`;
           }
           
           if (tipo === 'videollamada' && data.videoCallUrl) {
