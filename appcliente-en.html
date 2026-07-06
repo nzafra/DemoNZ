@@ -1795,6 +1795,11 @@
       </div>
     </div>
 
+    <!-- Intent sub-menu (shown after selecting a service category) -->
+    <div id="menuIntentSection" class="dni-input-section" style="display: none;">
+      <div id="menuIntentContent"></div>
+    </div>
+
       </div><!-- /main-container -->
 
       </div><!-- /sanScreenHome -->
@@ -1914,8 +1919,8 @@
       <div class="san-promo-popup-body">
         <span class="san-promo-popup-badge">Exclusive offer</span>
         <div class="san-promo-popup-highlight">
-          <strong>Up to $1,000,000</strong>
-          <span>Preferential rate · 36 installments</span>
+          <strong>Up to $1M · 36-month term</strong>
+          <span>You're pre-approved at a preferred rate</span>
         </div>
         <ul class="san-promo-popup-features">
           <li><i class="bi bi-check-circle-fill"></i> Personalized advisory via video call</li>
@@ -2069,17 +2074,81 @@
         }, 100);
       });
       
+      // Intent sub-menus per category
+      const INTENT_MENUS = {
+        prestamos: {
+          title: 'What do you need with Loans?',
+          subtitle: 'Based on your profile, Jorge, here are the most relevant options',
+          items: [
+            { icon: 'bi-cash-stack', label: 'Apply for a loan — up to $5M', hint: 'Pre-approved · Fast disbursement' },
+            { icon: 'bi-graph-up-arrow', label: 'Apply for a loan — up to $10M', hint: 'Subject to credit evaluation' },
+            { icon: 'bi-search', label: 'Check my available loan limit', hint: 'Instant result' },
+            { icon: 'bi-three-dots', label: 'Something else', hint: '' }
+          ]
+        },
+        tarjetas: {
+          title: 'What do you need with Credit cards?',
+          subtitle: 'Platinum card ending in 4521 detected on your profile',
+          items: [
+            { icon: 'bi-arrow-up-circle', label: 'Increase my credit limit', hint: 'Current limit: $50,000' },
+            { icon: 'bi-credit-card', label: 'Replace my card', hint: 'Lost, damaged or expired' },
+            { icon: 'bi-flag', label: 'Dispute a transaction', hint: 'Unauthorized or incorrect charge' },
+            { icon: 'bi-three-dots', label: 'Something else', hint: '' }
+          ]
+        },
+        inversiones: {
+          title: 'What do you need with Investments?',
+          subtitle: 'Your savings account has idle funds ready to invest',
+          items: [
+            { icon: 'bi-piggy-bank', label: 'Open a Fixed-Term Investment', hint: 'Up to 9.2% annual rate' },
+            { icon: 'bi-bar-chart-line', label: 'Review my investment portfolio', hint: 'Current balance & performance' },
+            { icon: 'bi-arrow-repeat', label: 'Renew an existing investment', hint: 'Auto-renew available' },
+            { icon: 'bi-three-dots', label: 'Something else', hint: '' }
+          ]
+        }
+      };
+
+      function mostrarMenuIntent(opcion, sourceBtn) {
+        const menu = INTENT_MENUS[opcion];
+        if (!menu) return;
+        // Hide the category menu
+        menuOpcionesPresencial.style.display = 'none';
+        // Build intent HTML
+        const intentSection = document.getElementById('menuIntentSection');
+        const intentContent = document.getElementById('menuIntentContent');
+        intentContent.innerHTML = `
+          <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--numia-text); margin-bottom: 0.25rem; text-align: center;">${menu.title}</h3>
+          <p style="font-size: 0.82rem; color: var(--numia-text-light); text-align: center; margin-bottom: 1rem;">${menu.subtitle}</p>
+          <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+            ${menu.items.map((item, i) => `
+              <button class="btn-intent w-100 btn" data-idx="${i}" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.75rem 1rem; border-radius: 10px; font-weight: 600; text-align: left; display: flex; flex-direction: column; align-items: flex-start;">
+                <span><i class="bi ${item.icon} me-2"></i>${item.label}</span>
+                ${item.hint ? `<span style="font-size: 0.75rem; color: var(--numia-text-light); font-weight: 400; margin-top: 0.15rem; padding-left: 1.4rem;">${item.hint}</span>` : ''}
+              </button>`).join('')}
+          </div>
+        `;
+        intentSection.style.display = 'block';
+        setTimeout(() => intentSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+        // Bind clicks — each option triggers the agent flow
+        intentContent.querySelectorAll('.btn-intent').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            intentSection.style.display = 'none';
+            await llamarAgenteConOpcionDesdeMenu(opcion, btn);
+          });
+        });
+      }
+
       // Event listeners para las opciones del menú
-      btnOpcionPrestamos.addEventListener('click', async () => {
-        await llamarAgenteConOpcionDesdeMenu('prestamos', btnOpcionPrestamos);
+      btnOpcionPrestamos.addEventListener('click', () => {
+        mostrarMenuIntent('prestamos', btnOpcionPrestamos);
       });
       
-      btnOpcionTarjetas.addEventListener('click', async () => {
-        await llamarAgenteConOpcionDesdeMenu('tarjetas', btnOpcionTarjetas);
+      btnOpcionTarjetas.addEventListener('click', () => {
+        mostrarMenuIntent('tarjetas', btnOpcionTarjetas);
       });
       
-      btnOpcionInversiones.addEventListener('click', async () => {
-        await llamarAgenteConOpcionDesdeMenu('inversiones', btnOpcionInversiones);
+      btnOpcionInversiones.addEventListener('click', () => {
+        mostrarMenuIntent('inversiones', btnOpcionInversiones);
       });
       
       // Función para llamar al agente desde el menú inicial
@@ -2797,7 +2866,7 @@
           if (data.averageWaitingTime !== undefined) {
             const minutos = Math.floor(data.averageWaitingTime / 60);
             const segundos = data.averageWaitingTime % 60;
-            resultadoHtml += `<p class="mb-1" style="font-size:1.1rem;"><strong>You're all set</strong></p><p class="mb-2" style="color:#6b7280;">We've notified the right specialist that you're here.</p><p class="mb-2"><strong>Estimated wait:</strong> ${minutos} min</p>`;
+            resultadoHtml += `<p class="mb-1" style="font-size:1.2rem; font-weight:700;">You're all set ✓</p><p class="mb-2" style="color:#6b7280; font-size:0.9rem;">We've notified the right specialist that you're here.</p><p class="mb-0"><strong>Estimated wait:</strong> ${minutos} min</p>`;
           }
           
           if (tipo === 'videollamada' && data.videoCallUrl) {
