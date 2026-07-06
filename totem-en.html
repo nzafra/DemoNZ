@@ -1166,7 +1166,7 @@
         const btnNo = document.getElementById('btnMortgageNo');
         if (!popup || !btnYes || !btnNo) return;
         // Esperar 1 segundo (con la pantalla de opciones ya visible) antes de mostrar el pop-up
-        setTimeout(() => { popup.style.display = 'flex'; }, 1000);
+        setTimeout(() => { popup.style.display = 'flex'; }, 600);
         function limpiar() {
           popup.style.display = 'none';
           btnYes.removeEventListener('click', onYes);
