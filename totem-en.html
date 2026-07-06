@@ -129,7 +129,7 @@
     }
     
     .dni-display.empty:before {
-      content: 'Enter your ID';
+      content: 'Customer ID';
     }
     
     .keypad {
@@ -704,6 +704,8 @@
     .summary-content {
       color: #ffffff;
       font-family: 'Courier New', monospace;
+      white-space: pre-line;
+      line-height: 1.5;
     }
     
     .conversation-output {
@@ -761,8 +763,7 @@
   <div class="totem-container">
     <!-- Header -->
     <div class="totem-header">
-      <img src="images/numia.png" alt="Numia" style="height: 40px; object-fit: contain;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-      <span style="display:none;align-items:center;gap:0.5rem;font-weight:700;font-size:1.1rem;color:white;"><i class="bi bi-bank" style="font-size:1.5rem;"></i> Numia Bank</span>
+      <span style="display:flex;align-items:center;gap:0.5rem;font-weight:700;font-size:1.4rem;color:white;"><i class="bi bi-bank" style="font-size:1.7rem;"></i> Numia Bank</span>
     </div>
     
     <!-- Contenido del tótem -->
@@ -790,7 +791,10 @@
       <!-- Pantalla 1: Ingreso de DNI -->
       <div class="screen-dni" id="screenDni" style="display: block;">
         <!-- Mensaje entre logo y teclado -->
-        <div class="instruction" style="margin-bottom: 1rem; font-size: 1rem; color: var(--numia-azul); font-weight: 500;">Welcome! Please enter your ID</div>
+        <div class="instruction" style="margin-bottom: 1.25rem; text-align: center;">
+          <div style="font-size: 1.6rem; color: var(--numia-text); font-weight: 700; margin-bottom: 0.25rem;">Welcome</div>
+          <div style="font-size: 1rem; color: var(--numia-azul); font-weight: 500;">Enter your customer ID</div>
+        </div>
         
         <div class="dni-display empty" id="dniDisplay"></div>
         
@@ -819,8 +823,8 @@
       
       <!-- Pantalla 2: Opciones de atención -->
       <div class="screen-opciones" id="screenOpciones">
-        <h2>Select your preference</h2>
-        <div class="subtitle">Choose how you wish to be served</div>
+        <h2>Choose how you'd like to be served</h2>
+        <div class="subtitle" style="display: none;"></div>
         
         <div class="opciones-grid" id="opcionesGrid">
           <!-- Se llenará dinámicamente -->
@@ -861,7 +865,7 @@
   <!-- Contenedor de Logs a la derecha -->
   <div class="log-container">
     <div class="log-header">
-      Agent Analysis
+      Agentic Orchestration
     </div>
     <div class="log-content">
       <div id="atencionSection" class="atencion-section">
@@ -927,10 +931,10 @@
       const JOURNEY_API_URL = 'https://api.journeybuilder.numia.co/api/v1/run/d83a2fbd-f8d0-468f-9ecd-375709fd149f?stream=false';
       const JOURNEY_API_KEY = 'sk-WfTsCY302RrciqoVRYAZWruD9mpyPKatAo8GU8tyzIM';
       const PASOS_ANALISIS_UI = [
-        { titulo: 'Digital behavior', detalle: 'Onboarding evaluation and digital signals.' },
-        { titulo: 'Scoring', detalle: 'Score and best available offer.' },
-        { titulo: 'Channel suggestion', detalle: 'Service channel prioritization.' },
-        { titulo: 'Calculate priority', detalle: 'Analysis of the current branch status compared to the client.' }
+        { titulo: '1 · Understand customer context', detalle: 'Analysing profile, digital behaviour and recent journey history.' },
+        { titulo: '2 · Identify intent and opportunity', detalle: 'Matching customer needs with relevant products and next-best actions.' },
+        { titulo: '3 · Evaluate real-time capacity', detalle: 'Comparing wait times, staff availability and remote service capacity.' },
+        { titulo: '4 · Recommend the best journey', detalle: 'Selecting the optimal channel based on customer context and operational conditions.' }
       ];
 
       const DETALLE_EXTRA_FIELDS_DEFAULT = 'The client has a credit score >700. Additionally, abandonment of a digital onboarding process was recorded. It is recommended to offer a personal loan.';
@@ -1114,7 +1118,7 @@
           <div class="opcion-icon" style="color: var(--numia-azul);">
             <i class="bi bi-credit-card"></i>
           </div>
-          <div class="opcion-title">Cards</div>
+          <div class="opcion-title">Credit Cards</div>
         `;
         cardTarjetas.addEventListener('click', async () => {
           await llamarAgenteConOpcionTotem('tarjetas');
@@ -1163,7 +1167,7 @@
                 <div class="opcion-icon" style="color: var(--numia-azul);">
                   <i class="bi bi-credit-card"></i>
                 </div>
-                <div class="opcion-title">Cards</div>
+                <div class="opcion-title">Credit Cards</div>
               </div>
               <div class="opcion-card" style="cursor: pointer;" data-opcion="inversiones">
                 <div class="opcion-icon" style="color: var(--numia-azul);">
@@ -1247,9 +1251,101 @@
           });
 
           const HARDCODED_RESPONSES = {
-            prestamos: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 742**\n\nThe client has a credit score of 742, placing them in the high-value segment. A digital onboarding process was abandoned 14 days ago, indicating active interest in a personal loan product.\n\n- **Recommended product:** Personal Loan up to $1,000,000\n- **Suggested rate:** 18.5% APR (preferential)\n- **Term:** 12 to 48 installments\n- **Pre-approval status:** Pre-approved\n\n**Suggested service type**: Video call\n- Suggest video call: Yes\n- Estimated video call time: ~8 min\n- Estimated branch wait time: ~40 min\n\nRecommendation: Initiate video call immediately to capture the client's intent and complete the loan application digitally.`,
-            tarjetas: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 718**\n\nThe client holds an active checking account with consistent transaction activity over the past 6 months. No current credit card on file — high cross-sell opportunity.\n\n- **Recommended product:** Numia Bank Platinum Credit Card\n- **Pre-approved limit:** $500,000\n- **Annual fee:** Waived for first year\n- **Rewards:** 2x points on all purchases\n\n**Suggested service type**: Video call\n- Suggest video call: Yes\n- Estimated video call time: ~6 min\n- Estimated branch wait time: ~35 min\n\nRecommendation: Offer card via video call — activation can be completed remotely in under 10 minutes.`,
-            inversiones: `Client Analysis — ID: ${dniIngresado}\n\n**Score: 761**\n\nThe client has a savings account with an average balance of $2,800,000 over the last 3 months, currently earning below-market returns. Strong candidate for investment product migration.\n\n- **Recommended product:** Fixed-Term Investment (FTI) — 30/60/90 days\n- **Current rate available:** 9.2% annual\n- **Minimum investment:** $100,000\n- **Capital guarantee:** 100%\n\n**Suggested service type**: Video call\n- Suggest video call: Yes\n- Estimated video call time: ~10 min\n- Estimated branch wait time: ~50 min\n\nRecommendation: Connect client with investment advisor via video call to present portfolio options and lock in the preferential rate.`
+            prestamos: `Customer Journey Analysis — ID: ${dniIngresado}
+
+1 · Customer context
+Jorge is identified. Numia retrieves a personal loan application he started digitally and abandoned 14 days ago. Credit score: 742 — high-value segment.
+
+2 · Intent & opportunity
+Active loan intent detected. The pre-approved offer is still eligible:
+• Personal Loan up to $1,000,000
+• Preferential rate: 18.5% APR
+• Term: 12 to 48 installments
+
+3 · Real-time capacity
+• Remote specialist: available now
+• Branch wait time: ~18 min
+
+4 · Recommended journey
+Suggested service type: Video call
+Suggest video call: Yes
+
+────────────────────
+DECISION
+Recommend video call
+
+WHY
+• Active loan intent detected
+• Eligible offer available
+• Remote specialist available now
+• Branch wait time: 18 min
+
+EXPECTED OUTCOME
+Faster resolution + higher conversion probability`,
+            tarjetas: `Customer Journey Analysis — ID: ${dniIngresado}
+
+1 · Customer context
+Jorge is identified. Active checking account with consistent activity over the last 6 months. No credit card on file. Credit score: 718.
+
+2 · Intent & opportunity
+Card intent detected. High cross-sell fit:
+• Numia Bank Platinum Credit Card
+• Pre-approved limit: $500,000
+• First-year annual fee waived
+• 2x points on every purchase
+
+3 · Real-time capacity
+• Remote specialist: available now
+• Branch wait time: ~15 min
+
+4 · Recommended journey
+Suggested service type: Video call
+Suggest video call: Yes
+
+────────────────────
+DECISION
+Recommend video call
+
+WHY
+• Active card intent detected
+• Pre-approved limit available
+• Remote specialist available now
+• Branch wait time: 15 min
+
+EXPECTED OUTCOME
+Remote activation in under 10 min + higher conversion probability`,
+            inversiones: `Customer Journey Analysis — ID: ${dniIngresado}
+
+1 · Customer context
+Jorge is identified. Savings balance averaging $2,800,000 over the last 3 months, earning below-market returns. Credit score: 761.
+
+2 · Intent & opportunity
+Investment intent detected. Strong migration opportunity:
+• Fixed-Term Investment (FTI) — 30/60/90 days
+• Current rate: 9.2% annual
+• Minimum: $100,000
+• 100% capital guarantee
+
+3 · Real-time capacity
+• Remote specialist: available now
+• Branch wait time: ~20 min
+
+4 · Recommended journey
+Suggested service type: Video call
+Suggest video call: Yes
+
+────────────────────
+DECISION
+Recommend video call
+
+WHY
+• Active investment intent detected
+• Preferential rate available now
+• Remote specialist available now
+• Branch wait time: 20 min
+
+EXPECTED OUTCOME
+Lock in preferential rate + higher assets under management`
           };
 
           const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
@@ -1273,10 +1369,11 @@
         const screenOpcionesTitle = screenOpciones.querySelector('h2');
         const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
         if (screenOpcionesTitle) {
-          screenOpcionesTitle.textContent = 'Select your preference';
+          screenOpcionesTitle.textContent = "Choose how you'd like to be served";
         }
         if (screenOpcionesSubtitle) {
-          screenOpcionesSubtitle.textContent = 'Choose how you wish to be served';
+          screenOpcionesSubtitle.textContent = '';
+          screenOpcionesSubtitle.style.display = 'none';
         }
         
         opcionesGrid.innerHTML = '';
@@ -1290,8 +1387,8 @@
               <i class="bi bi-camera-video"></i>
             </div>
             <div class="opcion-title">Video call</div>
-            <div class="opcion-badge">Less wait</div>
-            <div class="opcion-desc">Immediate service from wherever you are</div>
+            <div class="opcion-badge">Available now</div>
+            <div class="opcion-desc">Connect immediately with a remote specialist</div>
           `;
           cardVideo.addEventListener('click', () => solicitarAtencion('videollamada'));
           opcionesGrid.appendChild(cardVideo);
@@ -1306,7 +1403,7 @@
               <i class="bi bi-geo-alt"></i>
             </div>
             <div class="opcion-title">Continue in person</div>
-            <div class="opcion-badge less-recommended">Less recommended option</div>
+            <div class="opcion-badge">Estimated wait: 15 min</div>
             <div class="opcion-desc">Branch service</div>
           `;
         } else {
@@ -1315,6 +1412,7 @@
               <i class="bi bi-geo-alt"></i>
             </div>
             <div class="opcion-title">Continue in person</div>
+            <div class="opcion-badge">Estimated wait: 15 min</div>
             <div class="opcion-desc">Branch service</div>
           `;
         }
