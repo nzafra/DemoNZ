@@ -1900,6 +1900,16 @@
         </div>
       </div>
 
+      <!-- In-app video call overlay (renders the client's video call inside the phone) -->
+      <div id="videoCallOverlay" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; z-index:10000; background:#000; border-radius:28px; overflow:hidden;">
+        <button id="btnCloseVideoCall" aria-label="End call" style="position:absolute; top:12px; right:12px; z-index:2; width:38px; height:38px; border-radius:50%; border:none; background:rgba(0,0,0,0.55); color:#fff; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;"><i class="bi bi-x-lg"></i></button>
+        <div id="videoCallLoading" style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.75rem; color:#fff; text-align:center; padding:1.5rem;">
+          <div class="spinner-border" role="status" style="width:2.5rem; height:2.5rem;"></div>
+          <div style="font-size:0.9rem; opacity:0.9;">Connecting your video call…</div>
+        </div>
+        <iframe id="videoCallFrame" title="Numia video call" allow="camera; microphone; fullscreen; autoplay; display-capture" allowfullscreen style="width:100%; height:100%; border:0; position:relative; z-index:1;"></iframe>
+      </div>
+
     </div>
   </div>
   </div>
@@ -2886,19 +2896,28 @@
             resultadoHtml += `<p class="mb-0"><strong>Estimated wait:</strong> ${minutos} min</p>`;
           }
           
+          let videoUrlParaApp = null;
           if (tipo === 'videollamada' && data.videoCallUrl) {
-            const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
+            videoUrlParaApp = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
             resultadoHtml += `
-              <a href="${videoUrl}" target="_blank" class="btn btn-success w-100 mt-2">
+              <button type="button" id="btnStartVideoCallApp" class="btn btn-success w-100 mt-2">
                 <i class="bi bi-camera-video me-2"></i>Start Video Call
-              </a>
+              </button>
+              <a href="${videoUrlParaApp}" target="_blank" class="d-block text-center mt-2" style="font-size:0.8rem; color:#6b7280;">Open in a new tab</a>
             `;
           } else if (tipo === 'presencial') {
             resultadoHtml += '<p class="mb-0"><i class="bi bi-check-circle me-2"></i>In-person service requested successfully</p>';
           }
-          
+
           resultadoHtml += '</div>';
           resultadoAtencionApp.innerHTML = resultadoHtml;
+
+          if (videoUrlParaApp) {
+            const startBtn = document.getElementById('btnStartVideoCallApp');
+            if (startBtn) startBtn.addEventListener('click', () => window.abrirVideollamadaEnApp(videoUrlParaApp));
+            // Lanzar la videollamada del cliente automáticamente dentro del teléfono
+            window.abrirVideollamadaEnApp(videoUrlParaApp);
+          }
           
         } catch (err) {
           console.error('Error al solicitar atención:', err);
@@ -3040,7 +3059,7 @@
 
           if (rawUrl) {
             const videoUrl = rawUrl + (rawUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
-            window.open(videoUrl, '_blank', 'noopener,noreferrer');
+            window.abrirVideollamadaEnApp(videoUrl);
           } else {
             window.alert('Your video call has been registered. We will contact you shortly.');
           }
@@ -3054,6 +3073,28 @@
           }
         }
       };
+
+      // Abrir la videollamada del cliente DENTRO del teléfono (visible en la demo)
+      window.abrirVideollamadaEnApp = function (url) {
+        const overlay = document.getElementById('videoCallOverlay');
+        const frame = document.getElementById('videoCallFrame');
+        const loading = document.getElementById('videoCallLoading');
+        if (!overlay || !frame) { window.open(url, '_blank'); return; }
+        if (loading) loading.style.display = 'flex';
+        frame.onload = () => { if (loading) loading.style.display = 'none'; };
+        frame.src = url;
+        overlay.style.display = 'block';
+      };
+
+      const btnCloseVideoCall = document.getElementById('btnCloseVideoCall');
+      if (btnCloseVideoCall) {
+        btnCloseVideoCall.addEventListener('click', () => {
+          const overlay = document.getElementById('videoCallOverlay');
+          const frame = document.getElementById('videoCallFrame');
+          if (frame) frame.src = 'about:blank';
+          if (overlay) overlay.style.display = 'none';
+        });
+      }
     });
   </script>
   <script>
