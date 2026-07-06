@@ -1890,6 +1890,15 @@
         </journey-builder-chat>
       </div>
 
+      <!-- Specialist notification popup (constrained to the phone view) -->
+      <div id="specialistPopup" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center; border-radius:28px;">
+        <div style="background:white; border-radius:20px; padding:2rem 1.75rem; max-width:280px; width:88%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation: popIn 0.3s ease;">
+          <div style="font-size:3rem; margin-bottom:0.75rem;">✅</div>
+          <h3 style="font-size:1.15rem; font-weight:700; color:#1f2937; margin-bottom:1.5rem;">We've notified the right specialist that you're here.</h3>
+          <button id="btnSpecialistPopupOk" style="background:var(--numia-azul); color:white; border:none; border-radius:12px; padding:0.85rem 2rem; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%;">Got it</button>
+        </div>
+      </div>
+
     </div>
   </div>
   </div>
@@ -1959,15 +1968,6 @@
   </div>
 
 
-  <!-- Specialist notification popup -->
-  <div id="specialistPopup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center;">
-    <div style="background:white; border-radius:20px; padding:2rem 1.75rem; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation: popIn 0.3s ease;">
-      <div style="font-size:3rem; margin-bottom:0.75rem;">✅</div>
-      <h3 style="font-size:1.15rem; font-weight:700; color:#1f2937; margin-bottom:0.5rem;">We've notified the right specialist that you're here.</h3>
-      <p style="font-size:0.88rem; color:#6b7280; margin-bottom:1.5rem;">They're being briefed on your profile and reason for visit right now.</p>
-      <button id="btnSpecialistPopupOk" style="background:var(--numia-azul); color:white; border:none; border-radius:12px; padding:0.85rem 2rem; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%;">Got it</button>
-    </div>
-  </div>
   <style>
     @keyframes popIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
   </style>
@@ -2168,11 +2168,6 @@
       async function llamarAgenteConOpcionDesdeMenu(opcion, btn) {
         try {
           btn.disabled = true;
-          if (opcion === 'inversiones') {
-            try {
-              window.open('app-inversion-bdb.html#cdt', '_blank');
-            } catch (eOpen) {}
-          }
           btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Connecting...';
           
           // Ocultar el menú
@@ -2737,11 +2732,6 @@
       async function llamarAgenteConOpcion(opcion, btn) {
         try {
           btn.disabled = true;
-          if (opcion === 'inversiones') {
-            try {
-              window.open('app-inversion-bdb.html#cdt', '_blank');
-            } catch (eOpen) {}
-          }
           btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Connecting...';
           
           // Ocultar opciones y mostrar loading
