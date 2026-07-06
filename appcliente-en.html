@@ -2156,7 +2156,18 @@
         // Bind clicks — each option triggers the agent flow
         intentContent.querySelectorAll('.btn-intent').forEach(btn => {
           btn.addEventListener('click', async () => {
+            // Mantener la posición de scroll (que no salte al balance durante el análisis)
+            const scroller = document.getElementById('sanScreenHome');
+            const prevScroll = scroller ? scroller.scrollTop : 0;
+            let spacer = document.getElementById('opcionesSpacer');
+            if (!spacer) {
+              spacer = document.createElement('div');
+              spacer.id = 'opcionesSpacer';
+              opcionesAtencionSection.parentNode.appendChild(spacer);
+            }
+            spacer.style.height = (scroller ? scroller.clientHeight : 600) + 'px';
             intentSection.style.display = 'none';
+            if (scroller) scroller.scrollTop = prevScroll;
             await llamarAgenteConOpcionDesdeMenu(opcion, btn);
           });
         });
