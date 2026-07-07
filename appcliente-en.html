@@ -1589,15 +1589,16 @@
     }
     .log-container .step-item.completed { border-left-color: #ffffff; background: #2d2d2d; }
     .log-container .step-item.processing { border-left-color: #ffaa00; background: #3a2e1e; }
-    .log-container .step-title { color: #ffffff; }
-    .log-container .step-duration { color: #9ca3af; }
-    .log-container .step-content { color: #ffffff; }
+    .log-container .step-title { color: #ffffff; font-size: 0.85rem; font-weight: 600; }
+    .log-container .step-duration { color: #9ca3af; font-size: 0.85rem; }
+    .log-container .step-content { color: #ffffff; font-size: 0.85rem; }
     .log-container .step-input,
     .log-container .step-output,
     .log-container .step-output-content {
       background: #1a1a1a;
       border: 1px solid #333;
       color: #ffffff;
+      font-size: 0.85rem;
     }
     .log-container .step-icon.text { background: rgba(134, 61, 255, 0.25); color: #c4b5fd; }
     .log-container .step-icon.tool { background: rgba(217, 119, 6, 0.25); color: #fbbf24; }
@@ -2555,18 +2556,11 @@
             outputHtml = '<div class="step-output-content"><em style="color: var(--numia-text-light);">Herramienta ejecutada correctamente</em></div>';
           }
           
+          const detallePaso = (typeof toolOutput === 'string' && toolOutput.trim()) ? toolOutput.trim() : 'Completed';
           stepItem.innerHTML = `
-            <div class="step-header">
-              <div class="step-icon tool">
-                <i class="bi bi-gear"></i>
-              </div>
-              <div style="flex: 1;">
-                <div class="step-title">${escapeHtml(friendlyName)}</div>
-                <div class="step-duration">Paso ${index + 1}</div>
-              </div>
-            </div>
-            <div class="step-content">
-              ${outputHtml}
+            <div class="step-title">${escapeHtml(friendlyName)}</div>
+            <div class="step-output-content">
+              <em style="color: #ffffff;">${escapeHtml(detallePaso)}</em>
             </div>
           `;
           
@@ -2596,11 +2590,6 @@
             setTimeout(() => {
               stepItem.classList.remove('processing');
               stepItem.classList.add('completed');
-              const icon = stepItem.querySelector('.step-icon');
-              if (icon) {
-                icon.className = 'step-icon completed';
-                icon.innerHTML = '<i class="bi bi-check-circle"></i>';
-              }
             }, 600);
           } else {
             console.error('stepsContainer no encontrado');
