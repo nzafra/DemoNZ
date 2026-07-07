@@ -1020,14 +1020,31 @@
 
       function buildDatosEnqueue(dni) {
         let detalle = ultimoDetalleExtraFields || DETALLE_EXTRA_FIELDS_DEFAULT;
-        // Si el cliente mostró interés en la hipoteca, ese insight va primero para el ejecutivo
+        // Si el cliente mostró interés en la hipoteca, ese anuncio va primero para el ejecutivo
         if (mortgageSignal) {
-          detalle = MORTGAGE_INSIGHT + '\n\n' + detalle;
+          detalle = MORTGAGE_INSIGHT + '\n\n\n' + detalle;
         }
         return {
           dni: dni,
           extraFields: buildExtraFields(detalle)
         };
+      }
+
+      // Extraer solo las secciones 1 (Customer context) y 2 (Intent & opportunity)
+      // del análisis, limpias y con doble espacio, para enviar a Debmedia.
+      function extraerNotasParaDebmedia(texto) {
+        if (!texto) return DETALLE_EXTRA_FIELDS_DEFAULT;
+        const seccion = (ini, fin) => {
+          const i = texto.indexOf(ini);
+          if (i === -1) return '';
+          const desde = i + ini.length;
+          const j = texto.indexOf(fin, desde);
+          return texto.substring(desde, j === -1 ? texto.length : j).trim();
+        };
+        const ctx = seccion('1 · Customer context', '2 · Intent & opportunity');
+        const intent = seccion('2 · Intent & opportunity', '3 · Real-time capacity');
+        if (!ctx && !intent) return DETALLE_EXTRA_FIELDS_DEFAULT;
+        return 'Customer context\n\n' + ctx + '\n\n\nIntent & opportunity\n\n' + intent;
       }
       
       // Variables de estado
@@ -1038,7 +1055,7 @@
       let mortgageSignal = false;
 
       // Insight de alta intención que verá el ejecutivo (pantalla debq2 / workstation)
-      const MORTGAGE_INSIGHT = '🔥 High-intent signal — Jorge expressed interest in his pre-approved mortgage offer during check-in. Suggested action: Discuss mortgage options and offer a consultation with a mortgage specialist.';
+      const MORTGAGE_INSIGHT = '🔥 High-intent signal — The client expressed interest in the pre-approved mortgage offer during check-in. Suggested action: Discuss mortgage options and offer a consultation with a mortgage specialist.';
       
       // Elementos del DOM
       const screenDni = document.getElementById('screenDni');
@@ -1173,13 +1190,13 @@
           btnNo.removeEventListener('click', onNo);
         }
         function onYes() {
-          // Interesado: guardar señal y disparar el análisis de hipoteca directamente
+          // Interesado: guardar la señal y permitir continuar con la selección normal.
+          // El interés en la hipoteca se anunciará en las notas del turno en Debmedia.
           mortgageSignal = true;
           limpiar();
-          llamarAgenteConOpcionTotem('hipoteca');
         }
         function onNo() {
-          // No: cerrar y permitir continuar con el flujo normal (Loans/Cards/Investments)
+          // No interesado: cerrar y continuar con el flujo normal (sin alerta de hipoteca)
           mortgageSignal = false;
           limpiar();
         }
@@ -1722,7 +1739,8 @@ Faster resolution + higher conversion on a high-value product`
         try {
           const messageText = typeof message === 'string' ? message : (message.message || JSON.stringify(message, null, 2));
           if (messageText && !messageText.startsWith('No analysis text received')) {
-            ultimoDetalleExtraFields = messageText;
+            // Solo secciones 1 y 2 (limpias) van a Debmedia; el panel sigue mostrando todo
+            ultimoDetalleExtraFields = extraerNotasParaDebmedia(messageText);
           }
           summaryContent.textContent = messageText;
           summarySection.style.display = 'block';
