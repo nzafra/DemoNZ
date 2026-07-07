@@ -1,0 +1,1794 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Numia Bank - Tótem de Atención</title>
+  <link rel="icon" type="image/png" href="images/N.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --numia-azul: #863DFF;
+      --numia-azul-oscuro: #060A27;
+      --numia-success: #10b981;
+      --numia-text: #1f2937;
+      --numia-text-light: #6b7280;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      background: #f5f5f5;
+      color: var(--numia-text);
+      min-height: 100vh;
+      display: flex;
+      gap: 2rem;
+      padding: 2rem;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    
+    /* Contenedor del tótem */
+    .totem-container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      position: relative;
+      height: calc(100vh - 4rem);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    
+    /* Header del tótem */
+    .totem-header {
+      background: var(--numia-azul-oscuro);
+      padding: 1.5rem 2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-shrink: 0;
+    }
+    
+    .totem-logo {
+      width: 40px;
+      height: 40px;
+      background: white;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--numia-azul-oscuro);
+      font-size: 1.2rem;
+    }
+    
+    .totem-content {
+      flex: 1;
+      overflow: hidden;
+      padding: 1.5rem 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      min-height: 0;
+    }
+    
+    /* Pantalla 1: Ingreso de DNI */
+    .screen-dni {
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+    }
+    
+    .screen-dni h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 0.75rem;
+    }
+    
+    .screen-dni .instruction {
+      font-size: 1rem;
+      color: var(--numia-azul);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    
+    .dni-display {
+      background: white;
+      color: var(--numia-text);
+      font-size: 1.5rem;
+      font-weight: 600;
+      padding: 1rem;
+      border: 3px solid #ff8c42;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.2rem;
+    }
+    
+    .dni-display.empty {
+      color: rgba(0, 0, 0, 0.3);
+    }
+    
+    .dni-display.empty:before {
+      content: 'Número de cliente';
+    }
+    
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      max-width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .keypad-row-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+      max-width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: 0.75rem;
+    }
+    
+    .keypad-btn {
+      background: white;
+      color: var(--numia-text);
+      border: 1px solid #000;
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .keypad-btn:hover {
+      background: #f5f5f5;
+      transform: scale(1.02);
+    }
+    
+    .keypad-btn:active {
+      transform: scale(0.98);
+      background: #e5e5e5;
+    }
+    
+    .keypad-btn.delete {
+      background: white;
+      color: var(--numia-text);
+      border: 1px solid #000;
+      font-size: 1.5rem;
+    }
+    
+    .keypad-btn.delete:hover {
+      background: #f5f5f5;
+    }
+    
+    .keypad-btn.empty {
+      background: transparent;
+      border: none;
+      cursor: default;
+    }
+    
+    .keypad-btn.empty:hover {
+      transform: none;
+      background: transparent;
+    }
+    
+    .btn-continuar {
+      width: 100%;
+      max-width: 350px;
+      background: #ff8c42;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 0.5rem;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+    
+    .btn-continuar:hover {
+      background: #ff7a2e;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 140, 66, 0.4);
+    }
+    
+    .btn-continuar:active {
+      transform: translateY(0);
+    }
+    
+    .btn-continuar.active {
+      background: #ff8c42;
+    }
+    
+    .btn-continuar:disabled {
+      background: #d1d5db;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn-continuar:disabled:hover {
+      background: #d1d5db;
+      transform: none;
+      box-shadow: none;
+    }
+    
+    /* Pantalla inicial: Menú de selección */
+    .screen-menu-inicial {
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      display: block;
+    }
+    
+    .screen-menu-inicial.hidden {
+      display: none;
+    }
+    
+    .screen-menu-inicial h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 0.5rem;
+    }
+    
+    .screen-menu-inicial .subtitle {
+      font-size: 0.95rem;
+      color: var(--numia-text-light);
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Pantalla Avatar */
+    .screen-avatar {
+      width: 100vw;
+      height: 100vh;
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      padding: 0;
+      margin: 0;
+      z-index: 9999;
+      background: white;
+    }
+    
+    .screen-avatar.active {
+      display: flex;
+    }
+    
+    .screen-avatar iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      flex: 1;
+      min-height: 0;
+    }
+    
+    /* Botón para cerrar el avatar */
+    .btn-cerrar-avatar {
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      z-index: 10000 !important;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%) !important;
+      color: white !important;
+      border: 3px solid white !important;
+      border-radius: 50px !important;
+      padding: 0.75rem 1.5rem !important;
+      font-size: 1rem !important;
+      font-weight: 700 !important;
+      cursor: pointer !important;
+      box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5), 0 0 0 3px rgba(255, 107, 107, 0.2) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      transition: all 0.3s !important;
+      animation: pulse 2s infinite !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    .btn-cerrar-avatar:hover {
+      background: linear-gradient(135deg, #ff5252 0%, #d32f2f 100%);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(255, 107, 107, 0.6), 0 0 0 4px rgba(255, 107, 107, 0.3);
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.5), 0 0 0 3px rgba(255, 107, 107, 0.2);
+      }
+      50% {
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.7), 0 0 0 6px rgba(255, 107, 107, 0.3);
+      }
+    }
+    
+    /* Pantalla 2: Opciones de atención */
+    .screen-opciones {
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      display: none;
+    }
+    
+    .screen-opciones.active {
+      display: block;
+    }
+    
+    .screen-opciones h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 0.5rem;
+    }
+    
+    .screen-opciones .subtitle {
+      font-size: 0.95rem;
+      color: var(--numia-text-light);
+      margin-bottom: 1rem;
+    }
+    
+    .opciones-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      align-items: stretch;
+    }
+    
+    .opcion-card {
+      background: white;
+      border: 3px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .opcion-card.videollamada {
+      padding: 1.5rem 1.25rem;
+    }
+    
+    .opcion-card.videollamada .opcion-icon {
+      font-size: 3rem;
+    }
+    
+    .opcion-card.videollamada .opcion-title {
+      font-size: 1.3rem;
+    }
+    
+    .opcion-card.presencial {
+      padding: 1rem;
+    }
+    
+    .opcion-card.presencial .opcion-icon {
+      font-size: 2rem;
+    }
+    
+    .opcion-card.presencial .opcion-title {
+      font-size: 1rem;
+    }
+    
+    .opcion-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .opcion-card.videollamada {
+      border-color: var(--numia-success);
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    }
+    
+    .opcion-card.videollamada:hover {
+      border-color: var(--numia-success);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+    }
+    
+    .opcion-card.presencial {
+      border-color: var(--numia-azul);
+      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+    }
+    
+    .opcion-card.presencial:hover {
+      border-color: var(--numia-azul);
+      box-shadow: 0 8px 24px rgba(134, 61, 255, 0.3);
+    }
+    
+    .opcion-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .opcion-card.disabled:hover {
+      transform: none;
+    }
+    
+    .opcion-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .opcion-card.videollamada .opcion-icon {
+      color: var(--numia-success);
+    }
+    
+    .opcion-card.presencial .opcion-icon {
+      color: var(--numia-azul);
+    }
+    
+    .opcion-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 0.25rem;
+    }
+    
+    .opcion-badge {
+      display: inline-block;
+      background: var(--numia-success);
+      color: white;
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.4rem 0.9rem;
+      border-radius: 10px;
+      margin-top: 0.5rem;
+    }
+
+    .opcion-card.presencial .opcion-badge {
+      background: #ff8c42;
+    }
+
+    .opcion-less-wait {
+      margin-top: 0.5rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--numia-success);
+      letter-spacing: 0.02em;
+    }
+
+    .opcion-badge.less-recommended {
+      background: #ef4444;
+      color: white;
+    }
+
+    /* Pantalla final: bloque de QR */
+    .confirm-qr-block {
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .confirm-qr-block .qr-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 0.35rem;
+    }
+
+    .confirm-qr-block .qr-sub {
+      font-size: 0.9rem;
+      color: var(--numia-text-light);
+      line-height: 1.45;
+      margin-bottom: 1rem;
+      max-width: 360px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .confirm-qr-block img.qr-img {
+      width: 180px;
+      height: 180px;
+      border: 8px solid #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+
+    .confirm-qr-block .qr-caption {
+      margin-top: 0.75rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--numia-azul);
+    }
+    
+    .opcion-desc {
+      font-size: 0.75rem;
+      color: var(--numia-text-light);
+      margin-top: 0.25rem;
+    }
+    
+    /* Pantalla 3: Confirmación */
+    .screen-confirmacion {
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      display: none;
+    }
+    
+    .screen-confirmacion.active {
+      display: block;
+    }
+    
+    .screen-confirmacion .success-icon {
+      font-size: 3.5rem;
+      color: var(--numia-success);
+      margin-bottom: 1rem;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    
+    .screen-confirmacion h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 0.75rem;
+    }
+    
+    .screen-confirmacion .message {
+      font-size: 1rem;
+      color: var(--numia-text-light);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+    
+    .tiempo-espera {
+      background: #f0fdf4;
+      border: 2px solid var(--numia-success);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tiempo-espera-label {
+      font-size: 0.8rem;
+      color: var(--numia-text-light);
+      margin-bottom: 0.25rem;
+    }
+    
+    .tiempo-espera-valor {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--numia-success);
+    }
+    
+    .video-link-container {
+      margin-top: 2rem;
+    }
+    
+    .btn-video {
+      background: var(--numia-success);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s;
+    }
+    
+    .btn-video:hover {
+      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+      color: white;
+    }
+    
+    /* Log container (igual que app-cliente.html) */
+    .log-container {
+      flex: 1;
+      min-width: 400px;
+      max-width: 500px;
+      background: #1a1a1a;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      display: none;
+      flex-direction: column;
+      height: calc(100vh - 4rem);
+      overflow: hidden;
+    }
+    
+    .log-container.visible {
+      display: flex;
+    }
+    
+    .log-header {
+      background: #2d2d2d;
+      padding: 1rem 1.5rem;
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-bottom: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    
+    .log-header::before {
+      content: '▶';
+      color: #ffffff;
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0.3; }
+    }
+    
+    .log-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+    
+    .log-content::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .log-content::-webkit-scrollbar-track {
+      background: #2d2d2d;
+    }
+    
+    .log-content::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+    
+    .log-content::-webkit-scrollbar-thumb:hover {
+      background: #777;
+    }
+    
+    .atencion-section {
+      background: transparent !important;
+      border-radius: 0;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+      display: none;
+    }
+    
+    .atencion-section.active {
+      display: block;
+    }
+    
+    .steps-container {
+      margin: 0;
+    }
+    
+    .step-item {
+      background: #2d2d2d;
+      border-left: 3px solid #ffffff;
+      border-radius: 4px;
+      padding: 0.75rem;
+      margin-bottom: 0.75rem;
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .step-item.completed {
+      border-left-color: #ffffff;
+      background: #2d2d2d;
+    }
+    
+    .step-item.processing {
+      border-left-color: #ffaa00;
+      background: #3a2e1e;
+    }
+    
+    .step-title {
+      color: #ffffff;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .step-output-content {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      color: #ffffff;
+    }
+    
+    .summary-section {
+      background: #2d2d2d;
+      border-left: 3px solid #ffffff;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1rem;
+      color: #ffffff;
+    }
+    
+    .summary-title {
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .summary-content {
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+    
+    .conversation-output {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .conversation-line {
+      background: #1a1a1a;
+      border-left: 2px solid #444;
+      color: #ffffff;
+    }
+    
+    .conversation-line.success {
+      background: #2d2d2d;
+      border-left-color: #ffffff;
+      color: #ffffff;
+    }
+    
+    .conversation-line.error {
+      background: #3a1e1e;
+      border-left-color: #ff4444;
+      color: #ff8888;
+    }
+    
+    .conversation-line.info {
+      background: #1e1e3a;
+      border-left-color: #4444ff;
+    }
+    
+    @media (max-width: 1024px) {
+      body {
+        flex-direction: column;
+        padding: 1rem;
+      }
+      
+      .totem-container {
+        max-width: 100%;
+        height: 50vh;
+      }
+      
+      .log-container {
+        min-width: 100%;
+        max-width: 100%;
+        height: 50vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <script src="auth-portal.js"></script>
+  <script>AuthPortal.require();</script>
+  <!-- Contenedor del tótem -->
+  <div class="totem-container">
+    <!-- Header -->
+    <div class="totem-header">
+      <span style="display:flex;align-items:center;gap:0.5rem;font-weight:700;font-size:1.4rem;color:white;"><i class="bi bi-bank" style="font-size:1.7rem;"></i> Numia Bank</span>
+    </div>
+    
+    <!-- Contenido del tótem -->
+    <div class="totem-content">
+      <!-- Pantalla inicial: Menú de selección (hidden on load) -->
+      <div class="screen-menu-inicial hidden" id="screenMenuInicial">
+        <h2>Selecciona una opción</h2>
+        <p class="subtitle">Elige cómo deseas continuar</p>
+        <div class="opciones-grid" id="menuInicialGrid">
+          <!-- Opción Options menu -->
+          <div class="opcion-card" id="opcionMenu" style="cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
+            <div class="opcion-icon" style="color: var(--numia-azul);">
+              <i class="bi bi-list-ul"></i>
+            </div>
+            <div class="opcion-title">Menú de opciones</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pantalla Avatar -->
+      <div class="screen-avatar" id="screenAvatar">
+        <iframe src="https://filavirtual.preprod.debmedia.com/Numiabot/#/TDNFYImANgm606yYSWyH" title="Avatar" allow="microphone; camera; autoplay" allowfullscreen></iframe>
+      </div>
+      
+      <!-- Pantalla 1: Ingreso de DNI -->
+      <div class="screen-dni" id="screenDni" style="display: block;">
+        <!-- Mensaje entre logo y teclado -->
+        <div class="instruction" style="margin-bottom: 1.25rem; text-align: center;">
+          <div style="font-size: 1.6rem; color: var(--numia-text); font-weight: 700; margin-bottom: 0.25rem;">Bienvenido</div>
+          <div style="font-size: 1rem; color: var(--numia-azul); font-weight: 500;">Ingresa tu número de cliente</div>
+        </div>
+        
+        <div class="dni-display empty" id="dniDisplay"></div>
+        
+        <div class="keypad">
+          <button class="keypad-btn" data-number="1">1</button>
+          <button class="keypad-btn" data-number="2">2</button>
+          <button class="keypad-btn" data-number="3">3</button>
+          <button class="keypad-btn" data-number="4">4</button>
+          <button class="keypad-btn" data-number="5">5</button>
+          <button class="keypad-btn" data-number="6">6</button>
+          <button class="keypad-btn" data-number="7">7</button>
+          <button class="keypad-btn" data-number="8">8</button>
+          <button class="keypad-btn" data-number="9">9</button>
+        </div>
+        
+        <div class="keypad-row-bottom">
+          <button class="keypad-btn empty"></button>
+          <button class="keypad-btn" data-number="0">0</button>
+          <button class="keypad-btn delete" id="btnDelete">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+        </div>
+        
+        <button class="btn-continuar" id="btnContinuar" disabled>Continuar</button>
+      </div>
+      
+      <!-- Pantalla 2: Opciones de atención -->
+      <div class="screen-opciones" id="screenOpciones">
+        <h2>¿Cómo prefieres que te atendamos?</h2>
+        <div class="subtitle" style="display: none;"></div>
+        
+        <div class="opciones-grid" id="opcionesGrid">
+          <!-- Se llenará dinámicamente -->
+        </div>
+      </div>
+      
+      <!-- Pantalla 3: Confirmación -->
+      <div class="screen-confirmacion" id="screenConfirmacion">
+        <div class="success-icon">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <h2>¡Atención solicitada!</h2>
+        <div class="message">
+          Uno de nuestros asesores te atenderá en breve.
+        </div>
+
+        <div class="tiempo-espera" id="tiempoEspera" style="display: none;">
+          <div class="tiempo-espera-label">Tiempo de espera estimado</div>
+          <div class="tiempo-espera-valor" id="tiempoEsperaValor">--</div>
+        </div>
+
+        <div class="confirm-qr-block">
+          <div class="qr-title" id="qrTitle">Lleva tu turno contigo</div>
+          <div class="qr-sub" id="qrSub">Escanea el código QR para seguir tu tiempo de espera y recibir aviso cuando sea tu turno.</div>
+          <img class="qr-img" id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEICAIAAAAslP2oAAAE80lEQVR4nO3dMW7sNhRA0TgIkCIbyf5Xk42kSDUpUgW4KgjwgZR9TvnhPyPbc0FAzxS/Pp/PL8D//Xr6AuBGwoAgDAjCgCAMCMKAIAwIwoAgDAjCgCAMCMKAIAwIwoAgDAi/rf6H3//4c+I6tvvn77/y35+uf/XrV9932q7rnP75nLL6e7FiQBAGBGFAEAYEYUAQBgRhQFieYzz5affvT9l1ndPf71s+D0+sGBCEAUEYEIQBQRgQhAFBGBC2zTGe7LqvfNs84cn0XGXX+57yls+DFQOCMCAIA4IwIAgDgjAgCAPC+BzjNrc9V2r6vv5b5hu3sWJAEAYEYUAQBgRhQBAGBGFA+HFzjCe3zSvefl7H21kxIAgDgjAgCAOCMCAIA4IwIIzPMd5yH33Xde7a/zB9fsWp80De8nmwYkAQBgRhQBAGBGFAEAYEYUDYNsf4rs8v2nW/f9f54rd9/ZO3fx6sGBCEAUEYEIQBQRgQhAFBGBCW5xhv+Xv6abftZzg1r/iunwcrBgRhQBAGBGFAEAYEYUAQBoTlOcZtzzu67TlOt13Prvc9ZdfPf/V1rBgQhAFBGBCEAUEYEIQBQRgQvj6fz+gb7LovPn0/+9R+hre7be7xxBwDNhAGBGFAEAYEYUAQBgRhQBg/53vaqTnJ9P6Q6fedvv5T85xd12/FgCAMCMKAIAwIwoAgDAjCgPD6c7533Y8/9Tyr1dc/NSd5Mn2dp+ZFVgwIwoAgDAjCgCAMCMKAIAwI2+YYp+43n3p+1JOf9jq3PUdr1/VYMSAIA4IwIAgDgjAgCAOCMCBcdz7G9Hnhq+97ap/Gk9vmBs7HgB9EGBCEAUEYEIQBQRgQhAFheT/G9PnWntf0n+86H3hy2/keVgwIwoAgDAjCgCAMCMKAIAwIy3OM6f0At73+6tzj1Lzi1PO1dn2/t815rBgQhAFBGBCEAUEYEIQBQRgQtp2PsWr6vvX0uRCrpucVb3HbnOqJFQOCMCAIA4IwIAgDgjAgCAPC8vkYp+YAq277u//pfQtvn888OfX9WjEgCAOCMCAIA4IwIAgDgjAgjD9X6rb9A7vmG7f9HKbPi7htTuJ8DDhAGBCEAUEYEIQBQRgQhAFheT/GLtP3xU/NT6bPl3hy2/kV0+zHgAOEAUEYEIQBQRgQhAFBGBCW92NMP2dp9fVve/7SqXO7V19n1W1zIfsx4ABhQBAGBGFAEAYEYUAQBoRj+zFOuW0OM+22/RhveX0rBgRhQBAGBGFAEAYEYUAQBoRj+zGmnXoO0m3346d/X6euc/r3a8WAIAwIwoAgDAjCgCAMCMKAsDzHeHJqbnDqOVG3zRlue+7T9OtM7+uwYkAQBgRhQBAGBGFAEAYEYUDYNsd4Mv0cp1VvOR9jl+lzSHZZnUvYjwEHCAOCMCAIA4IwIAgDgjAgjM8xbnPbc59WX3/XuebT+x+mfz5PnI8Bg4QBQRgQhAFBGBCEAUEYEH7cHGPV9L6F1fvrb9lf8fZ9LFYMCMKAIAwIwoAgDAjCgCAMCONzjFPnZqw6dR/9LfOEU3OJXXObVVYMCMKAIAwIwoAgDAjCgCAMCNvmGLf9Pf2T287HeMv56G+ZSzjnGwYJA4IwIAgDgjAgCAOCMCB8fT6f09cA17FiQBAGBGFAEAYEYUAQBgRhQBAGBGFAEAYEYUAQBgRhQBAGBGFA+Be+H+smRFly0AAAAABJRU5ErkJggg==" alt="Código QR para seguir tu turno" />
+          <div class="qr-caption" id="qrCaption">Escanea para seguir tu turno</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Back to menu button - Always visible -->
+  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Volver al menú">
+    <i class="bi bi-x-circle"></i>
+    Volver al menú
+  </button>
+  
+  <!-- Contenedor de Logs a la derecha -->
+  <div class="log-container">
+    <div class="log-header">
+      Orquestación Agéntica
+    </div>
+    <div class="log-content">
+      <div id="atencionSection" class="atencion-section">
+        <div id="stepsContainer" class="steps-container">
+          <!-- Los pasos se agregarán aquí dinámicamente -->
+        </div>
+        
+        <div id="summarySection" class="summary-section" style="display: none;">
+          <div class="summary-title">
+            <i class="bi bi-check-circle-fill"></i>
+            Analysis Summary
+          </div>
+          <div id="summaryContent" class="summary-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to menu button - Always visible -->
+  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Volver al menú">
+    <i class="bi bi-x-circle"></i>
+    Volver al menú
+  </button>
+
+  <!-- Mortgage pre-approval popup (after ID entry, before options) -->
+  <div id="mortgagePopup" style="display:none; position:fixed; inset:0; z-index:11000; background:rgba(6,10,39,0.55); align-items:center; justify-content:center; padding:1.5rem;">
+    <div style="background:#fff; border-radius:20px; max-width:440px; width:100%; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: mortgagePopIn 0.3s ease;">
+      <div style="background:linear-gradient(135deg, var(--numia-azul) 0%, #6d2dd4 100%); padding:1.75rem 1.5rem; text-align:center; color:#fff;">
+        <div style="font-size:2.75rem; margin-bottom:0.5rem;">🏡</div>
+        <div style="font-size:1.05rem; font-weight:600; opacity:0.95; margin-bottom:0.35rem;">¡Hola Nicolás!</div>
+        <h3 style="font-size:1.3rem; font-weight:700; line-height:1.3; margin:0;">Tu nueva casa puede estar más cerca de lo que crees</h3>
+      </div>
+      <div style="padding:1.5rem;">
+        <p style="font-size:1rem; color:var(--numia-text); line-height:1.5; text-align:center; margin:0 0 1.5rem;">Estás pre-aprobado para una hipoteca de hasta <strong>$750,000</strong>. ¿Te gustaría conocer más sobre tus opciones?</p>
+        <button id="btnMortgageYes" style="width:100%; background:var(--numia-azul); color:#fff; border:none; border-radius:12px; padding:1rem; font-size:1.05rem; font-weight:700; cursor:pointer; margin-bottom:0.75rem;">Sí, me interesa</button>
+        <button id="btnMortgageNo" style="width:100%; background:#fff; color:var(--numia-text-light); border:1.5px solid #e5e7eb; border-radius:12px; padding:0.85rem; font-size:0.95rem; font-weight:600; cursor:pointer;">Ahora no</button>
+      </div>
+    </div>
+  </div>
+  <style>
+    @keyframes mortgagePopIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  </style>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // "Back to menu" button — resets to DNI entry screen
+      function volverAlInicio() {
+        // Hide all screens
+        document.getElementById('screenOpciones').classList.remove('active');
+        document.getElementById('screenConfirmacion').classList.remove('active');
+        const screenAvatar = document.getElementById('screenAvatar');
+        if (screenAvatar) screenAvatar.classList.remove('active');
+
+        // Reset DNI and show DNI screen
+        dniIngresado = '';
+        actualizarDisplay();
+        document.getElementById('screenDni').style.display = 'block';
+
+        // Hide log panel
+        const logContainer = document.querySelector('.log-container');
+        if (logContainer) logContainer.classList.remove('visible');
+
+        // Restore layout
+        const totemContent = document.querySelector('.totem-content');
+        if (totemContent) totemContent.style.padding = '1.5rem 2rem';
+        const totemHeader = document.querySelector('.totem-header');
+        if (totemHeader) totemHeader.style.display = 'flex';
+      }
+
+      document.addEventListener('click', function(e) {
+        if (e.target && (e.target.id === 'btnCerrarAvatar' || e.target.closest('#btnCerrarAvatar'))) {
+          e.preventDefault();
+          e.stopPropagation();
+          volverAlInicio();
+        }
+      });
+
+      
+      // Configuración de la API Journey Builder
+      const JOURNEY_API_URL = 'https://api.journeybuilder.numia.co/api/v1/run/d83a2fbd-f8d0-468f-9ecd-375709fd149f?stream=false';
+      const JOURNEY_API_KEY = 'sk-WfTsCY302RrciqoVRYAZWruD9mpyPKatAo8GU8tyzIM';
+      const PASOS_ANALISIS_UI = [
+        { titulo: '1 · Entender el contexto del cliente', detalle: 'Analizando perfil, comportamiento digital e historial reciente del recorrido.' },
+        { titulo: '2 · Identificar intención y oportunidad', detalle: 'Relacionando las necesidades del cliente con productos relevantes y próximas mejores acciones.' },
+        { titulo: '3 · Evaluar capacidad en tiempo real', detalle: 'Comparando tiempos de espera, disponibilidad de personal y capacidad de atención remota.' },
+        { titulo: '4 · Recomendar el mejor recorrido', detalle: 'Seleccionando el canal óptimo según el contexto del cliente y las condiciones operativas.' }
+      ];
+
+      const DETALLE_EXTRA_FIELDS_DEFAULT = 'El cliente tiene un puntaje crediticio >700. Además, se registró el abandono de un proceso de onboarding digital. Se recomienda ofrecer un préstamo personal.';
+      let ultimoDetalleExtraFields = DETALLE_EXTRA_FIELDS_DEFAULT;
+
+      function buildExtraFields(detalle) {
+        return [{
+          showable: [{ in: 'workstation', format: 'both' }],
+          Detalle: detalle
+        }];
+      }
+
+      function buildDatosEnqueue(dni) {
+        let detalle = ultimoDetalleExtraFields || DETALLE_EXTRA_FIELDS_DEFAULT;
+        // Si el cliente mostró interés en la hipoteca, ese anuncio va primero para el ejecutivo
+        if (mortgageSignal) {
+          detalle = MORTGAGE_INSIGHT + '\n\n\n' + detalle;
+        }
+        return {
+          dni: dni,
+          extraFields: buildExtraFields(detalle)
+        };
+      }
+
+      // Extraer solo las secciones 1 (Customer context) y 2 (Intent & opportunity)
+      // del análisis, limpias y con doble espacio, para enviar a Debmedia.
+      function extraerNotasParaDebmedia(texto) {
+        if (!texto) return DETALLE_EXTRA_FIELDS_DEFAULT;
+        const seccion = (ini, fin) => {
+          const i = texto.indexOf(ini);
+          if (i === -1) return '';
+          const desde = i + ini.length;
+          const j = texto.indexOf(fin, desde);
+          return texto.substring(desde, j === -1 ? texto.length : j).trim();
+        };
+        const ctx = seccion('1 · Contexto del cliente', '2 · Intención y oportunidad');
+        const intent = seccion('2 · Intención y oportunidad', '3 · Capacidad en tiempo real');
+        if (!ctx && !intent) return DETALLE_EXTRA_FIELDS_DEFAULT;
+        return 'Contexto del cliente\n\n' + ctx + '\n\n\nIntención y oportunidad\n\n' + intent;
+      }
+      
+      // Variables de estado
+      let dniIngresado = '';
+      let analisisCompletado = false;
+      let recomendacionVideollamada = false;
+      let messageText = null;
+      let mortgageSignal = false;
+
+      // Insight de alta intención que verá el ejecutivo (pantalla debq2 / workstation)
+      const MORTGAGE_INSIGHT = '!! Señal de alta intención — Nicolás expresó interés en su oferta de hipoteca pre-aprobada durante el check-in. Acción sugerida: conversar sobre opciones de hipoteca y ofrecer una consultoría con un especialista hipotecario.';
+      
+      // Elementos del DOM
+      const screenDni = document.getElementById('screenDni');
+      const screenOpciones = document.getElementById('screenOpciones');
+      const screenConfirmacion = document.getElementById('screenConfirmacion');
+      const dniDisplay = document.getElementById('dniDisplay');
+      const btnContinuar = document.getElementById('btnContinuar');
+      const btnDelete = document.getElementById('btnDelete');
+      const opcionesGrid = document.getElementById('opcionesGrid');
+      const atencionSection = document.getElementById('atencionSection');
+      const stepsContainer = document.getElementById('stepsContainer');
+      const summarySection = document.getElementById('summarySection');
+      const summaryContent = document.getElementById('summaryContent');
+      const logContainer = document.querySelector('.log-container');
+      
+      // Inicializar display
+      actualizarDisplay();
+      
+      // Función para agregar un número al DNI
+      function agregarNumero(numero) {
+        if (dniIngresado.length < 15) {
+          dniIngresado += numero;
+          console.log('DNI ingresado:', dniIngresado);
+          actualizarDisplay();
+        }
+      }
+      
+      // Función para eliminar último dígito
+      function eliminarUltimo() {
+        dniIngresado = dniIngresado.slice(0, -1);
+        console.log('DNI después de borrar:', dniIngresado);
+        actualizarDisplay();
+      }
+      
+      // Capturar teclas del teclado físico
+      document.addEventListener('keydown', (e) => {
+        // Verificar si estamos en la pantalla de DNI (no oculta y otras pantallas no activas)
+        const screenDniVisible = screenDni && (screenDni.style.display === '' || screenDni.style.display === 'block' || !screenDni.style.display);
+        const screenOpcionesActive = screenOpciones.classList.contains('active');
+        const screenConfirmacionActive = screenConfirmacion.classList.contains('active');
+        
+        // Solo procesar si estamos en la pantalla de DNI
+        if (screenDniVisible && !screenOpcionesActive && !screenConfirmacionActive) {
+          console.log('Tecla presionada en pantalla DNI:', e.key);
+          
+          // Si es un número (0-9)
+          if (e.key >= '0' && e.key <= '9') {
+            e.preventDefault();
+            e.stopPropagation();
+            agregarNumero(e.key);
+          }
+          // Si es Backspace o Delete
+          else if (e.key === 'Backspace' || e.key === 'Delete') {
+            e.preventDefault();
+            e.stopPropagation();
+            eliminarUltimo();
+          }
+          // Si es Enter y hay DNI ingresado
+          else if (e.key === 'Enter' && dniIngresado.length > 0 && btnContinuar && !btnContinuar.disabled) {
+            e.preventDefault();
+            e.stopPropagation();
+            btnContinuar.click();
+          }
+        }
+      });
+      
+      // Teclado numérico virtual
+      const keypadButtons = document.querySelectorAll('.keypad-btn[data-number]');
+      keypadButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const number = btn.getAttribute('data-number');
+          console.log('Tecla virtual presionada:', number);
+          agregarNumero(number);
+        });
+      });
+      
+      // Botón eliminar virtual
+      if (btnDelete) {
+        btnDelete.addEventListener('click', (e) => {
+          e.preventDefault();
+          eliminarUltimo();
+        });
+      }
+      
+      // Actualizar display del DNI
+      function actualizarDisplay() {
+        if (!dniDisplay) {
+          console.error('dniDisplay no encontrado');
+          return;
+        }
+        
+        if (dniIngresado.length === 0) {
+          dniDisplay.textContent = '';
+          dniDisplay.classList.add('empty');
+          if (btnContinuar) {
+            btnContinuar.disabled = true;
+            btnContinuar.classList.remove('active');
+          }
+        } else {
+          // Mostrar el DNI con formato
+          dniDisplay.textContent = dniIngresado;
+          dniDisplay.classList.remove('empty');
+          if (btnContinuar) {
+            btnContinuar.disabled = false;
+            btnContinuar.classList.add('active');
+          }
+        }
+        console.log('Display actualizado. DNI:', dniIngresado, 'Texto en display:', dniDisplay.textContent);
+      }
+      
+      // Botón continuar - mostrar menú de opciones directamente
+      btnContinuar.addEventListener('click', () => {
+        if (dniIngresado.length === 0) return;
+
+        // Primero mostrar "How can we help you?" y encima el pop-up de hipoteca
+        mostrarPantallaOpciones();
+        mostrarPopupHipoteca();
+      });
+
+      // Pop-up de hipoteca pre-aprobada (sobre la pantalla de opciones)
+      function mostrarPopupHipoteca() {
+        const popup = document.getElementById('mortgagePopup');
+        const btnYes = document.getElementById('btnMortgageYes');
+        const btnNo = document.getElementById('btnMortgageNo');
+        if (!popup || !btnYes || !btnNo) return;
+        // Esperar 1 segundo (con la pantalla de opciones ya visible) antes de mostrar el pop-up
+        setTimeout(() => { popup.style.display = 'flex'; }, 600);
+        function limpiar() {
+          popup.style.display = 'none';
+          btnYes.removeEventListener('click', onYes);
+          btnNo.removeEventListener('click', onNo);
+        }
+        function onYes() {
+          // Interesado: guardar la señal y permitir continuar con la selección normal.
+          // El interés en la hipoteca se anunciará en las notas del turno en Debmedia.
+          mortgageSignal = true;
+          limpiar();
+        }
+        function onNo() {
+          // No interesado: cerrar y continuar con el flujo normal (sin alerta de hipoteca)
+          mortgageSignal = false;
+          limpiar();
+        }
+        btnYes.addEventListener('click', onYes);
+        btnNo.addEventListener('click', onNo);
+      }
+      
+      // Mostrar pantalla de opciones (ahora muestra directamente préstamos, tarjetas, inversiones)
+      function mostrarPantallaOpciones() {
+        screenDni.style.display = 'none';
+        screenOpciones.classList.add('active');
+        
+        opcionesGrid.innerHTML = '';
+        
+        // Cambiar el título y subtítulo
+        const screenOpcionesTitle = screenOpciones.querySelector('h2');
+        const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
+        if (screenOpcionesTitle) {
+          screenOpcionesTitle.textContent = '¿En qué podemos ayudarte?';
+        }
+        if (screenOpcionesSubtitle) {
+          screenOpcionesSubtitle.textContent = 'Selecciona el servicio que necesitas';
+        }
+        
+        // Opción Préstamos
+        const cardPrestamos = document.createElement('div');
+        cardPrestamos.className = 'opcion-card';
+        cardPrestamos.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+        cardPrestamos.innerHTML = `
+          <div class="opcion-icon" style="color: var(--numia-azul);">
+            <i class="bi bi-cash-coin"></i>
+          </div>
+          <div class="opcion-title">Préstamos</div>
+        `;
+        cardPrestamos.addEventListener('click', async () => {
+          await llamarAgenteConOpcionTotem('prestamos');
+        });
+        opcionesGrid.appendChild(cardPrestamos);
+        
+        // Opción Tarjetas
+        const cardTarjetas = document.createElement('div');
+        cardTarjetas.className = 'opcion-card';
+        cardTarjetas.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+        cardTarjetas.innerHTML = `
+          <div class="opcion-icon" style="color: var(--numia-azul);">
+            <i class="bi bi-credit-card"></i>
+          </div>
+          <div class="opcion-title">Tarjetas de crédito</div>
+        `;
+        cardTarjetas.addEventListener('click', async () => {
+          await llamarAgenteConOpcionTotem('tarjetas');
+        });
+        opcionesGrid.appendChild(cardTarjetas);
+        
+        // Opción Inversiones
+        const cardInversiones = document.createElement('div');
+        cardInversiones.className = 'opcion-card';
+        cardInversiones.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+        cardInversiones.innerHTML = `
+          <div class="opcion-icon" style="color: var(--numia-azul);">
+            <i class="bi bi-graph-up-arrow"></i>
+          </div>
+          <div class="opcion-title">Inversiones</div>
+        `;
+        cardInversiones.addEventListener('click', async () => {
+          await llamarAgenteConOpcionTotem('inversiones');
+        });
+        opcionesGrid.appendChild(cardInversiones);
+      }
+      
+      // Mostrar opciones presenciales en el tótem
+      function mostrarOpcionesPresencialTotem() {
+        const opcionesPresencialContainer = document.getElementById('opcionesPresencialContainerTotem');
+        if (!opcionesPresencialContainer) return;
+        
+        // Si ya está visible, ocultarlo
+        if (opcionesPresencialContainer.style.display === 'block') {
+          opcionesPresencialContainer.style.display = 'none';
+          return;
+        }
+        
+        // Mostrar opciones
+        opcionesPresencialContainer.innerHTML = `
+          <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--numia-text); margin-bottom: 1.5rem; text-align: center;">¿En qué podemos ayudarte?</h3>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+              <div class="opcion-card" style="cursor: pointer;" data-opcion="prestamos">
+                <div class="opcion-icon" style="color: var(--numia-azul);">
+                  <i class="bi bi-cash-coin"></i>
+                </div>
+                <div class="opcion-title">Préstamos</div>
+              </div>
+              <div class="opcion-card" style="cursor: pointer;" data-opcion="tarjetas">
+                <div class="opcion-icon" style="color: var(--numia-azul);">
+                  <i class="bi bi-credit-card"></i>
+                </div>
+                <div class="opcion-title">Tarjetas de crédito</div>
+              </div>
+              <div class="opcion-card" style="cursor: pointer;" data-opcion="inversiones">
+                <div class="opcion-icon" style="color: var(--numia-azul);">
+                  <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <div class="opcion-title">Inversiones</div>
+              </div>
+            </div>
+          </div>
+        `;
+        opcionesPresencialContainer.style.display = 'block';
+        
+        // Agregar event listeners a las tarjetas
+        const cardsOpcion = opcionesPresencialContainer.querySelectorAll('[data-opcion]');
+        cardsOpcion.forEach(card => {
+          card.addEventListener('click', async () => {
+            const opcion = card.getAttribute('data-opcion');
+            await llamarAgenteConOpcionTotem(opcion);
+          });
+        });
+      }
+      
+      function aplicarResumenYFlujoTotem(messageText) {
+        const resumen = messageText || 'No analysis text received from the API.';
+        mostrarResumen(resumen);
+        if (!messageText) {
+          setTimeout(() => solicitarAtencionPresencialDirecta(), 1000);
+          return;
+        }
+        const scoring = extraerScoring(messageText);
+        const textoLower = messageText.toLowerCase();
+        const diceNoOPresencial =
+          textoLower.includes('sugerir videollamada: no') ||
+          textoLower.includes('tipo de atención sugerida: presencial') ||
+          textoLower.includes('tipo de atención sugerida: sucursal');
+        let tieneVideollamadaTexto = false;
+        if (!diceNoOPresencial) {
+          tieneVideollamadaTexto =
+            textoLower.includes('sugerir videollamada: sí') ||
+            textoLower.includes('tipo de atención sugerida: videollamada') ||
+            (textoLower.includes('tipo de atención sugerida') && textoLower.includes('videollamada'));
+        }
+        const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
+        recomendacionVideollamada = tieneVideollamada;
+        console.log('Scoring extraído:', scoring, 'Videollamada recomendada:', tieneVideollamada);
+        setTimeout(() => {
+          if (tieneVideollamada) {
+            mostrarOpcionesAtencion();
+          } else {
+            solicitarAtencionPresencialDirecta();
+          }
+        }, 1000);
+      }
+
+      async function llamarAgenteConOpcionTotem(opcion) {
+        try {
+          // Ocultar pantalla de opciones y mostrar loading
+          screenOpciones.classList.remove('active');
+          
+          // Mostrar log
+          if (logContainer) {
+            logContainer.classList.add('visible');
+          }
+          
+          atencionSection.style.display = 'block';
+          atencionSection.classList.add('active');
+
+          summarySection.style.display = 'none';
+
+          const pasosInicio = Date.now();
+          const delayPaso = 800;
+          const nPasos = PASOS_ANALISIS_UI.length;
+          const pasosAnimacionMs = nPasos * delayPaso + 500;
+
+          stepsContainer.innerHTML = '';
+
+          PASOS_ANALISIS_UI.forEach((paso, index) => {
+            setTimeout(() => {
+              agregarPaso({ name: paso.titulo, output: paso.detalle }, index);
+            }, index * delayPaso);
+          });
+
+          const HARDCODED_RESPONSES = {
+            prestamos: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Numia recupera una solicitud de préstamo personal que inició de forma digital y abandonó hace 14 días. Puntaje crediticio: 742 — segmento de alto valor.
+
+2 · Intención y oportunidad
+Intención de préstamo activa detectada. La oferta pre-aprobada sigue vigente:
+• Préstamo personal de hasta $1,000,000
+• Tasa preferencial: 18.5% TNA
+• Plazo: 12 a 48 cuotas
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~18 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar videollamada
+
+POR QUÉ
+• Intención de préstamo activa detectada
+• Oferta elegible disponible
+• Especialista remoto disponible ahora
+• Tiempo de espera en sucursal: 18 min
+
+RESULTADO ESPERADO
+Resolución más rápida + mayor probabilidad de conversión`,
+            tarjetas: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.
+
+2 · Intención y oportunidad
+Intención de tarjeta detectada. Alta oportunidad de venta cruzada:
+• Tarjeta de Crédito Numia Bank Platinum
+• Límite pre-aprobado: $500,000
+• Cuota anual sin costo el primer año
+• 2x puntos en cada compra
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~15 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar videollamada
+
+POR QUÉ
+• Intención de tarjeta activa detectada
+• Límite pre-aprobado disponible
+• Especialista remoto disponible ahora
+• Tiempo de espera en sucursal: 15 min
+
+RESULTADO ESPERADO
+Activación remota en menos de 10 min + mayor probabilidad de conversión`,
+            inversiones: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado. Puntaje crediticio: 761.
+
+2 · Intención y oportunidad
+Intención de inversión detectada. Fuerte oportunidad de migración:
+• Inversión a Plazo Fijo (IPF) — 30/60/90 días
+• Tasa actual: 9.2% anual
+• Mínimo: $100,000
+• Garantía de capital del 100%
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~20 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar videollamada
+
+POR QUÉ
+• Intención de inversión activa detectada
+• Tasa preferencial disponible ahora
+• Especialista remoto disponible ahora
+• Tiempo de espera en sucursal: 20 min
+
+RESULTADO ESPERADO
+Asegurar la tasa preferencial + mayor volumen de activos gestionados`,
+            hipoteca: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Durante el check-in expresó interés en su oferta de hipoteca pre-aprobada. Puntaje crediticio: 742 — segmento de alto valor con fuerte capacidad de pago.
+
+2 · Intención y oportunidad
+Intención de hipoteca activa detectada. Oferta pre-aprobada disponible:
+• Hipoteca de hasta $750,000
+• Tasa preferencial para clientes existentes
+• Plazos de hasta 20 años
+
+3 · Capacidad en tiempo real
+• Especialista en hipotecas: disponible ahora
+• Tiempo de espera en sucursal: ~25 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar videollamada con un especialista en hipotecas
+
+POR QUÉ
+• Intención de hipoteca expresada en el check-in
+• Oferta pre-aprobada de hasta $750,000 disponible
+• Especialista en hipotecas disponible ahora
+• Tiempo de espera en sucursal: 25 min
+
+RESULTADO ESPERADO
+Resolución más rápida + mayor conversión en un producto de alto valor`
+          };
+
+          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
+
+          const transcurridoFin = Date.now() - pasosInicio;
+          await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
+
+          aplicarResumenYFlujoTotem(messageText);
+          
+        } catch (err) {
+          console.error('Error al llamar al agente:', err);
+          stepsContainer.innerHTML = `<div style="color: #ff8888;"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
+        }
+      }
+      
+      // Mostrar opciones de atención (videollamada/presencial) después del análisis
+      function mostrarOpcionesAtencion() {
+        screenOpciones.classList.add('active');
+        
+        // Cambiar el título y subtítulo
+        const screenOpcionesTitle = screenOpciones.querySelector('h2');
+        const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
+        if (screenOpcionesTitle) {
+          screenOpcionesTitle.textContent = "¿Cómo prefieres que te atendamos?";
+        }
+        if (screenOpcionesSubtitle) {
+          screenOpcionesSubtitle.textContent = '';
+          screenOpcionesSubtitle.style.display = 'none';
+        }
+        
+        opcionesGrid.innerHTML = '';
+        
+        // Opción Videollamada (solo se muestra si está recomendada - esta función solo se llama cuando lo está)
+        if (recomendacionVideollamada) {
+          const cardVideo = document.createElement('div');
+          cardVideo.className = 'opcion-card videollamada';
+          cardVideo.innerHTML = `
+            <div class="opcion-icon">
+              <i class="bi bi-camera-video"></i>
+            </div>
+            <div class="opcion-title">Videollamada</div>
+            <div class="opcion-less-wait">¡Menos espera!</div>
+            <div class="opcion-badge">Disponible ahora</div>
+            <div class="opcion-desc">Conéctate de inmediato con un especialista remoto</div>
+          `;
+          cardVideo.addEventListener('click', () => solicitarAtencion('videollamada'));
+          opcionesGrid.appendChild(cardVideo);
+        }
+        
+        // Opción Presencial (siempre disponible, menos recomendada si hay videollamada)
+        const cardPresencial = document.createElement('div');
+        cardPresencial.className = 'opcion-card presencial';
+        if (recomendacionVideollamada) {
+          cardPresencial.innerHTML = `
+            <div class="opcion-icon">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="opcion-title">Continuar presencial</div>
+            <div class="opcion-badge">Espera estimada: 15 min</div>
+            <div class="opcion-desc">Atención en sucursal</div>
+          `;
+        } else {
+          cardPresencial.innerHTML = `
+            <div class="opcion-icon">
+              <i class="bi bi-geo-alt"></i>
+            </div>
+            <div class="opcion-title">Continuar presencial</div>
+            <div class="opcion-badge">Espera estimada: 15 min</div>
+            <div class="opcion-desc">Atención en sucursal</div>
+          `;
+        }
+        cardPresencial.addEventListener('click', () => solicitarAtencion('presencial'));
+        opcionesGrid.appendChild(cardPresencial);
+      }
+      
+      // Solicitar atención presencial directamente (cuando no hay recomendación de videollamada)
+      async function solicitarAtencionPresencialDirecta() {
+        try {
+          const apiUrl = 'https://filavirtual2.debmedia.com/api/v1/queue/16221/branch/10750/enqueue';
+          const apiToken = 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w';
+          
+          const datos = buildDatosEnqueue(dniIngresado);
+          
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-token': apiToken
+            },
+            body: JSON.stringify(datos)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Server error (${response.status})`);
+          }
+          
+          const data = await response.json();
+          console.log('Respuesta de la API presencial:', data);
+          
+          // Mostrar pantalla de confirmación con mensaje de DNI
+          mostrarPantallaConfirmacionPresencial();
+          
+        } catch (err) {
+          console.error('Error al solicitar atención presencial:', err);
+          alert(`Error: ${err.message}`);
+        }
+      }
+      
+      // Solicitar atención
+      async function solicitarAtencion(tipo) {
+        try {
+          const queueId = tipo === 'videollamada' ? '16223' : '16221';
+          const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10750/enqueue`;
+          const apiToken = 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w';
+          
+          const datos = buildDatosEnqueue(dniIngresado);
+          
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-token': apiToken
+            },
+            body: JSON.stringify(datos)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Server error (${response.status})`);
+          }
+          
+          const data = await response.json();
+          console.log('Respuesta de la API:', data);
+          
+          // Mostrar pantalla de confirmación
+          mostrarPantallaConfirmacion(data, tipo);
+          
+        } catch (err) {
+          console.error('Error al solicitar atención:', err);
+          alert(`Error: ${err.message}`);
+        }
+      }
+      
+      // Mostrar pantalla de confirmación
+      // Guardar el QR por defecto (presencial / seguir turno)
+      let QR_PRESENCIAL_SRC = null;
+
+      function configurarQR(tipo, data) {
+        const titleEl = document.getElementById('qrTitle');
+        const subEl = document.getElementById('qrSub');
+        const imgEl = document.getElementById('qrImg');
+        const capEl = document.getElementById('qrCaption');
+        if (!titleEl || !imgEl) return;
+        if (QR_PRESENCIAL_SRC === null) QR_PRESENCIAL_SRC = imgEl.getAttribute('src');
+
+        if (tipo === 'videollamada' && data && data.videoCallUrl) {
+          // QR que abre la videollamada del cliente al escanearlo
+          const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
+          titleEl.textContent = 'Toma tu videollamada desde tu celular';
+          subEl.textContent = 'Escanea el código QR para iniciar tu videollamada ahora.';
+          capEl.textContent = 'Escanea para iniciar tu videollamada';
+          imgEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=' + encodeURIComponent(videoUrl);
+          imgEl.alt = 'Código QR para iniciar tu videollamada';
+        } else {
+          // Presencial: seguir el turno
+          titleEl.textContent = 'Lleva tu turno contigo';
+          subEl.textContent = 'Escanea el código QR para seguir tu tiempo de espera y recibir aviso cuando sea tu turno.';
+          capEl.textContent = 'Escanea para seguir tu turno';
+          imgEl.src = QR_PRESENCIAL_SRC;
+          imgEl.alt = 'QR code to follow your turn';
+        }
+      }
+
+      function mostrarPantallaConfirmacion(data, tipo) {
+        screenOpciones.classList.remove('active');
+        screenConfirmacion.classList.add('active');
+
+        // El tiempo de espera ahora se sigue vía QR; ocultamos el valor numérico
+        const te = document.getElementById('tiempoEspera');
+        if (te) te.style.display = 'none';
+
+        configurarQR(tipo, data);
+      }
+
+      // Mostrar pantalla de confirmación presencial (cuando no hay videollamada recomendada)
+      function mostrarPantallaConfirmacionPresencial() {
+        screenOpciones.classList.remove('active');
+        screenConfirmacion.classList.add('active');
+
+        // Misma pantalla final con QR para ambos canales
+        const te = document.getElementById('tiempoEspera');
+        if (te) te.style.display = 'none';
+
+        configurarQR('presencial', null);
+      }
+      
+      // Función para extraer el Scoring del mensaje
+      function extraerScoring(texto) {
+        if (!texto) return null;
+        
+        // Buscar patrones como "Scoring: 640", "Scoring:640", "scoring: 640", etc.
+        const patrones = [
+          /Score:\s*\*{0,2}(\d+)\*{0,2}/i,
+          /Scoring:\s*(\d+)/i,
+          /Scoring\s*:\s*(\d+)/i,
+          /score\s*:\s*(\d+)/i
+        ];
+        
+        for (const patron of patrones) {
+          const match = texto.match(patron);
+          if (match && match[1]) {
+            const scoring = parseInt(match[1], 10);
+            if (!isNaN(scoring)) {
+              return scoring;
+            }
+          }
+        }
+        
+        return null;
+      }
+      
+      function formatearNombrePasoAmigable(toolName) {
+        if (!toolName || typeof toolName !== 'string') return 'Unknown tool';
+        const t = toolName.trim();
+        if (!t) return 'Unknown tool';
+        if (/\s/.test(t) && !/[a-z][A-Z]/.test(t)) {
+          return t;
+        }
+        return t
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/^./, str => str.toUpperCase())
+          .trim()
+          .replace(/\b\w/g, l => l.toUpperCase());
+      }
+
+      // Funciones auxiliares (copiadas de app-cliente.html)
+      function agregarPaso(content, index) {
+        try {
+          const stepItem = document.createElement('div');
+          stepItem.className = 'step-item processing';
+          
+          const toolName = content.name || content.tool_name || 'Unknown tool';
+          const friendlyName = formatearNombrePasoAmigable(toolName);
+          
+          const detallePaso = (typeof content.output === 'string' && content.output.trim())
+            ? content.output.trim()
+            : 'Completed';
+          stepItem.innerHTML = `
+            <div class="step-title">${escapeHtml(friendlyName)}</div>
+            <div class="step-output-content">
+              <em style="color: #ffffff;">${escapeHtml(detallePaso)}</em>
+            </div>
+          `;
+          
+          stepsContainer.appendChild(stepItem);
+          
+          setTimeout(() => {
+            stepItem.classList.remove('processing');
+            stepItem.classList.add('completed');
+          }, 600);
+          
+        } catch (err) {
+          console.error('Error al agregar paso:', err);
+        }
+      }
+      
+      function mostrarResumen(message) {
+        try {
+          const messageText = typeof message === 'string' ? message : (message.message || JSON.stringify(message, null, 2));
+          if (messageText && !messageText.startsWith('No analysis text received')) {
+            // Solo secciones 1 y 2 (limpias) van a Debmedia; el panel sigue mostrando todo
+            ultimoDetalleExtraFields = extraerNotasParaDebmedia(messageText);
+          }
+          summaryContent.textContent = messageText;
+          summarySection.style.display = 'block';
+        } catch (err) {
+          console.error('Error al mostrar resumen:', err);
+        }
+      }
+      
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+    });
+  </script>
+</body>
+</html>
