@@ -1941,6 +1941,16 @@
         </div>
       </div>
 
+      <!-- Turn assigned popup (in-person) -->
+      <div id="turnAssignedPopup" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; z-index:9999; background:rgba(0,0,0,0.55); align-items:center; justify-content:center; border-radius:28px;">
+        <div style="background:white; border-radius:20px; padding:2rem 1.75rem; max-width:290px; width:88%; text-align:center; box-shadow:0 8px 32px rgba(0,0,0,0.2); animation: popIn 0.3s ease;">
+          <div style="font-size:3rem; margin-bottom:0.75rem;">🎟️</div>
+          <h3 style="font-size:1.25rem; font-weight:800; color:#1f2937; margin-bottom:0.4rem;">Your turn has been assigned</h3>
+          <p style="font-size:0.95rem; font-weight:600; color:#1f2937; margin-bottom:1.5rem;">You'll be notified shortly when it's your turn.</p>
+          <button id="btnTurnAssignedOk" style="background:var(--numia-azul); color:white; border:none; border-radius:12px; padding:0.85rem 2rem; font-weight:700; font-size:0.95rem; cursor:pointer; width:100%;">Got it</button>
+        </div>
+      </div>
+
       <!-- In-app video call overlay (renders the client's video call inside the phone) -->
       <div id="videoCallOverlay" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; z-index:10000; background:#000; border-radius:28px; overflow:hidden;">
         <button id="btnCloseVideoCall" aria-label="End call" style="position:absolute; top:12px; right:12px; z-index:2; width:38px; height:38px; border-radius:50%; border:none; background:rgba(0,0,0,0.55); color:#fff; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center;"><i class="bi bi-x-lg"></i></button>
@@ -2694,6 +2704,18 @@
         btn.addEventListener('click', dismiss);
       }
 
+      function mostrarPopupTurnoAsignado() {
+        const popup = document.getElementById('turnAssignedPopup');
+        const btn = document.getElementById('btnTurnAssignedOk');
+        if (!popup || !btn) return;
+        popup.style.display = 'flex';
+        function dismiss() {
+          popup.style.display = 'none';
+          btn.removeEventListener('click', dismiss);
+        }
+        btn.addEventListener('click', dismiss);
+      }
+
       function mostrarOpcionesEnApp(tieneVideollamada) {
         // El botón ya está en el header, no necesitamos ocultarlo
         
@@ -2923,7 +2945,10 @@
               <p class="mb-0 mt-2">We will call you with your ID: <strong>${usuarioActual.dni}</strong></p>
             </div>
           `;
-          
+
+          // Pop-up: turno asignado
+          mostrarPopupTurnoAsignado();
+
         } catch (err) {
           console.error('Error al solicitar atención presencial:', err);
           resultadoAtencionApp.innerHTML = `<div class="alert alert-danger mt-3"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
