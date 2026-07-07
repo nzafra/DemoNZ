@@ -2908,6 +2908,9 @@
       
       async function solicitarAtencionPresencial() {
         try {
+          // Volver la vista del celular al tope
+          const sc = document.getElementById('sanScreenHome');
+          if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' });
           // Ocultar opciones y mostrar loading
           opcionesAtencionSection.style.display = 'none';
           resultadoAtencionApp.style.display = 'block';
@@ -2957,9 +2960,12 @@
       
       async function solicitarAtencionApp(tipo, btn) {
         try {
+          // Volver la vista del celular al tope
+          const sc = document.getElementById('sanScreenHome');
+          if (sc) sc.scrollTo({ top: 0, behavior: 'smooth' });
           btn.disabled = true;
           btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
-          
+
           resultadoAtencionApp.style.display = 'block';
           resultadoAtencionApp.innerHTML = '<div class="alert alert-info"><i class="bi bi-hourglass-split me-2"></i>Processing request...</div>';
           
