@@ -899,10 +899,10 @@
         </div>
 
         <div class="confirm-qr-block">
-          <div class="qr-title">Take your place in line with you</div>
-          <div class="qr-sub">Scan the QR code to track your wait time and get notified when it&rsquo;s your turn.</div>
-          <img class="qr-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEICAIAAAAslP2oAAAE80lEQVR4nO3dMW7sNhRA0TgIkCIbyf5Xk42kSDUpUgW4KgjwgZR9TvnhPyPbc0FAzxS/Pp/PL8D//Xr6AuBGwoAgDAjCgCAMCMKAIAwIwoAgDAjCgCAMCMKAIAwIwoAgDAi/rf6H3//4c+I6tvvn77/y35+uf/XrV9932q7rnP75nLL6e7FiQBAGBGFAEAYEYUAQBgRhQFieYzz5affvT9l1ndPf71s+D0+sGBCEAUEYEIQBQRgQhAFBGBC2zTGe7LqvfNs84cn0XGXX+57yls+DFQOCMCAIA4IwIAgDgjAgCAPC+BzjNrc9V2r6vv5b5hu3sWJAEAYEYUAQBgRhQBAGBGFA+HFzjCe3zSvefl7H21kxIAgDgjAgCAOCMCAIA4IwIIzPMd5yH33Xde7a/zB9fsWp80De8nmwYkAQBgRhQBAGBGFAEAYEYUDYNsf4rs8v2nW/f9f54rd9/ZO3fx6sGBCEAUEYEIQBQRgQhAFBGBCW5xhv+Xv6abftZzg1r/iunwcrBgRhQBAGBGFAEAYEYUAQBoTlOcZtzzu67TlOt13Prvc9ZdfPf/V1rBgQhAFBGBCEAUEYEIQBQRgQvj6fz+gb7LovPn0/+9R+hre7be7xxBwDNhAGBGFAEAYEYUAQBgRhQBg/53vaqTnJ9P6Q6fedvv5T85xd12/FgCAMCMKAIAwIwoAgDAjCgPD6c7533Y8/9Tyr1dc/NSd5Mn2dp+ZFVgwIwoAgDAjCgCAMCMKAIAwI2+YYp+43n3p+1JOf9jq3PUdr1/VYMSAIA4IwIAgDgjAgCAOCMCBcdz7G9Hnhq+97ap/Gk9vmBs7HgB9EGBCEAUEYEIQBQRgQhAFheT/G9PnWntf0n+86H3hy2/keVgwIwoAgDAjCgCAMCMKAIAwIy3OM6f0At73+6tzj1Lzi1PO1dn2/t815rBgQhAFBGBCEAUEYEIQBQRgQtp2PsWr6vvX0uRCrpucVb3HbnOqJFQOCMCAIA4IwIAgDgjAgCAPC8vkYp+YAq277u//pfQtvn888OfX9WjEgCAOCMCAIA4IwIAgDgjAgjD9X6rb9A7vmG7f9HKbPi7htTuJ8DDhAGBCEAUEYEIQBQRgQhAFheT/GLtP3xU/NT6bPl3hy2/kV0+zHgAOEAUEYEIQBQRgQhAFBGBCW92NMP2dp9fVve/7SqXO7V19n1W1zIfsx4ABhQBAGBGFAEAYEYUAQBoRj+zFOuW0OM+22/RhveX0rBgRhQBAGBGFAEAYEYUAQBoRj+zGmnXoO0m3346d/X6euc/r3a8WAIAwIwoAgDAjCgCAMCMKAsDzHeHJqbnDqOVG3zRlue+7T9OtM7+uwYkAQBgRhQBAGBGFAEAYEYUDYNsd4Mv0cp1VvOR9jl+lzSHZZnUvYjwEHCAOCMCAIA4IwIAgDgjAgjM8xbnPbc59WX3/XuebT+x+mfz5PnI8Bg4QBQRgQhAFBGBCEAUEYEH7cHGPV9L6F1fvrb9lf8fZ9LFYMCMKAIAwIwoAgDAjCgCAMCONzjFPnZqw6dR/9LfOEU3OJXXObVVYMCMKAIAwIwoAgDAjCgCAMCNvmGLf9Pf2T287HeMv56G+ZSzjnGwYJA4IwIAgDgjAgCAOCMCB8fT6f09cA17FiQBAGBGFAEAYEYUAQBgRhQBAGBGFAEAYEYUAQBgRhQBAGBGFA+Be+H+smRFly0AAAAABJRU5ErkJggg==" alt="QR code to follow your turn" />
-          <div class="qr-caption">Scan to follow your turn</div>
+          <div class="qr-title" id="qrTitle">Take your place in line with you</div>
+          <div class="qr-sub" id="qrSub">Scan the QR code to track your wait time and get notified when it&rsquo;s your turn.</div>
+          <img class="qr-img" id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEICAIAAAAslP2oAAAE80lEQVR4nO3dMW7sNhRA0TgIkCIbyf5Xk42kSDUpUgW4KgjwgZR9TvnhPyPbc0FAzxS/Pp/PL8D//Xr6AuBGwoAgDAjCgCAMCMKAIAwIwoAgDAjCgCAMCMKAIAwIwoAgDAi/rf6H3//4c+I6tvvn77/y35+uf/XrV9932q7rnP75nLL6e7FiQBAGBGFAEAYEYUAQBgRhQFieYzz5affvT9l1ndPf71s+D0+sGBCEAUEYEIQBQRgQhAFBGBC2zTGe7LqvfNs84cn0XGXX+57yls+DFQOCMCAIA4IwIAgDgjAgCAPC+BzjNrc9V2r6vv5b5hu3sWJAEAYEYUAQBgRhQBAGBGFA+HFzjCe3zSvefl7H21kxIAgDgjAgCAOCMCAIA4IwIIzPMd5yH33Xde7a/zB9fsWp80De8nmwYkAQBgRhQBAGBGFAEAYEYUDYNsf4rs8v2nW/f9f54rd9/ZO3fx6sGBCEAUEYEIQBQRgQhAFBGBCW5xhv+Xv6abftZzg1r/iunwcrBgRhQBAGBGFAEAYEYUAQBoTlOcZtzzu67TlOt13Prvc9ZdfPf/V1rBgQhAFBGBCEAUEYEIQBQRgQvj6fz+gb7LovPn0/+9R+hre7be7xxBwDNhAGBGFAEAYEYUAQBgRhQBg/53vaqTnJ9P6Q6fedvv5T85xd12/FgCAMCMKAIAwIwoAgDAjCgPD6c7533Y8/9Tyr1dc/NSd5Mn2dp+ZFVgwIwoAgDAjCgCAMCMKAIAwI2+YYp+43n3p+1JOf9jq3PUdr1/VYMSAIA4IwIAgDgjAgCAOCMCBcdz7G9Hnhq+97ap/Gk9vmBs7HgB9EGBCEAUEYEIQBQRgQhAFheT/G9PnWntf0n+86H3hy2/keVgwIwoAgDAjCgCAMCMKAIAwIy3OM6f0At73+6tzj1Lzi1PO1dn2/t815rBgQhAFBGBCEAUEYEIQBQRgQtp2PsWr6vvX0uRCrpucVb3HbnOqJFQOCMCAIA4IwIAgDgjAgCAPC8vkYp+YAq277u//pfQtvn888OfX9WjEgCAOCMCAIA4IwIAgDgjAgjD9X6rb9A7vmG7f9HKbPi7htTuJ8DDhAGBCEAUEYEIQBQRgQhAFheT/GLtP3xU/NT6bPl3hy2/kV0+zHgAOEAUEYEIQBQRgQhAFBGBCW92NMP2dp9fVve/7SqXO7V19n1W1zIfsx4ABhQBAGBGFAEAYEYUAQBoRj+zFOuW0OM+22/RhveX0rBgRhQBAGBGFAEAYEYUAQBoRj+zGmnXoO0m3346d/X6euc/r3a8WAIAwIwoAgDAjCgCAMCMKAsDzHeHJqbnDqOVG3zRlue+7T9OtM7+uwYkAQBgRhQBAGBGFAEAYEYUDYNsd4Mv0cp1VvOR9jl+lzSHZZnUvYjwEHCAOCMCAIA4IwIAgDgjAgjM8xbnPbc59WX3/XuebT+x+mfz5PnI8Bg4QBQRgQhAFBGBCEAUEYEH7cHGPV9L6F1fvrb9lf8fZ9LFYMCMKAIAwIwoAgDAjCgCAMCONzjFPnZqw6dR/9LfOEU3OJXXObVVYMCMKAIAwIwoAgDAjCgCAMCNvmGLf9Pf2T287HeMv56G+ZSzjnGwYJA4IwIAgDgjAgCAOCMCB8fT6f09cA17FiQBAGBGFAEAYEYUAQBgRhQBAGBGFAEAYEYUAQBgRhQBAGBGFA+Be+H+smRFly0AAAAABJRU5ErkJggg==" alt="QR code to follow your turn" />
+          <div class="qr-caption" id="qrCaption">Scan to follow your turn</div>
         </div>
       </div>
     </div>
@@ -1646,6 +1646,35 @@ Faster resolution + higher conversion on a high-value product`
       }
       
       // Mostrar pantalla de confirmación
+      // Guardar el QR por defecto (presencial / seguir turno)
+      let QR_PRESENCIAL_SRC = null;
+
+      function configurarQR(tipo, data) {
+        const titleEl = document.getElementById('qrTitle');
+        const subEl = document.getElementById('qrSub');
+        const imgEl = document.getElementById('qrImg');
+        const capEl = document.getElementById('qrCaption');
+        if (!titleEl || !imgEl) return;
+        if (QR_PRESENCIAL_SRC === null) QR_PRESENCIAL_SRC = imgEl.getAttribute('src');
+
+        if (tipo === 'videollamada' && data && data.videoCallUrl) {
+          // QR que abre la videollamada del cliente al escanearlo
+          const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
+          titleEl.textContent = 'Take your video call on your phone';
+          subEl.textContent = 'Scan the QR code to start your video call now.';
+          capEl.textContent = 'Scan to start your video call';
+          imgEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=' + encodeURIComponent(videoUrl);
+          imgEl.alt = 'QR code to start your video call';
+        } else {
+          // Presencial: seguir el turno
+          titleEl.textContent = 'Take your place in line with you';
+          subEl.textContent = "Scan the QR code to track your wait time and get notified when it's your turn.";
+          capEl.textContent = 'Scan to follow your turn';
+          imgEl.src = QR_PRESENCIAL_SRC;
+          imgEl.alt = 'QR code to follow your turn';
+        }
+      }
+
       function mostrarPantallaConfirmacion(data, tipo) {
         screenOpciones.classList.remove('active');
         screenConfirmacion.classList.add('active');
@@ -1653,8 +1682,10 @@ Faster resolution + higher conversion on a high-value product`
         // El tiempo de espera ahora se sigue vía QR; ocultamos el valor numérico
         const te = document.getElementById('tiempoEspera');
         if (te) te.style.display = 'none';
+
+        configurarQR(tipo, data);
       }
-      
+
       // Mostrar pantalla de confirmación presencial (cuando no hay videollamada recomendada)
       function mostrarPantallaConfirmacionPresencial() {
         screenOpciones.classList.remove('active');
@@ -1663,6 +1694,8 @@ Faster resolution + higher conversion on a high-value product`
         // Misma pantalla final con QR para ambos canales
         const te = document.getElementById('tiempoEspera');
         if (te) te.style.display = 'none';
+
+        configurarQR('presencial', null);
       }
       
       // Función para extraer el Scoring del mensaje
