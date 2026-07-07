@@ -1576,6 +1576,45 @@
         grid-template-columns: repeat(2, 1fr);
       }
     }
+
+    /* === AI agent panel: match the totem's dark look (black bg, light text) === */
+    .log-container .log-content { color: #ffffff; font-family: 'Courier New', monospace; }
+    .log-container .atencion-section { background: transparent !important; box-shadow: none; padding: 0; margin: 0; }
+    .log-container .step-item {
+      background: #2d2d2d;
+      border-left: 3px solid #ffffff;
+      border-radius: 4px;
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+    }
+    .log-container .step-item.completed { border-left-color: #ffffff; background: #2d2d2d; }
+    .log-container .step-item.processing { border-left-color: #ffaa00; background: #3a2e1e; }
+    .log-container .step-title { color: #ffffff; }
+    .log-container .step-duration { color: #9ca3af; }
+    .log-container .step-content { color: #ffffff; }
+    .log-container .step-input,
+    .log-container .step-output,
+    .log-container .step-output-content {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: #ffffff;
+    }
+    .log-container .step-icon.text { background: rgba(134, 61, 255, 0.25); color: #c4b5fd; }
+    .log-container .step-icon.tool { background: rgba(217, 119, 6, 0.25); color: #fbbf24; }
+    .log-container .summary-section {
+      background: #2d2d2d;
+      border-left: 3px solid #ffffff;
+      border-radius: 4px;
+      color: #ffffff;
+    }
+    .log-container .summary-title { color: #ffffff; }
+    .log-container .summary-content { color: #ffffff; font-family: 'Courier New', monospace; white-space: pre-line; line-height: 1.5; }
+    .log-container .conversation-line { background: #1a1a1a; border-left: 2px solid #444; color: #ffffff; }
+    .log-container .conversation-line.success { background: #2d2d2d; border-left-color: #ffffff; color: #ffffff; }
+    .log-container .conversation-line.error { background: #3a1e1e; border-left-color: #ff4444; color: #ff8888; }
+    .log-container .conversation-line.info { background: #1e1e3a; border-left-color: #4444ff; color: #ffffff; }
+    .log-container .conversation-line.info strong { color: #a5b4fc; }
+    .log-container .conversation-line.title { color: #ffffff; }
   </style>
 </head>
 <body>
