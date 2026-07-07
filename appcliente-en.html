@@ -2120,9 +2120,26 @@
           lastName: usuarioActual.apellido,
           dni: usuarioActual.dni,
           email: 'mail@mail.com',
-   
+
           extraFields: buildExtraFields(ultimoDetalleExtraFields || DETALLE_EXTRA_FIELDS_DEFAULT)
         };
+      }
+
+      // Extraer solo las secciones 1 (Customer context) y 2 (Intent & opportunity)
+      // del análisis, limpias y con doble espacio, para enviar a Debmedia.
+      function extraerNotasParaDebmedia(texto) {
+        if (!texto) return DETALLE_EXTRA_FIELDS_DEFAULT;
+        const seccion = (ini, fin) => {
+          const i = texto.indexOf(ini);
+          if (i === -1) return '';
+          const desde = i + ini.length;
+          const j = texto.indexOf(fin, desde);
+          return texto.substring(desde, j === -1 ? texto.length : j).trim();
+        };
+        const ctx = seccion('1 · Customer context', '2 · Intent & opportunity');
+        const intent = seccion('2 · Intent & opportunity', '3 · Real-time capacity');
+        if (!ctx && !intent) return DETALLE_EXTRA_FIELDS_DEFAULT;
+        return 'Customer context\n\n' + ctx + '\n\n\nIntent & opportunity\n\n' + intent;
       }
 
       // Event listener para el botón "Estoy en la sucursal"
@@ -2629,7 +2646,8 @@
         try {
           const messageText = typeof message === 'string' ? message : (message.message || JSON.stringify(message, null, 2));
           if (messageText && !messageText.startsWith('No analysis text received')) {
-            ultimoDetalleExtraFields = messageText;
+            // Solo secciones 1 y 2 (limpias) van a Debmedia; el panel sigue mostrando todo
+            ultimoDetalleExtraFields = extraerNotasParaDebmedia(messageText);
           }
           
           // Extraer Scoring y detectar si recomienda videollamada
