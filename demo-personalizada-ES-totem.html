@@ -1055,6 +1055,8 @@
       let dniIngresado = '';
       let analisisCompletado = false;
       let recomendacionVideollamada = false;
+      let tramiteSeleccionado = 'cdt';
+      const QUEUE_POR_TRAMITE = { cdt: '20457', tarjeta: '20458', general: '20459', deposito: '20460' };
       let messageText = null;
       let mortgageSignal = false;
 
@@ -1225,50 +1227,25 @@
           screenOpcionesSubtitle.textContent = 'Selecciona el servicio que necesitas';
         }
         
-        // Opción Préstamos
-        const cardPrestamos = document.createElement('div');
-        cardPrestamos.className = 'opcion-card';
-        cardPrestamos.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
-        cardPrestamos.innerHTML = `
-          <div class="opcion-icon" style="color: var(--numia-azul);">
-            <i class="bi bi-cash-coin"></i>
-          </div>
-          <div class="opcion-title">Préstamos</div>
-        `;
-        cardPrestamos.addEventListener('click', async () => {
-          await llamarAgenteConOpcionTotem('prestamos');
+        const TRAMITES = [
+          { key: 'cdt', label: 'CDT', icon: 'bi-graph-up-arrow' },
+          { key: 'tarjeta', label: 'Tarjeta de crédito', icon: 'bi-credit-card' },
+          { key: 'general', label: 'Atención general', icon: 'bi-people' },
+          { key: 'deposito', label: 'Depósito', icon: 'bi-cash-stack' }
+        ];
+        TRAMITES.forEach((t) => {
+          const card = document.createElement('div');
+          card.className = 'opcion-card';
+          card.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+          card.innerHTML = `
+            <div class="opcion-icon" style="color: var(--numia-azul);">
+              <i class="bi ${t.icon}"></i>
+            </div>
+            <div class="opcion-title">${t.label}</div>
+          `;
+          card.addEventListener('click', async () => { await llamarAgenteConOpcionTotem(t.key); });
+          opcionesGrid.appendChild(card);
         });
-        opcionesGrid.appendChild(cardPrestamos);
-        
-        // Opción Tarjetas
-        const cardTarjetas = document.createElement('div');
-        cardTarjetas.className = 'opcion-card';
-        cardTarjetas.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
-        cardTarjetas.innerHTML = `
-          <div class="opcion-icon" style="color: var(--numia-azul);">
-            <i class="bi bi-credit-card"></i>
-          </div>
-          <div class="opcion-title">Tarjetas de crédito</div>
-        `;
-        cardTarjetas.addEventListener('click', async () => {
-          await llamarAgenteConOpcionTotem('tarjetas');
-        });
-        opcionesGrid.appendChild(cardTarjetas);
-        
-        // Opción Inversiones
-        const cardInversiones = document.createElement('div');
-        cardInversiones.className = 'opcion-card';
-        cardInversiones.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
-        cardInversiones.innerHTML = `
-          <div class="opcion-icon" style="color: var(--numia-azul);">
-            <i class="bi bi-graph-up-arrow"></i>
-          </div>
-          <div class="opcion-title">Inversiones</div>
-        `;
-        cardInversiones.addEventListener('click', async () => {
-          await llamarAgenteConOpcionTotem('inversiones');
-        });
-        opcionesGrid.appendChild(cardInversiones);
       }
       
       // Mostrar opciones presenciales en el tótem
@@ -1354,6 +1331,7 @@
 
       async function llamarAgenteConOpcionTotem(opcion) {
         try {
+          tramiteSeleccionado = opcion;
           // Ocultar pantalla de opciones y mostrar loading
           screenOpciones.classList.remove('active');
           
@@ -1381,20 +1359,21 @@
           });
 
           const HARDCODED_RESPONSES = {
-            prestamos: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+            cdt: `Análisis del recorrido del cliente — ID: ${dniIngresado}
 
 1 · Contexto del cliente
-Se identifica a Nicolás. Numia recupera una solicitud de préstamo personal que inició de forma digital y abandonó hace 14 días. Puntaje crediticio: 742 — segmento de alto valor.
+Se identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado. Puntaje crediticio: 761.
 
 2 · Intención y oportunidad
-Intención de préstamo activa detectada. La oferta pre-aprobada sigue vigente:
-• Préstamo personal de hasta $1,000,000
-• Tasa preferencial: 18.5% TNA
-• Plazo: 12 a 48 cuotas
+Intención de apertura de CDT detectada. Fuerte oportunidad:
+• CDT — 30/60/90/180 días
+• Tasa actual: 9.2% anual
+• Monto mínimo: $100,000
+• Garantía de capital del 100%
 
 3 · Capacidad en tiempo real
 • Especialista remoto: disponible ahora
-• Tiempo de espera en sucursal: ~18 min
+• Tiempo de espera en sucursal: ~20 min
 
 4 · Recorrido recomendado
 Tipo de atención sugerida: Videollamada
@@ -1405,14 +1384,14 @@ DECISIÓN
 Recomendar videollamada
 
 POR QUÉ
-• Intención de préstamo activa detectada
-• Oferta elegible disponible
+• Intención de CDT activa detectada
+• Tasa preferencial disponible ahora
 • Especialista remoto disponible ahora
-• Tiempo de espera en sucursal: 18 min
+• Tiempo de espera en sucursal: 20 min
 
 RESULTADO ESPERADO
-Resolución más rápida + mayor probabilidad de conversión`,
-            tarjetas: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+Asegurar la tasa preferencial + mayor volumen de activos gestionados`,
+            tarjeta: `Análisis del recorrido del cliente — ID: ${dniIngresado}
 
 1 · Contexto del cliente
 Se identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.
@@ -1444,38 +1423,60 @@ POR QUÉ
 
 RESULTADO ESPERADO
 Activación remota en menos de 10 min + mayor probabilidad de conversión`,
-            inversiones: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+            general: `Análisis del recorrido del cliente — ID: ${dniIngresado}
 
 1 · Contexto del cliente
-Se identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado. Puntaje crediticio: 761.
+Se identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.
 
 2 · Intención y oportunidad
-Intención de inversión detectada. Fuerte oportunidad de migración:
-• Inversión a Plazo Fijo (IPF) — 30/60/90 días
-• Tasa actual: 9.2% anual
-• Mínimo: $100,000
-• Garantía de capital del 100%
+Consulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.
 
 3 · Capacidad en tiempo real
-• Especialista remoto: disponible ahora
-• Tiempo de espera en sucursal: ~20 min
+• Asesor en sucursal: disponible
+• Tiempo de espera en sucursal: ~15 min
 
 4 · Recorrido recomendado
-Tipo de atención sugerida: Videollamada
-Sugerir videollamada: Sí
+Tipo de atención sugerida: Presencial
+Sugerir videollamada: No
 
 ────────────────────
 DECISIÓN
-Recomendar videollamada
+Continuar en sucursal
 
 POR QUÉ
-• Intención de inversión activa detectada
-• Tasa preferencial disponible ahora
-• Especialista remoto disponible ahora
-• Tiempo de espera en sucursal: 20 min
+• Consulta general que requiere gestión presencial
+• Asesor en sucursal disponible
+• Tiempo de espera acotado: 15 min
 
 RESULTADO ESPERADO
-Asegurar la tasa preferencial + mayor volumen de activos gestionados`,
+Resolución integral en sucursal`,
+            deposito: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito. Puntaje crediticio: 725.
+
+2 · Intención y oportunidad
+Intención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.
+
+3 · Capacidad en tiempo real
+• Cajas disponibles en sucursal
+• Tiempo de espera en sucursal: ~12 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Presencial
+Sugerir videollamada: No
+
+────────────────────
+DECISIÓN
+Continuar en sucursal
+
+POR QUÉ
+• Operación de depósito requiere atención presencial
+• Cajas disponibles ahora
+• Tiempo de espera acotado: 12 min
+
+RESULTADO ESPERADO
+Depósito procesado en caja`,
             hipoteca: `Análisis del recorrido del cliente — ID: ${dniIngresado}
 
 1 · Contexto del cliente
@@ -1509,7 +1510,7 @@ RESULTADO ESPERADO
 Resolución más rápida + mayor conversión en un producto de alto valor`
           };
 
-          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
+          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
@@ -1585,7 +1586,8 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
       // Solicitar atención presencial directamente (cuando no hay recomendación de videollamada)
       async function solicitarAtencionPresencialDirecta() {
         try {
-          const apiUrl = 'https://filavirtual2.debmedia.com/api/v1/queue/18597/branch/10828/enqueue';
+          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '20457';
+          const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
           const datos = buildDatosEnqueue(dniIngresado);
@@ -1618,7 +1620,7 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
       // Solicitar atención
       async function solicitarAtencion(tipo) {
         try {
-          const queueId = tipo === 'videollamada' ? '18597' : '18597';
+          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '20457';
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
