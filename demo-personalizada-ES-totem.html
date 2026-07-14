@@ -1056,7 +1056,7 @@
       let analisisCompletado = false;
       let recomendacionVideollamada = false;
       let tramiteSeleccionado = 'cdt';
-      const QUEUE_POR_TRAMITE = { cdt: '20457', tarjeta: '20458', general: '20459', deposito: '20460' };
+      const QUEUE_POR_TRAMITE = { cdt: '18597', tarjeta: '18597', general: '18597', deposito: '18597' };
       let messageText = null;
       let mortgageSignal = false;
 
@@ -1586,7 +1586,7 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
       // Solicitar atención presencial directamente (cuando no hay recomendación de videollamada)
       async function solicitarAtencionPresencialDirecta() {
         try {
-          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '20457';
+          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '18597';
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
@@ -1620,7 +1620,7 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
       // Solicitar atención
       async function solicitarAtencion(tipo) {
         try {
-          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '20457';
+          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '18597';
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
