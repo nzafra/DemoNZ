@@ -2120,6 +2120,24 @@
 
       // DNI fijo a usar
       const DNI_FIJO = '12345678';
+      let tramiteSeleccionado = 'cdt';
+      const QUEUE_POR_TRAMITE = {
+        cdt:      { video: '20466', presencial: '20461' },
+        tarjeta:  { video: '20465', presencial: '18597' },
+        general:  { video: '20467', presencial: '20462' },
+        deposito: { presencial: '20463' }
+      };
+      const CANALES_POR_TRAMITE = {
+        cdt: ['video', 'presencial'],
+        tarjeta: ['video', 'presencial'],
+        general: ['video', 'presencial'],
+        deposito: ['presencial']
+      };
+      function getQueueId(tipo) {
+        const canal = (tipo === 'videollamada' || tipo === 'video') ? 'video' : 'presencial';
+        const m = QUEUE_POR_TRAMITE[tramiteSeleccionado] || {};
+        return m[canal] || m.presencial || '18597';
+      }
 
       const DETALLE_EXTRA_FIELDS_DEFAULT = 'The client has a credit score >700. Additionally, an abandoned digital onboarding process was recorded. It is recommended to offer a personal loan.';
       let ultimoDetalleExtraFields = DETALLE_EXTRA_FIELDS_DEFAULT;
@@ -2272,6 +2290,7 @@
       // Función para llamar al agente desde el menú inicial
       async function llamarAgenteConOpcionDesdeMenu(opcion, btn) {
         try {
+          tramiteSeleccionado = opcion;
           btn.disabled = true;
           btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Conectando...';
           
@@ -2744,19 +2763,22 @@
         resultadoAtencionApp.style.display = 'none';
         resultadoAtencionApp.innerHTML = '';
         
-        // Botón Videollamada (siempre disponible, pero destacado si está recomendada)
-        const btnVideollamada = document.createElement('button');
-        btnVideollamada.className = 'btn w-100';
-        btnVideollamada.style.cssText = 'background-color: var(--numia-success); color: white; border: none; padding: 1rem 1.5rem; border-radius: 12px; font-weight: 600; margin-bottom: 0.75rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem;';
-        if (tieneVideollamada) {
-          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Videollamada</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Recomendada · Disponible ahora</span>';
-        } else {
-          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Videollamada</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Disponible ahora</span>';
+        // Botón Videollamada (según canales del trámite; Depósito es solo presencial)
+        const _canales = CANALES_POR_TRAMITE[tramiteSeleccionado] || ['video', 'presencial'];
+        if (_canales.includes('video')) {
+          const btnVideollamada = document.createElement('button');
+          btnVideollamada.className = 'btn w-100';
+          btnVideollamada.style.cssText = 'background-color: var(--numia-success); color: white; border: none; padding: 1rem 1.5rem; border-radius: 12px; font-weight: 600; margin-bottom: 0.75rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem;';
+          if (tieneVideollamada) {
+            btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Videollamada</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Recomendada · Disponible ahora</span>';
+          } else {
+            btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Videollamada</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Disponible ahora</span>';
+          }
+          btnVideollamada.addEventListener('click', async () => {
+            await solicitarAtencionApp('videollamada', btnVideollamada);
+          });
+          opcionesAtencionContainer.appendChild(btnVideollamada);
         }
-        btnVideollamada.addEventListener('click', async () => {
-          await solicitarAtencionApp('videollamada', btnVideollamada);
-        });
-        opcionesAtencionContainer.appendChild(btnVideollamada);
         
         // Botón Presencial (siempre disponible, más chico y con aclaración de demora)
         const btnPresencial = document.createElement('button');
@@ -2860,6 +2882,7 @@
       
       async function llamarAgenteConOpcion(opcion, btn) {
         try {
+          tramiteSeleccionado = opcion;
           btn.disabled = true;
           btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Conectando...';
           
@@ -2937,7 +2960,8 @@
           resultadoAtencionApp.style.display = 'block';
           resultadoAtencionApp.innerHTML = '<div class="alert alert-info"><i class="bi bi-hourglass-split me-2"></i>Procesando solicitud...</div>';
           
-          const apiUrl = 'https://filavirtual2.debmedia.com/api/v1/queue/18597/branch/10828/enqueue';
+          const queueId = getQueueId('presencial');
+          const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
           const usuarioActual = getUsuarioActual();
@@ -2990,7 +3014,7 @@
           resultadoAtencionApp.style.display = 'block';
           resultadoAtencionApp.innerHTML = '<div class="alert alert-info"><i class="bi bi-hourglass-split me-2"></i>Procesando solicitud...</div>';
           
-          const queueId = tipo === 'videollamada' ? '18597' : '18597';
+          const queueId = getQueueId(tipo);
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
@@ -3073,7 +3097,7 @@
           resultadoContainer.innerHTML = '<div style="color: #ffffff;"><i class="bi bi-hourglass-split me-2"></i>Procesando solicitud...</div>';
           
           // Determinar la URL según el tipo
-          const queueId = tipo === 'videollamada' ? '18597' : '18597';
+          const queueId = getQueueId(tipo);
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
@@ -3163,7 +3187,7 @@
             triggerBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
           }
 
-          const apiUrl = 'https://filavirtual2.debmedia.com/api/v1/queue/18597/branch/10828/enqueue';
+          const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${getQueueId('video')}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           const usuarioActual = getUsuarioActual();
           const nombreActual = getNombreActual();
