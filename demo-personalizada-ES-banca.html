@@ -1824,14 +1824,17 @@
     <div id="menuOpcionesPresencial" class="dni-input-section" style="display: none;">
       <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">¿En qué podemos ayudarte?</h3>
       <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-        <button id="btnOpcionPrestamos" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-          <i class="bi bi-cash-coin me-2"></i>Préstamos
+        <button id="btnOpcionCDT" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-graph-up-arrow me-2"></i>CDT
         </button>
-        <button id="btnOpcionTarjetas" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-          <i class="bi bi-credit-card me-2"></i>Tarjetas de crédito
+        <button id="btnOpcionTarjeta" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-credit-card me-2"></i>Tarjeta de crédito
         </button>
-        <button id="btnOpcionInversiones" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
-          <i class="bi bi-graph-up-arrow me-2"></i>Inversiones
+        <button id="btnOpcionGeneral" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-people me-2"></i>Atención general
+        </button>
+        <button id="btnOpcionDeposito" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-cash-stack me-2"></i>Depósito
         </button>
       </div>
     </div>
@@ -2173,18 +2176,18 @@
       
       // Intent sub-menus per category
       const INTENT_MENUS = {
-        prestamos: {
-          title: '¿Qué necesitas con Préstamos?',
-          subtitle: 'Según tu perfil, Nicolás, estas son las opciones más relevantes',
+        cdt: {
+          title: '¿Qué necesitas con tu CDT?',
+          subtitle: 'Nicolás, tu último plazo maduró el 30 de junio — esto es lo que sugerimos:',
           items: [
-            { icon: 'bi-cash-stack', label: 'Solicitar un préstamo — hasta $5M', hint: 'Pre-aprobado · Desembolso rápido' },
-            { icon: 'bi-graph-up-arrow', label: 'Solicitar un préstamo — hasta $10M', hint: 'Sujeto a evaluación crediticia' },
-            { icon: 'bi-search', label: 'Consultar mi límite de préstamo disponible', hint: 'Resultado instantáneo' },
+            { icon: 'bi-star-fill', label: 'Renovar CDT · $2,800,000 al 9.2%', hint: 'Mismo plazo, mejor tasa que la anterior · Recomendado' },
+            { icon: 'bi-piggy-bank', label: 'Abrir un nuevo CDT — 90 días', hint: 'Asegura la tasa de hoy antes de que cambie' },
+            { icon: 'bi-bar-chart-line', label: 'Consultar tasas vigentes', hint: 'Resultado instantáneo' },
             { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
           ]
         },
-        tarjetas: {
-          title: '¿Qué necesitas con Tarjetas de crédito?',
+        tarjeta: {
+          title: '¿Qué necesitas con Tarjeta de crédito?',
           subtitle: 'Detectamos una tarjeta Platinum terminada en 4521 en tu perfil',
           items: [
             { icon: 'bi-arrow-up-circle', label: 'Aumentar mi límite de crédito', hint: 'Límite actual: $50,000' },
@@ -2193,13 +2196,23 @@
             { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
           ]
         },
-        inversiones: {
-          title: 'Según tu historial de inversiones',
-          subtitle: 'Nicolás, tu último plazo fijo venció el 30 de junio — esto es lo que sugerimos:',
+        general: {
+          title: '¿En qué te ayudamos?',
+          subtitle: 'Nicolás, elige el tipo de gestión que necesitas',
           items: [
-            { icon: 'bi-star-fill', label: 'Renovar plazo fijo · $2,800,000 al 9.2%', hint: 'Mismo plazo, mejor tasa que la anterior · Recomendado' },
-            { icon: 'bi-piggy-bank', label: 'Abrir un nuevo plazo fijo — 90 días', hint: 'Asegura la tasa de hoy antes de que cambie' },
-            { icon: 'bi-bar-chart-line', label: 'Revisar todo mi portafolio', hint: 'Rendimiento + próximos vencimientos' },
+            { icon: 'bi-person-vcard', label: 'Actualizar mis datos', hint: 'Dirección, teléfono, correo' },
+            { icon: 'bi-file-earmark-text', label: 'Certificados y extractos', hint: 'Descarga o envío por correo' },
+            { icon: 'bi-shield-exclamation', label: 'Presentar un reclamo', hint: 'Seguimiento con un asesor' },
+            { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
+          ]
+        },
+        deposito: {
+          title: '¿Qué tipo de depósito?',
+          subtitle: 'Nicolás, elige cómo quieres realizar tu depósito',
+          items: [
+            { icon: 'bi-cash-stack', label: 'Depósito en efectivo', hint: 'En caja de la sucursal' },
+            { icon: 'bi-bank', label: 'Depósito de cheque', hint: 'Consulta tiempos de canje' },
+            { icon: 'bi-people', label: 'Consignación a terceros', hint: 'A otra cuenta Numia Bank' },
             { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
           ]
         }
@@ -2247,17 +2260,14 @@
       }
 
       // Event listeners para las opciones del menú
-      btnOpcionPrestamos.addEventListener('click', () => {
-        mostrarMenuIntent('prestamos', btnOpcionPrestamos);
-      });
-      
-      btnOpcionTarjetas.addEventListener('click', () => {
-        mostrarMenuIntent('tarjetas', btnOpcionTarjetas);
-      });
-      
-      btnOpcionInversiones.addEventListener('click', () => {
-        mostrarMenuIntent('inversiones', btnOpcionInversiones);
-      });
+      const btnOpcionCDT = document.getElementById('btnOpcionCDT');
+      const btnOpcionTarjeta = document.getElementById('btnOpcionTarjeta');
+      const btnOpcionGeneral = document.getElementById('btnOpcionGeneral');
+      const btnOpcionDeposito = document.getElementById('btnOpcionDeposito');
+      btnOpcionCDT.addEventListener('click', () => { mostrarMenuIntent('cdt', btnOpcionCDT); });
+      btnOpcionTarjeta.addEventListener('click', () => { mostrarMenuIntent('tarjeta', btnOpcionTarjeta); });
+      btnOpcionGeneral.addEventListener('click', () => { mostrarMenuIntent('general', btnOpcionGeneral); });
+      btnOpcionDeposito.addEventListener('click', () => { mostrarMenuIntent('deposito', btnOpcionDeposito); });
       
       // Función para llamar al agente desde el menú inicial
       async function llamarAgenteConOpcionDesdeMenu(opcion, btn) {
@@ -2272,9 +2282,10 @@
           
           // Construir mensaje con la opción seleccionada
           const opcionesTexto = {
-            prestamos: 'Préstamos',
-            tarjetas: 'Tarjetas de crédito',
-            inversiones: 'Inversiones'
+            cdt: 'CDT',
+            tarjeta: 'Tarjeta de crédito',
+            general: 'Atención general',
+            deposito: 'Depósito'
           };
           const mensaje = `Necesito asistencia sobre ${opcionesTexto[opcion]}. ID: ${dni}`;
           
@@ -2316,11 +2327,12 @@
 
 
           const HARDCODED_RESPONSES = {
-            prestamos: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Numia recupera una solicitud de préstamo personal que inició de forma digital y abandonó hace 14 días. Puntaje crediticio: 742 — segmento de alto valor.\n\n2 · Intención y oportunidad\nIntención de préstamo activa detectada. La oferta pre-aprobada sigue vigente:\n• Préstamo personal de hasta $1,000,000\n• Tasa preferencial: 18.5% TNA\n• Plazo: 12 a 48 cuotas\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~18 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de préstamo activa detectada\n• Oferta elegible disponible\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 18 min\n\nRESULTADO ESPERADO\nResolución más rápida + mayor probabilidad de conversión`,
-            tarjetas: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.\n\n2 · Intención y oportunidad\nIntención de tarjeta detectada. Alta oportunidad de venta cruzada:\n• Tarjeta de Crédito Numia Bank Platinum\n• Límite pre-aprobado: $500,000\n• Cuota anual sin costo el primer año\n• 2x puntos en cada compra\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de tarjeta activa detectada\n• Límite pre-aprobado disponible\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 15 min\n\nRESULTADO ESPERADO\nActivación remota en menos de 10 min + mayor probabilidad de conversión`,
-            inversiones: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado. Puntaje crediticio: 761.\n\n2 · Intención y oportunidad\nIntención de inversión detectada. Fuerte oportunidad de migración:\n• Inversión a Plazo Fijo (IPF) — 30/60/90 días\n• Tasa actual: 9.2% anual\n• Mínimo: $100,000\n• Garantía de capital del 100%\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~20 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de inversión activa detectada\n• Tasa preferencial disponible ahora\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 20 min\n\nRESULTADO ESPERADO\nAsegurar la tasa preferencial + mayor volumen de activos gestionados`
+            cdt: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado.\n\n2 · Intención y oportunidad\nIntención de apertura de CDT detectada. Fuerte oportunidad:\n• CDT — 30/60/90/180 días\n• Tasa actual: 9.2% anual\n• Monto mínimo: $100,000\n• Garantía de capital del 100%\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~20 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de CDT activa detectada\n• Tasa preferencial disponible ahora\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 20 min\n\nRESULTADO ESPERADO\nAsegurar la tasa preferencial + mayor volumen de activos gestionados`,
+            tarjeta: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.\n\n2 · Intención y oportunidad\nIntención de tarjeta detectada. Alta oportunidad de venta cruzada:\n• Tarjeta de Crédito Numia Bank Platinum\n• Límite pre-aprobado: $500,000\n• Cuota anual sin costo el primer año\n• 2x puntos en cada compra\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de tarjeta activa detectada\n• Límite pre-aprobado disponible\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 15 min\n\nRESULTADO ESPERADO\nActivación remota en menos de 10 min + mayor probabilidad de conversión`,
+            general: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.\n\n2 · Intención y oportunidad\nConsulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.\n\n3 · Capacidad en tiempo real\n• Asesor en sucursal: disponible\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Consulta general que requiere gestión presencial\n• Asesor en sucursal disponible\n• Tiempo de espera acotado: 15 min\n\nRESULTADO ESPERADO\nResolución integral en sucursal`,
+            deposito: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito.\n\n2 · Intención y oportunidad\nIntención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.\n\n3 · Capacidad en tiempo real\n• Cajas disponibles en sucursal\n• Tiempo de espera en sucursal: ~12 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Operación de depósito requiere atención presencial\n• Cajas disponibles ahora\n• Tiempo de espera acotado: 12 min\n\nRESULTADO ESPERADO\nDepósito procesado en caja`
           };
-          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
+          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
@@ -2667,8 +2679,11 @@
           
           // Extraer Scoring y detectar si recomienda videollamada
           const scoring = extraerScoring(messageText);
-          const tieneVideollamadaTexto = (messageText.toLowerCase().includes('tipo de atención sugerida') && messageText.toLowerCase().includes('videollamada')) ||
-                                         messageText.toLowerCase().includes('sugerir videollamada: sí');
+          const _tl = messageText.toLowerCase();
+          const diceNoOPresencial = _tl.includes('sugerir videollamada: no') || _tl.includes('tipo de atención sugerida: presencial') || _tl.includes('tipo de atención sugerida: sucursal');
+          const tieneVideollamadaTexto = !diceNoOPresencial && (
+                                         (_tl.includes('tipo de atención sugerida') && _tl.includes('videollamada')) ||
+                                         _tl.includes('sugerir videollamada: sí'));
           // Mostrar videollamada si el texto lo sugiere O si el Scoring > 640
           const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
           console.log('Scoring extraído:', scoring, 'Videollamada recomendada:', tieneVideollamada);
@@ -2885,11 +2900,12 @@
 
 
           const HARDCODED_RESPONSES = {
-            prestamos: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Numia recupera una solicitud de préstamo personal que inició de forma digital y abandonó hace 14 días. Puntaje crediticio: 742 — segmento de alto valor.\n\n2 · Intención y oportunidad\nIntención de préstamo activa detectada. La oferta pre-aprobada sigue vigente:\n• Préstamo personal de hasta $1,000,000\n• Tasa preferencial: 18.5% TNA\n• Plazo: 12 a 48 cuotas\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~18 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de préstamo activa detectada\n• Oferta elegible disponible\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 18 min\n\nRESULTADO ESPERADO\nResolución más rápida + mayor probabilidad de conversión`,
-            tarjetas: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.\n\n2 · Intención y oportunidad\nIntención de tarjeta detectada. Alta oportunidad de venta cruzada:\n• Tarjeta de Crédito Numia Bank Platinum\n• Límite pre-aprobado: $500,000\n• Cuota anual sin costo el primer año\n• 2x puntos en cada compra\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de tarjeta activa detectada\n• Límite pre-aprobado disponible\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 15 min\n\nRESULTADO ESPERADO\nActivación remota en menos de 10 min + mayor probabilidad de conversión`,
-            inversiones: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado. Puntaje crediticio: 761.\n\n2 · Intención y oportunidad\nIntención de inversión detectada. Fuerte oportunidad de migración:\n• Inversión a Plazo Fijo (IPF) — 30/60/90 días\n• Tasa actual: 9.2% anual\n• Mínimo: $100,000\n• Garantía de capital del 100%\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~20 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de inversión activa detectada\n• Tasa preferencial disponible ahora\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 20 min\n\nRESULTADO ESPERADO\nAsegurar la tasa preferencial + mayor volumen de activos gestionados`
+            cdt: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado.\n\n2 · Intención y oportunidad\nIntención de apertura de CDT detectada. Fuerte oportunidad:\n• CDT — 30/60/90/180 días\n• Tasa actual: 9.2% anual\n• Monto mínimo: $100,000\n• Garantía de capital del 100%\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~20 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de CDT activa detectada\n• Tasa preferencial disponible ahora\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 20 min\n\nRESULTADO ESPERADO\nAsegurar la tasa preferencial + mayor volumen de activos gestionados`,
+            tarjeta: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.\n\n2 · Intención y oportunidad\nIntención de tarjeta detectada. Alta oportunidad de venta cruzada:\n• Tarjeta de Crédito Numia Bank Platinum\n• Límite pre-aprobado: $500,000\n• Cuota anual sin costo el primer año\n• 2x puntos en cada compra\n\n3 · Capacidad en tiempo real\n• Especialista remoto: disponible ahora\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Videollamada\nSugerir videollamada: Sí\n\n────────────────────\nDECISIÓN\nRecomendar videollamada\n\nPOR QUÉ\n• Intención de tarjeta activa detectada\n• Límite pre-aprobado disponible\n• Especialista remoto disponible ahora\n• Tiempo de espera en sucursal: 15 min\n\nRESULTADO ESPERADO\nActivación remota en menos de 10 min + mayor probabilidad de conversión`,
+            general: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.\n\n2 · Intención y oportunidad\nConsulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.\n\n3 · Capacidad en tiempo real\n• Asesor en sucursal: disponible\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Consulta general que requiere gestión presencial\n• Asesor en sucursal disponible\n• Tiempo de espera acotado: 15 min\n\nRESULTADO ESPERADO\nResolución integral en sucursal`,
+            deposito: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito.\n\n2 · Intención y oportunidad\nIntención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.\n\n3 · Capacidad en tiempo real\n• Cajas disponibles en sucursal\n• Tiempo de espera en sucursal: ~12 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Operación de depósito requiere atención presencial\n• Cajas disponibles ahora\n• Tiempo de espera acotado: 12 min\n\nRESULTADO ESPERADO\nDepósito procesado en caja`
           };
-          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
+          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
