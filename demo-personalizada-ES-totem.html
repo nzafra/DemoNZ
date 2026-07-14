@@ -1056,6 +1056,27 @@
       let analisisCompletado = false;
       let recomendacionVideollamada = false;
       let tramiteSeleccionado = 'cdt';
+      let intencionSeleccionada = '';
+      const SUBTRAMITES = {
+        cdt: [
+          { label: 'Renovar CDT', icon: 'bi-arrow-repeat' },
+          { label: 'Abrir nuevo CDT', icon: 'bi-plus-circle' }
+        ],
+        tarjeta: [
+          { label: 'Trámites de mi tarjeta de crédito', icon: 'bi-credit-card' },
+          { label: 'Solicitar nueva tarjeta de crédito', icon: 'bi-plus-circle' }
+        ],
+        general: [
+          { label: 'Actualizar mis datos', icon: 'bi-person-vcard' },
+          { label: 'Certificados', icon: 'bi-file-earmark-text' },
+          { label: 'PQR', icon: 'bi-chat-left-text' }
+        ],
+        deposito: [
+          { label: 'Depósito en efectivo a mi cuenta', icon: 'bi-cash-stack' },
+          { label: 'Depósito a otras cuentas de Numia Bank', icon: 'bi-bank' },
+          { label: 'Depósitos a otras entidades financieras', icon: 'bi-building' }
+        ]
+      };
       const QUEUE_POR_TRAMITE = {
         cdt:      { video: '20466', presencial: '20461' },
         tarjeta:  { video: '20465', presencial: '18597' },
@@ -1259,11 +1280,37 @@
             </div>
             <div class="opcion-title">${t.label}</div>
           `;
-          card.addEventListener('click', async () => { await llamarAgenteConOpcionTotem(t.key); });
+          card.addEventListener('click', () => { mostrarSubmenuTotem(t.key, t.label); });
           opcionesGrid.appendChild(card);
         });
       }
       
+      // Sub-menú de opciones específicas por trámite
+      function mostrarSubmenuTotem(tramiteKey, tramiteLabel) {
+        opcionesGrid.innerHTML = '';
+        const title = screenOpciones.querySelector('h2');
+        const sub = screenOpciones.querySelector('.subtitle');
+        if (title) title.textContent = '¿Qué necesitas con ' + tramiteLabel + '?';
+        if (sub) { sub.textContent = 'Selecciona una opción'; sub.style.display = 'block'; }
+        const subs = SUBTRAMITES[tramiteKey] || [];
+        subs.forEach((it) => {
+          const card = document.createElement('div');
+          card.className = 'opcion-card';
+          card.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+          card.innerHTML = `
+            <div class="opcion-icon" style="color: var(--numia-azul);">
+              <i class="bi ${it.icon}"></i>
+            </div>
+            <div class="opcion-title">${it.label}</div>
+          `;
+          card.addEventListener('click', async () => {
+            intencionSeleccionada = it.label;
+            await llamarAgenteConOpcionTotem(tramiteKey);
+          });
+          opcionesGrid.appendChild(card);
+        });
+      }
+
       // Mostrar opciones presenciales en el tótem
       function mostrarOpcionesPresencialTotem() {
         const opcionesPresencialContainer = document.getElementById('opcionesPresencialContainerTotem');
@@ -1529,7 +1576,10 @@ RESULTADO ESPERADO
 Resolución más rápida + mayor conversión en un producto de alto valor`
           };
 
-          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+          let messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+          if (intencionSeleccionada) {
+            messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+          }
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });

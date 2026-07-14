@@ -2121,6 +2121,7 @@
       // DNI fijo a usar
       const DNI_FIJO = '12345678';
       let tramiteSeleccionado = 'cdt';
+      let intencionSeleccionada = '';
       const QUEUE_POR_TRAMITE = {
         cdt:      { video: '20466', presencial: '20461' },
         tarjeta:  { video: '20465', presencial: '18597' },
@@ -2196,22 +2197,18 @@
       const INTENT_MENUS = {
         cdt: {
           title: '¿Qué necesitas con tu CDT?',
-          subtitle: 'Nicolás, tu último plazo maduró el 30 de junio — esto es lo que sugerimos:',
+          subtitle: 'Nicolás, elige la gestión que quieres realizar',
           items: [
-            { icon: 'bi-star-fill', label: 'Renovar CDT · $2,800,000 al 9.2%', hint: 'Mismo plazo, mejor tasa que la anterior · Recomendado' },
-            { icon: 'bi-piggy-bank', label: 'Abrir un nuevo CDT — 90 días', hint: 'Asegura la tasa de hoy antes de que cambie' },
-            { icon: 'bi-bar-chart-line', label: 'Consultar tasas vigentes', hint: 'Resultado instantáneo' },
-            { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
+            { icon: 'bi-arrow-repeat', label: 'Renovar CDT', hint: 'Mantén tu inversión con la tasa vigente' },
+            { icon: 'bi-plus-circle', label: 'Abrir nuevo CDT', hint: 'Asegura la tasa de hoy antes de que cambie' }
           ]
         },
         tarjeta: {
           title: '¿Qué necesitas con Tarjeta de crédito?',
-          subtitle: 'Detectamos una tarjeta Platinum terminada en 4521 en tu perfil',
+          subtitle: 'Nicolás, elige la gestión que quieres realizar',
           items: [
-            { icon: 'bi-arrow-up-circle', label: 'Aumentar mi límite de crédito', hint: 'Límite actual: $50,000' },
-            { icon: 'bi-credit-card', label: 'Reponer mi tarjeta', hint: 'Perdida, dañada o vencida' },
-            { icon: 'bi-flag', label: 'Desconocer una transacción', hint: 'Cargo no autorizado o incorrecto' },
-            { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
+            { icon: 'bi-credit-card', label: 'Trámites de mi tarjeta de crédito', hint: 'Aumento de límite, reposición, reclamos' },
+            { icon: 'bi-plus-circle', label: 'Solicitar nueva tarjeta de crédito', hint: 'Conoce las tarjetas para las que aplicas' }
           ]
         },
         general: {
@@ -2219,19 +2216,17 @@
           subtitle: 'Nicolás, elige el tipo de gestión que necesitas',
           items: [
             { icon: 'bi-person-vcard', label: 'Actualizar mis datos', hint: 'Dirección, teléfono, correo' },
-            { icon: 'bi-file-earmark-text', label: 'Certificados y extractos', hint: 'Descarga o envío por correo' },
-            { icon: 'bi-shield-exclamation', label: 'Presentar un reclamo', hint: 'Seguimiento con un asesor' },
-            { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
+            { icon: 'bi-file-earmark-text', label: 'Certificados', hint: 'Descarga o envío por correo' },
+            { icon: 'bi-chat-left-text', label: 'PQR', hint: 'Peticiones, quejas y reclamos' }
           ]
         },
         deposito: {
           title: '¿Qué tipo de depósito?',
           subtitle: 'Nicolás, elige cómo quieres realizar tu depósito',
           items: [
-            { icon: 'bi-cash-stack', label: 'Depósito en efectivo', hint: 'En caja de la sucursal' },
-            { icon: 'bi-bank', label: 'Depósito de cheque', hint: 'Consulta tiempos de canje' },
-            { icon: 'bi-people', label: 'Consignación a terceros', hint: 'A otra cuenta Numia Bank' },
-            { icon: 'bi-three-dots', label: 'Otra cosa', hint: '' }
+            { icon: 'bi-cash-stack', label: 'Depósito en efectivo a mi cuenta', hint: 'En caja de la sucursal' },
+            { icon: 'bi-bank', label: 'Depósito a otras cuentas de Numia Bank', hint: 'Transferencia interna en sucursal' },
+            { icon: 'bi-building', label: 'Depósitos a otras entidades financieras', hint: 'Consulta tiempos y costos' }
           ]
         }
       };
@@ -2260,6 +2255,8 @@
         // Bind clicks — each option triggers the agent flow
         intentContent.querySelectorAll('.btn-intent').forEach(btn => {
           btn.addEventListener('click', async () => {
+            const _idx = parseInt(btn.dataset.idx, 10);
+            intencionSeleccionada = (menu.items[_idx] && menu.items[_idx].label) || '';
             // Mantener la posición de scroll (que no salte al balance durante el análisis)
             const scroller = document.getElementById('sanScreenHome');
             const prevScroll = scroller ? scroller.scrollTop : 0;
@@ -2351,7 +2348,10 @@
             general: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.\n\n2 · Intención y oportunidad\nConsulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.\n\n3 · Capacidad en tiempo real\n• Asesor en sucursal: disponible\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Consulta general que requiere gestión presencial\n• Asesor en sucursal disponible\n• Tiempo de espera acotado: 15 min\n\nRESULTADO ESPERADO\nResolución integral en sucursal`,
             deposito: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito.\n\n2 · Intención y oportunidad\nIntención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.\n\n3 · Capacidad en tiempo real\n• Cajas disponibles en sucursal\n• Tiempo de espera en sucursal: ~12 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Operación de depósito requiere atención presencial\n• Cajas disponibles ahora\n• Tiempo de espera acotado: 12 min\n\nRESULTADO ESPERADO\nDepósito procesado en caja`
           };
-          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+          let messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+          if (intencionSeleccionada) {
+            messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+          }
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
@@ -2928,7 +2928,10 @@
             general: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.\n\n2 · Intención y oportunidad\nConsulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.\n\n3 · Capacidad en tiempo real\n• Asesor en sucursal: disponible\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Consulta general que requiere gestión presencial\n• Asesor en sucursal disponible\n• Tiempo de espera acotado: 15 min\n\nRESULTADO ESPERADO\nResolución integral en sucursal`,
             deposito: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito.\n\n2 · Intención y oportunidad\nIntención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.\n\n3 · Capacidad en tiempo real\n• Cajas disponibles en sucursal\n• Tiempo de espera en sucursal: ~12 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Operación de depósito requiere atención presencial\n• Cajas disponibles ahora\n• Tiempo de espera acotado: 12 min\n\nRESULTADO ESPERADO\nDepósito procesado en caja`
           };
-          const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+          let messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+          if (intencionSeleccionada) {
+            messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+          }
 
           const transcurridoFin = Date.now() - pasosInicio;
           await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
