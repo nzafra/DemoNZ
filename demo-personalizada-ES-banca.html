@@ -2122,6 +2122,302 @@
       const DNI_FIJO = '12345678';
       let tramiteSeleccionado = 'cdt';
       let intencionSeleccionada = '';
+      const RESPUESTAS_POR_GESTION = {
+        'Renovar CDT': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con un CDT vigente por $2,800,000 próximo a vencer. Perfil ahorrador con renovaciones puntuales.
+
+2 · Intención y oportunidad
+Gestión solicitada: Renovar CDT
+Análisis de movimientos: sin retiros en los últimos 3 meses, comportamiento de reinversión.
+• Renovación sugerida a 180 días
+• Tasa preferencial: 9.4% anual (mejor que el plazo anterior)
+• Capital + intereses reinvertidos automáticamente
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~20 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar renovación de CDT a 180 días por videollamada
+
+POR QUÉ
+• CDT próximo a vencer
+• Sin retiros recientes (perfil de reinversión)
+• Tasa preferencial a 180 días disponible
+• Especialista remoto disponible ahora
+
+RESULTADO ESPERADO
+Retención del capital + mejor tasa a mayor plazo`,
+        'Abrir nuevo CDT': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses con rendimientos por debajo del mercado.
+
+2 · Intención y oportunidad
+Gestión solicitada: Abrir nuevo CDT
+Oportunidad de migrar liquidez ociosa a un CDT:
+• Plazos disponibles: 90 / 180 / 360 días
+• Tasa actual hasta 9.4% anual
+• Monto mínimo: $100,000 · Garantía de capital 100%
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~20 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar apertura de CDT a 180 días por videollamada
+
+POR QUÉ
+• Liquidez ociosa con bajo rendimiento
+• Tasa preferencial disponible
+• Especialista remoto disponible ahora
+
+RESULTADO ESPERADO
+Mayor rendimiento + nuevos activos gestionados`,
+        'Trámites de mi tarjeta de crédito': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Tarjeta Platinum terminada en 4521 activa, uso recurrente y pagos al día. Puntaje crediticio: 718.
+
+2 · Intención y oportunidad
+Gestión solicitada: Trámites de mi tarjeta de crédito
+Perfil apto para gestión inmediata (aumento de límite, reposición o reclamos):
+• Límite actual: $50,000 · Cupo de aumento pre-aprobado: +$20,000
+• Sin mora en los últimos 12 meses
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~15 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar gestión de tarjeta por videollamada
+
+POR QUÉ
+• Cliente al día
+• Cupo de aumento pre-aprobado
+• Gestión resoluble en remoto
+• Especialista disponible ahora
+
+RESULTADO ESPERADO
+Resolución en línea sin ir a sucursal`,
+        'Solicitar nueva tarjeta de crédito': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Buen comportamiento de pago y vinculación activa. Puntaje crediticio: 718 — apto para nuevo producto.
+
+2 · Intención y oportunidad
+Gestión solicitada: Solicitar nueva tarjeta de crédito
+Alta probabilidad de aprobación:
+• Tarjeta Numia Bank Platinum pre-aprobada
+• Límite estimado: $500,000 · Cuota anual sin costo el primer año
+• 2x puntos en cada compra
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~15 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar solicitud de nueva tarjeta por videollamada
+
+POR QUÉ
+• Perfil pre-aprobado
+• Buen puntaje crediticio
+• Activación remota en minutos
+• Especialista disponible ahora
+
+RESULTADO ESPERADO
+Activación remota + mayor vinculación`,
+        'Actualizar mis datos': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente activo con múltiples productos. Puntaje crediticio: 730. Datos de contacto sin actualizar hace 14 meses.
+
+2 · Intención y oportunidad
+Gestión solicitada: Actualizar mis datos
+Actualización de dirección, teléfono y correo. Requiere validación de identidad, posible de forma remota.
+
+3 · Capacidad en tiempo real
+• Asesor disponible ahora (remoto y sucursal)
+• Tiempo de espera en sucursal: ~15 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar actualización de datos por videollamada con validación de identidad
+
+POR QUÉ
+• Datos desactualizados
+• Validación de identidad posible en remoto
+• Asesor disponible ahora
+
+RESULTADO ESPERADO
+Datos al día sin ir a sucursal`,
+        'Certificados': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con productos activos y al día. Puntaje crediticio: 730.
+
+2 · Intención y oportunidad
+Gestión solicitada: Certificados
+Solicitud de certificados y extractos (bancario, tributario, de productos). Entrega digital disponible.
+
+3 · Capacidad en tiempo real
+• Asesor disponible ahora (remoto y sucursal)
+• Tiempo de espera en sucursal: ~12 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar emisión de certificados por videollamada con envío digital
+
+POR QUÉ
+• Trámite documental
+• Entrega digital inmediata
+• Asesor disponible ahora
+
+RESULTADO ESPERADO
+Certificado emitido y enviado al correo`,
+        'PQR': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con múltiples productos. Puntaje crediticio: 730.
+
+2 · Intención y oportunidad
+Gestión solicitada: PQR
+Registro de una petición, queja o reclamo. Requiere seguimiento formal con número de radicado.
+
+3 · Capacidad en tiempo real
+• Asesor disponible ahora (remoto y sucursal)
+• Tiempo de espera en sucursal: ~15 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar radicación de PQR por videollamada con número de seguimiento
+
+POR QUÉ
+• Caso requiere radicado formal
+• Atención personalizada disponible en remoto
+• Asesor disponible ahora
+
+RESULTADO ESPERADO
+PQR radicada con número de seguimiento`,
+        'Depósito en efectivo a mi cuenta': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con cuenta activa.
+
+2 · Intención y oportunidad
+Gestión solicitada: Depósito en efectivo a mi cuenta
+Operación de caja: recepción de efectivo y abono a la cuenta del cliente. Requiere presencia en sucursal.
+
+3 · Capacidad en tiempo real
+• Cajas disponibles en sucursal
+• Tiempo de espera en sucursal: ~12 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Presencial
+Sugerir videollamada: No
+
+────────────────────
+DECISIÓN
+Continuar en sucursal (caja)
+
+POR QUÉ
+• Manejo de efectivo requiere caja
+• Cajas disponibles ahora
+• Espera acotada: 12 min
+
+RESULTADO ESPERADO
+Efectivo abonado a la cuenta`,
+        'Depósito a otras cuentas de Numia Bank': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con cuenta activa.
+
+2 · Intención y oportunidad
+Gestión solicitada: Depósito a otras cuentas de Numia Bank
+Consignación de efectivo a la cuenta de otro cliente Numia Bank. Operación de caja presencial.
+
+3 · Capacidad en tiempo real
+• Cajas disponibles en sucursal
+• Tiempo de espera en sucursal: ~12 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Presencial
+Sugerir videollamada: No
+
+────────────────────
+DECISIÓN
+Continuar en sucursal (caja)
+
+POR QUÉ
+• Consignación en efectivo a terceros
+• Requiere caja
+• Espera acotada: 12 min
+
+RESULTADO ESPERADO
+Consignación acreditada a la cuenta destino`,
+        'Depósitos a otras entidades financieras': `Análisis del recorrido del cliente — ID: %DNI%
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Cliente con cuenta activa.
+
+2 · Intención y oportunidad
+Gestión solicitada: Depósitos a otras entidades financieras
+Consignación dirigida a una cuenta de otro banco. Sujeta a tiempos de compensación interbancaria. Operación de caja presencial.
+
+3 · Capacidad en tiempo real
+• Cajas disponibles en sucursal
+• Tiempo de espera en sucursal: ~12 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Presencial
+Sugerir videollamada: No
+
+────────────────────
+DECISIÓN
+Continuar en sucursal (caja)
+
+POR QUÉ
+• Depósito interbancario requiere caja
+• Sujeto a compensación
+• Espera acotada: 12 min
+
+RESULTADO ESPERADO
+Depósito enviado; acreditación según compensación interbancaria`
+      };
       const QUEUE_POR_TRAMITE = {
         cdt:      { video: '20466', presencial: '20461' },
         tarjeta:  { video: '20465', presencial: '18597' },
@@ -2348,9 +2644,14 @@
             general: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.\n\n2 · Intención y oportunidad\nConsulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.\n\n3 · Capacidad en tiempo real\n• Asesor en sucursal: disponible\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Consulta general que requiere gestión presencial\n• Asesor en sucursal disponible\n• Tiempo de espera acotado: 15 min\n\nRESULTADO ESPERADO\nResolución integral en sucursal`,
             deposito: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito.\n\n2 · Intención y oportunidad\nIntención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.\n\n3 · Capacidad en tiempo real\n• Cajas disponibles en sucursal\n• Tiempo de espera en sucursal: ~12 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Operación de depósito requiere atención presencial\n• Cajas disponibles ahora\n• Tiempo de espera acotado: 12 min\n\nRESULTADO ESPERADO\nDepósito procesado en caja`
           };
-          let messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
-          if (intencionSeleccionada) {
-            messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+          let messageText;
+          if (intencionSeleccionada && RESPUESTAS_POR_GESTION[intencionSeleccionada]) {
+            messageText = RESPUESTAS_POR_GESTION[intencionSeleccionada].replace('%DNI%', dni);
+          } else {
+            messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+            if (intencionSeleccionada) {
+              messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+            }
           }
 
           const transcurridoFin = Date.now() - pasosInicio;
@@ -2928,9 +3229,14 @@
             general: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente activo con múltiples productos. Consulta de atención general. Puntaje crediticio: 730.\n\n2 · Intención y oportunidad\nConsulta general detectada. Requiere atención personalizada en sucursal para gestiones que no se resuelven de forma remota.\n\n3 · Capacidad en tiempo real\n• Asesor en sucursal: disponible\n• Tiempo de espera en sucursal: ~15 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Consulta general que requiere gestión presencial\n• Asesor en sucursal disponible\n• Tiempo de espera acotado: 15 min\n\nRESULTADO ESPERADO\nResolución integral en sucursal`,
             deposito: `Análisis del recorrido del cliente — ID: ${dni}\n\n1 · Contexto del cliente\nSe identifica a Nicolás. Cliente con cuenta activa. Solicita realizar un depósito.\n\n2 · Intención y oportunidad\nIntención de depósito detectada. Operación de caja que se realiza de forma presencial en sucursal.\n\n3 · Capacidad en tiempo real\n• Cajas disponibles en sucursal\n• Tiempo de espera en sucursal: ~12 min\n\n4 · Recorrido recomendado\nTipo de atención sugerida: Presencial\nSugerir videollamada: No\n\n────────────────────\nDECISIÓN\nContinuar en sucursal\n\nPOR QUÉ\n• Operación de depósito requiere atención presencial\n• Cajas disponibles ahora\n• Tiempo de espera acotado: 12 min\n\nRESULTADO ESPERADO\nDepósito procesado en caja`
           };
-          let messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
-          if (intencionSeleccionada) {
-            messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+          let messageText;
+          if (intencionSeleccionada && RESPUESTAS_POR_GESTION[intencionSeleccionada]) {
+            messageText = RESPUESTAS_POR_GESTION[intencionSeleccionada].replace('%DNI%', dni);
+          } else {
+            messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['cdt'];
+            if (intencionSeleccionada) {
+              messageText = messageText.replace('2 · Intención y oportunidad\n', '2 · Intención y oportunidad\nGestión solicitada: ' + intencionSeleccionada + '\n');
+            }
           }
 
           const transcurridoFin = Date.now() - pasosInicio;
