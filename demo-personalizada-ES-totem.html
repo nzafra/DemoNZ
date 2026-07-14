@@ -1056,7 +1056,23 @@
       let analisisCompletado = false;
       let recomendacionVideollamada = false;
       let tramiteSeleccionado = 'cdt';
-      const QUEUE_POR_TRAMITE = { cdt: '18597', tarjeta: '18597', general: '18597', deposito: '18597' };
+      const QUEUE_POR_TRAMITE = {
+        cdt:      { video: '20466', presencial: '20461' },
+        tarjeta:  { video: '20465', presencial: '18597' },
+        general:  { video: '20467', presencial: '20462' },
+        deposito: { presencial: '20463' }
+      };
+      const CANALES_POR_TRAMITE = {
+        cdt: ['video', 'presencial'],
+        tarjeta: ['video', 'presencial'],
+        general: ['video', 'presencial'],
+        deposito: ['presencial']
+      };
+      function getQueueId(tramite, tipo) {
+        const canal = (tipo === 'videollamada' || tipo === 'video') ? 'video' : 'presencial';
+        const m = QUEUE_POR_TRAMITE[tramite] || {};
+        return m[canal] || m.presencial || '18597';
+      }
       let messageText = null;
       let mortgageSignal = false;
 
@@ -1321,8 +1337,14 @@
         // Siempre ofrecemos ambas opciones; el flag solo controla el énfasis "recomendado"
         recomendacionVideollamada = tieneVideollamada;
         console.log('Scoring extraído:', scoring, 'Videollamada recomendada:', tieneVideollamada);
+        const canales = CANALES_POR_TRAMITE[tramiteSeleccionado] || ['video', 'presencial'];
         setTimeout(() => {
-          mostrarOpcionesAtencion();
+          if (!canales.includes('video')) {
+            // Solo presencial (ej. Depósito)
+            solicitarAtencionPresencialDirecta();
+          } else {
+            mostrarOpcionesAtencion();
+          }
         }, 1000);
       }
 
@@ -1537,7 +1559,9 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
         
         opcionesGrid.innerHTML = '';
         
-        // Opción Videollamada (siempre disponible)
+        // Opción Videollamada (según canales del trámite)
+        const _canales = CANALES_POR_TRAMITE[tramiteSeleccionado] || ['video', 'presencial'];
+        if (_canales.includes('video')) {
         const cardVideo = document.createElement('div');
         cardVideo.className = 'opcion-card videollamada';
         cardVideo.innerHTML = `
@@ -1551,6 +1575,7 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
         `;
         cardVideo.addEventListener('click', () => solicitarAtencion('videollamada'));
         opcionesGrid.appendChild(cardVideo);
+        }
         
         // Opción Presencial (siempre disponible, menos recomendada si hay videollamada)
         const cardPresencial = document.createElement('div');
@@ -1581,7 +1606,7 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
       // Solicitar atención presencial directamente (cuando no hay recomendación de videollamada)
       async function solicitarAtencionPresencialDirecta() {
         try {
-          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '18597';
+          const queueId = getQueueId(tramiteSeleccionado, 'presencial');
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
@@ -1615,7 +1640,7 @@ Resolución más rápida + mayor conversión en un producto de alto valor`
       // Solicitar atención
       async function solicitarAtencion(tipo) {
         try {
-          const queueId = QUEUE_POR_TRAMITE[tramiteSeleccionado] || '18597';
+          const queueId = getQueueId(tramiteSeleccionado, tipo);
           const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10828/enqueue`;
           const apiToken = 'CVR0R14b2GP3J1O9RdyOiAu3koqOGyAmxcgogKC1';
           
