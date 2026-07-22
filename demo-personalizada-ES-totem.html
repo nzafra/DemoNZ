@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --numia-azul: #863DFF;
+      --numia-azul: #1e2065;
       --numia-azul-oscuro: #060A27;
       --numia-success: #10b981;
       --numia-text: #1f2937;
@@ -423,12 +423,12 @@
     
     .opcion-card.presencial {
       border-color: var(--numia-azul);
-      background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+      background: linear-gradient(135deg, #eef0f8 0%, #dfe2f0 100%);
     }
     
     .opcion-card.presencial:hover {
       border-color: var(--numia-azul);
-      box-shadow: 0 8px 24px rgba(134, 61, 255, 0.3);
+      box-shadow: 0 8px 24px rgba(30, 32, 101, 0.3);
     }
     
     .opcion-card.disabled {
@@ -826,7 +826,7 @@
         <p class="subtitle">Elige cómo deseas continuar</p>
         <div class="opciones-grid" id="menuInicialGrid">
           <!-- Opción Options menu -->
-          <div class="opcion-card" id="opcionMenu" style="cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
+          <div class="opcion-card" id="opcionMenu" style="cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #eef0f8 0%, #dfe2f0 100%);">
             <div class="opcion-icon" style="color: var(--numia-azul);">
               <i class="bi bi-list-ul"></i>
             </div>
@@ -945,7 +945,7 @@
   <!-- Mortgage pre-approval popup (after ID entry, before options) -->
   <div id="mortgagePopup" style="display:none; position:fixed; inset:0; z-index:11000; background:rgba(6,10,39,0.55); align-items:center; justify-content:center; padding:1.5rem;">
     <div style="background:#fff; border-radius:20px; max-width:440px; width:100%; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: mortgagePopIn 0.3s ease;">
-      <div style="background:linear-gradient(135deg, var(--numia-azul) 0%, #6d2dd4 100%); padding:1.75rem 1.5rem; text-align:center; color:#fff;">
+      <div style="background:linear-gradient(135deg, var(--numia-azul) 0%, #10133f 100%); padding:1.75rem 1.5rem; text-align:center; color:#fff;">
         <div style="font-size:2.75rem; margin-bottom:0.5rem;">🏡</div>
         <div style="font-size:1.05rem; font-weight:600; opacity:0.95; margin-bottom:0.35rem;">¡Hola Nicolás!</div>
         <h3 style="font-size:1.3rem; font-weight:700; line-height:1.3; margin:0;">Tu nueva casa puede estar más cerca de lo que crees</h3>
@@ -1569,7 +1569,7 @@ Depósito enviado; acreditación según compensación interbancaria`
         TRAMITES.forEach((t) => {
           const card = document.createElement('div');
           card.className = 'opcion-card';
-          card.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+          card.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #eef0f8 0%, #dfe2f0 100%);';
           card.innerHTML = `
             <div class="opcion-icon" style="color: var(--numia-azul);">
               <i class="bi ${t.icon}"></i>
@@ -1592,7 +1592,7 @@ Depósito enviado; acreditación según compensación interbancaria`
         subs.forEach((it) => {
           const card = document.createElement('div');
           card.className = 'opcion-card';
-          card.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);';
+          card.style.cssText = 'cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #eef0f8 0%, #dfe2f0 100%);';
           card.innerHTML = `
             <div class="opcion-icon" style="color: var(--numia-azul);">
               <i class="bi ${it.icon}"></i>
