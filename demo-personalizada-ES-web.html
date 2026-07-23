@@ -1766,6 +1766,137 @@ z-index: 9999;
     }
     @media (max-width: 991px) { .carousel-slide { height: 180px; } .carousel-slide i { font-size: 4.5rem; } }
     @media (max-width: 767px) { .carousel-slide { height: 150px; } }
+
+    /* --- Portal simplificado (dos botones) --- */
+    .portal-wrap {
+      min-height: 62vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 1rem;
+    }
+    .portal-card {
+      width: 100%;
+      max-width: 440px;
+      background: #fff;
+      border-radius: 1.5rem;
+      box-shadow: 0 18px 50px rgba(30,32,101,0.14);
+      padding: 2.75rem 2rem 2.5rem;
+      text-align: center;
+    }
+    .portal-icon {
+      width: 76px; height: 76px;
+      margin: 0 auto 1.25rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #060A27 0%, #1e2065 100%);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 2.2rem;
+    }
+    .portal-title {
+      font-weight: 800;
+      color: #1e2065;
+      font-size: 1.55rem;
+      margin-bottom: 0.35rem;
+    }
+    .portal-sub {
+      color: #6b7280;
+      font-size: 0.98rem;
+      margin-bottom: 2rem;
+    }
+    .portal-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 1.05rem 1.25rem;
+      border-radius: 0.9rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .portal-btn + .portal-btn { margin-top: 1rem; }
+    .portal-btn-primary {
+      background: linear-gradient(135deg, #1e2065, #3a3f9e);
+      color: #fff;
+      box-shadow: 0 10px 25px rgba(30,32,101,0.25);
+    }
+    .portal-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(30,32,101,0.35); }
+    .portal-btn-secondary {
+      background: #fff;
+      color: #1e2065;
+      border: 2px solid #1e2065;
+    }
+    .portal-btn-secondary:hover { background: #eef2fc; transform: translateY(-2px); }
+
+    /* --- Wizard de pasos (Solicitar cita) --- */
+    .wizard-steps {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .wizard-step {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.82rem; font-weight: 600;
+      color: #9ca3af;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      background: #f3f4f6;
+    }
+    .wizard-step.active { color: #fff; background: linear-gradient(135deg, #1e2065, #3a3f9e); }
+    .wizard-step.done { color: #1e2065; background: #e6ecf9; }
+    .wizard-step .step-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; background: rgba(255,255,255,0.25);
+    }
+    .paso-cita { display: none; }
+    .paso-cita.active { display: block; }
+
+    /* --- Sugerencia de documentos --- */
+    .docs-panel {
+      background: #f8f9ff;
+      border: 2px solid #e8eaff;
+      border-radius: 1rem;
+      padding: 1.75rem;
+      margin: 0.5rem 0 1.25rem;
+    }
+    .docs-panel h4 {
+      color: #1e2065; font-weight: 700; font-size: 1.1rem;
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;
+    }
+    .docs-list { list-style: none; padding: 0; margin: 0; }
+    .docs-list li {
+      display: flex; align-items: flex-start; gap: 0.7rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px dashed #d9def5;
+      color: #374151; font-size: 0.97rem;
+    }
+    .docs-list li:last-child { border-bottom: none; }
+    .docs-list li i { color: #1e2065; font-size: 1.2rem; margin-top: 1px; }
+    .docs-note {
+      font-size: 0.85rem; color: #6b7280; margin-top: 0.9rem; font-style: italic;
+    }
+    .wizard-nav {
+      display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem;
+    }
+
+    /* --- Confirmación --- */
+    .confirm-panel {
+      text-align: center;
+      padding: 1.5rem 1rem 0.5rem;
+    }
+    .confirm-icon {
+      width: 80px; height: 80px; margin: 0 auto 1.25rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #10b981, #059669);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 2.4rem;
+    }
   </style>
 
 </head>
@@ -1774,190 +1905,44 @@ z-index: 9999;
   <!-- HEADER -->
   <header class="numia-header shadow-sm">
     <div class="container d-flex align-items-center py-3" style="gap:0.7rem;">
-      <a href="index.html" class="d-flex align-items-center" style="gap:0.6rem; text-decoration:none;">
+      <a href="#" class="d-flex align-items-center" style="gap:0.6rem; text-decoration:none;">
         <span class="numia-logo-mark"><i class="bi bi-bank"></i></span>
         <span class="numia-logo-text">Numia Bank</span>
       </a>
     </div>
-    <div class="container">
-      <p class="lead mb-0" style="color:rgba(255,255,255,0.85);">Innovación en salud, cuidando de ti con la mejor tecnología</p>
-    </div>
   </header>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-        <span class="navbar-toggler-icon"></span>
+  <!-- PORTAL SIMPLIFICADO -->
+  <main class="portal-wrap">
+    <div class="portal-card">
+      <div class="portal-icon"><i class="bi bi-calendar-heart"></i></div>
+      <div class="portal-title">Portal de Citas</div>
+      <p class="portal-sub">¿Qué deseas hacer hoy?</p>
+      <button class="portal-btn portal-btn-primary" onclick="iniciarSolicitudCita()">
+        <i class="bi bi-calendar-plus"></i> Solicitar cita
       </button>
-      <div class="collapse navbar-collapse justify-content-center" id="navbarMain">
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          <li class="nav-item dropdown px-2">
-            <a class="nav-link dropdown-toggle" href="#" id="pacientes" data-bs-toggle="dropdown">
-              <i class="bi bi-person me-1"></i>Pacientes
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="pacientes">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-clock-history me-2"></i>Historial</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-credit-card-2-front me-2"></i>Pagos</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown px-2">
-            <a class="nav-link dropdown-toggle" href="#" id="citas" data-bs-toggle="dropdown">
-              <i class="bi bi-calendar-check me-1"></i>Citas
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="citas">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-calendar-plus me-2" onclick="cargarCombosDesdeAPI()"></i>Agendar cita</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-calendar2-check me-2"></i>Mis citas</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown px-2">
-            <a class="nav-link dropdown-toggle" href="#" id="especialidades" data-bs-toggle="dropdown">
-              <i class="bi bi-bar-chart-line me-1"></i>Especialidades
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="especialidades">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-heart-pulse me-2"></i>Cardiología</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-bandaid me-2"></i>Pediatría</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-person-badge me-2"></i>Ortopedia</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown px-2">
-            <a class="nav-link dropdown-toggle" href="#" id="seguros" data-bs-toggle="dropdown">
-              <i class="bi bi-shield-check me-1"></i>Seguros
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="seguros">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-hospital me-2"></i>Médico</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-tooth me-2"></i>Dental</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-heart-fill me-2"></i>Vida</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- CARRUSEL -->
-  <div class="container my-4">
-    <div id="carouselMain" class="carousel slide shadow-sm" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active">
-          <div class="carousel-slide"><i class="bi bi-clock-history"></i></div>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Atención 24/7</h5>
-            <p>Telemedicina al alcance de un clic</p>
-            <a href="#" class="btn btn-primary rounded-pill px-4 mt-2">Descúbrelo</a>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="carousel-slide"><i class="bi bi-heart-pulse"></i></div>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Chequeos preventivos</h5>
-            <p>Paquetes completos a precio especial</p>
-            <a href="#" class="btn btn-outline-primary rounded-pill px-4 mt-2">Más info</a>
-          </div>
-        </div>
-        <div class="carousel-item">
-          <div class="carousel-slide"><i class="bi bi-cash-coin"></i></div>
-          <div class="carousel-caption d-none d-md-block">
-            <h5>Reintegro de Gastos</h5>
-            <p>Gestiona tus reintegros médicos fácilmente</p>
-            <a href="#" class="btn btn-primary rounded-pill px-4 mt-2" onclick="showReintegroModal()">Solicitar</a>
-          </div>
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselMain" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon bg-dark rounded-circle"></span>
+      <button class="portal-btn portal-btn-secondary" onclick="abrirConsultarCita()">
+        <i class="bi bi-search"></i> Consultar cita
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselMain" data-bs-slide="next">
-        <span class="carousel-control-next-icon bg-dark rounded-circle"></span>
-      </button>
-      <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#carouselMain" data-bs-slide-to="2"></button>
-      </div>
     </div>
-  </div>
-
-  
-  <!-- TARJETAS DE SERVICIOS -->
-  <main class="container mb-5">
-    <div class="row g-4 justify-content-center main-cards">
-      <div class="col-lg-3 col-md-6">
-        <div class="card ad-card text-center">
-          <div class="service-icon-tile"><i class="bi bi-calendar-check"></i></div>
-          <div class="card-body">
-            <h5 class="card-title">Agendar cita médica</h5>
-            <p class="card-text">Elige fecha, hora y doctor en línea.</p>
-            <button class="btn btn-primary rounded-pill px-4 mt-2" onclick="cargarCombosDesdeAPI()">Agendar</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="card ad-card text-center">
-          <div class="service-icon-tile"><i class="bi bi-camera-video"></i></div>
-          <div class="card-body">
-            <h5 class="card-title">Telemedicina</h5>
-            <p class="card-text">Consulta virtual desde tu dispositivo.</p>
-                         <button class="btn btn-outline-primary rounded-pill px-4 mt-2" onclick="showFormModal('6653')">Conecta</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="card ad-card text-center">
-          <div class="service-icon-tile"><i class="bi bi-clipboard2-pulse"></i></div>
-          <div class="card-body">
-            <h5 class="card-title">Estoy en la guardia</h5>
-            <p class="card-text">Evaluación inicial para priorizar atención.</p>
-                         <button class="btn btn-primary rounded-pill px-4 mt-2" onclick="showFormModal('16224')">Iniciar</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6">
-        <div class="card ad-card text-center">
-          <div class="service-icon-tile"><i class="bi bi-file-earmark-medical"></i></div>
-          <div class="card-body">
-            <h5 class="card-title">Solicitar autorización</h5>
-            <p class="card-text">Gestiona la autorización de prestaciones médicas</p>
-            <button class="btn btn-outline-primary rounded-pill px-4 mt-2" onclick="showReintegroModal()">Solicitar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SECCIÓN NUESTRO SELLO -->
-  <div class="container my-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-8 text-center">
-        <div class="nuestro-sello-container">
-          <div class="nuestro-sello-icon">
-            <i class="bi bi-star-fill"></i>
-          </div>
-          <h2 class="nuestro-sello-title">En nuestras Clínicas nuestro sello es ser <span class="text-highlight">Memorables</span></h2>
-          <p class="nuestro-sello-description">
-            Cada paciente es único y merece una atención excepcional. Nos comprometemos a brindar experiencias 
-            de salud que trasciendan lo ordinario, creando momentos memorables en cada interacción.
-          </p>
-          <div class="nuestro-sello-features">
-            <div class="feature-item">
-              <i class="bi bi-heart-pulse"></i>
-              <span>Atención Personalizada</span>
-            </div>
-            <div class="feature-item">
-              <i class="bi bi-shield-check"></i>
-              <span>Calidad Garantizada</span>
-            </div>
-            <div class="feature-item">
-              <i class="bi bi-people"></i>
-              <span>Equipo Comprometido</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   </main>
+
+  <!-- Modal Consultar cita -->
+  <div id="consultarModal" class="modal">
+    <div class="modal-content" style="max-width:520px;">
+      <span class="close" onclick="document.getElementById('consultarModal').style.display='none'">&times;</span>
+      <h3 class="titulo">Consultar cita</h3>
+      <div id="consultarBody">
+        <label class="selector-label" style="text-align:left;">Número de identificación</label>
+        <input type="text" id="consultarDni" class="input-field" placeholder="Ingresa tu documento" />
+        <button class="portal-btn portal-btn-primary" style="margin-top:1.25rem;" onclick="buscarCita()">
+          <i class="bi bi-search"></i> Buscar mi cita
+        </button>
+      </div>
+      <div id="consultarResultado" style="margin-top:1.25rem;"></div>
+    </div>
+  </div>
+
 
 
 
@@ -2027,53 +2012,69 @@ z-index: 9999;
   
 
 <div id="popupModal" class="modal">
- 
     <div class="modal-content">
     <span class="close" onclick="document.getElementById('popupModal').style.display='none'">&times;</span>
-    <div>
-         <h3 class='titulo'>Seleccione una agenda</h3>
+
+    <!-- Indicador de pasos -->
+    <div class="wizard-steps">
+      <div class="wizard-step" id="wsTramite"><span class="step-num">1</span> Trámite</div>
+      <div class="wizard-step" id="wsDocumentos"><span class="step-num">2</span> Documentos</div>
+      <div class="wizard-step" id="wsAgenda"><span class="step-num">3</span> Agenda</div>
+      <div class="wizard-step" id="wsConfirmacion"><span class="step-num">4</span> Confirmación</div>
     </div>
-    <div id="formularioInicial">
 
-
-
-      <div class="selectors-container">
-        <div class="especialidad-selector">
-          <label class="selector-label">Especialidad:</label>
-          <div id="especialidadCombo" class="especialidad-cards">
-            <div class="especialidad-card" data-value="cardiologia">
-              <i class="bi bi-heart-pulse especialidad-icon"></i>
-              <div class="especialidad-info">
-                <div class="especialidad-name">Cardiología</div>
-                <div class="especialidad-status">Disponible</div>
-              </div>
-            </div>
-            <div class="especialidad-card" data-value="medico-clinico">
-              <i class="bi bi-person-vcard especialidad-icon"></i>
-              <div class="especialidad-info">
-                <div class="especialidad-name">Médico Clínico</div>
-                <div class="especialidad-status">Disponible</div>
-              </div>
-            </div>
-            <div class="especialidad-card" data-value="alergias">
-              <i class="bi bi-droplet especialidad-icon"></i>
-              <div class="especialidad-info">
-                <div class="especialidad-name">Alergias</div>
-                <div class="especialidad-status">Disponible</div>
-              </div>
-            </div>
-            <div class="especialidad-card" data-value="dermatologia">
-              <i class="bi bi-bandaid especialidad-icon"></i>
-              <div class="especialidad-info">
-                <div class="especialidad-name">Dermatología</div>
-                <div class="especialidad-status">Disponible</div>
-              </div>
-            </div>
+    <!-- PASO 1: Trámite / Especialidad -->
+    <div id="pasoTramites" class="paso-cita active">
+      <h3 class='titulo'>Selecciona el trámite</h3>
+      <div id="especialidadCombo" class="especialidad-cards" style="max-height:none;grid-template-columns:1fr;">
+        <div class="especialidad-card" data-value="cardiologia">
+          <i class="bi bi-heart-pulse especialidad-icon"></i>
+          <div class="especialidad-info">
+            <div class="especialidad-name">Cardiología</div>
+            <div class="especialidad-status">Consulta con especialista</div>
           </div>
-          <input type="hidden" id="especialidadComboValue" required>
         </div>
-        
-        <div class="sucursal-selector">
+        <div class="especialidad-card" data-value="medico-clinico">
+          <i class="bi bi-person-vcard especialidad-icon"></i>
+          <div class="especialidad-info">
+            <div class="especialidad-name">Médico Clínico</div>
+            <div class="especialidad-status">Atención general</div>
+          </div>
+        </div>
+        <div class="especialidad-card" data-value="dermatologia">
+          <i class="bi bi-bandaid especialidad-icon"></i>
+          <div class="especialidad-info">
+            <div class="especialidad-name">Dermatología</div>
+            <div class="especialidad-status">Consulta con especialista</div>
+          </div>
+        </div>
+      </div>
+      <input type="hidden" id="especialidadComboValue" required>
+    </div>
+
+    <!-- PASO 2: Sugerencia de documentos -->
+    <div id="pasoDocumentos" class="paso-cita">
+      <h3 class='titulo'>Documentos a llevar</h3>
+      <div class="docs-panel">
+        <h4><i class="bi bi-clipboard-check"></i> Recuerda traer contigo</h4>
+        <ul class="docs-list">
+          <li><i class="bi bi-person-badge"></i> <span>Cédula de ciudadanía (documento de identidad)</span></li>
+          <li><i class="bi bi-card-heading"></i> <span>Carnet de afiliación</span></li>
+          <li><i class="bi bi-cash-coin"></i> <span>Comprobante de pago del trámite <em>(si aplica)</em></span></li>
+        </ul>
+        <p class="docs-note">Presenta estos documentos el día de tu cita para agilizar tu atención.</p>
+      </div>
+      <div class="wizard-nav">
+        <button type="button" class="btn-secondary" onclick="volverATramites()"><i class="bi bi-arrow-left"></i> Atrás</button>
+        <button type="button" class="btn-primary" onclick="irAAgenda()">Continuar <i class="bi bi-arrow-right"></i></button>
+      </div>
+    </div>
+
+    <!-- PASO 3: Agenda (fecha y hora) -->
+    <div id="pasoAgenda" class="paso-cita">
+      <h3 class='titulo'>Selecciona fecha y hora</h3>
+      <div class="selectors-container">
+        <div class="sucursal-selector" style="display:block;">
           <label class="selector-label">Sucursal:</label>
           <div id="sucuCombo" class="sucursal-cards">
             <div class="loading-card">
@@ -2083,35 +2084,40 @@ z-index: 9999;
           </div>
           <input type="hidden" id="sucuComboValue" required>
         </div>
-        
+
         <div class="sala-selector">
           <label class="selector-label">Agenda:</label>
           <div id="salaCombo" class="sala-cards">
             <div class="loading-card">
               <i class="bi bi-arrow-clockwise spin"></i>
-              <span>Selecciona especialidad y sucursal para ver las agendas disponibles</span>
+              <span>Selecciona una sucursal para ver las agendas disponibles</span>
             </div>
           </div>
           <input type="hidden" id="salaComboValue" required>
         </div>
       </div>
-</div>
 
-        <!--div align="center">
-        <button type="button" class="boton-fecha" onclick="cargarCombosDesdeAPI()">Buscar</button>
-      </div-->
       <div id="bloqueFecha" style="display: none;">
         <label for="fecha">Seleccione una fecha: </label>
         <input type="text" id="fecha" placeholder="Elige una fecha" />
       </div>
-    
-    <div id="resultados" class="flex flex-wrap gap-3 justify-center my-4"></div>
-    <div id="formularioDatos" style="display: none;"></div>
-    <div id="final"></div>
+
+      <div id="resultados" class="flex flex-wrap gap-3 justify-center my-4"></div>
+      <div id="formularioDatos" style="display: none;"></div>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn-secondary" onclick="volverADocumentos()"><i class="bi bi-arrow-left"></i> Atrás</button>
+      </div>
+    </div>
+
+    <!-- PASO 4: Confirmación -->
+    <div id="pasoConfirmacion" class="paso-cita">
+      <div id="final"></div>
+    </div>
+
   </div>
 </div>
-</div>
-  
+
     <!-- Modal Form -->
    <!-- Modal Form (estilo popup unificado) -->
 <div id="formModal" class="modal">
@@ -3594,14 +3600,120 @@ window.mostrarFormulario = mostrarFormulario;
 
 
 document.getElementById("formularioDatos").style.display = "none";
-        resultados.innerHTML = `<strong>✅ La reserva fue creada correctamente. ID: ${resultado.id}</strong>`;
+        mostrarPasoCita('confirmacion');
+        resultados.innerHTML = `
+          <div class="confirm-panel">
+            <div class="confirm-icon"><i class="bi bi-check-lg"></i></div>
+            <h3 class="titulo" style="text-transform:none;">¡Tu cita fue agendada!</h3>
+            <p style="color:#6b7280;">Hemos confirmado tu cita correctamente.</p>
+            <div class="turn-info-compact-grid" style="max-width:360px;margin:1.25rem auto;">
+              <div class="turn-info-row"><span class="turn-info-label">N° de cita</span><span class="turn-info-value">${resultado.id}</span></div>
+            </div>
+            <button class="portal-btn portal-btn-primary" style="max-width:320px;margin:0.5rem auto 0;" onclick="document.getElementById('popupModal').style.display='none'">
+              <i class="bi bi-house"></i> Finalizar
+            </button>
+          </div>`;
 
       } catch (error) {
         console.error("Error:", error);
-        resultados.innerHTML = `<strong>❌ Error al generar la cita:</strong> ${error.message}`;
+        mostrarPasoCita('confirmacion');
+        resultados.innerHTML = `
+          <div class="confirm-panel">
+            <div class="confirm-icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);"><i class="bi bi-x-lg"></i></div>
+            <h3 class="titulo" style="text-transform:none;">No pudimos agendar tu cita</h3>
+            <p style="color:#6b7280;">${error.message}</p>
+            <button class="portal-btn portal-btn-secondary" style="max-width:320px;margin:0.5rem auto 0;" onclick="mostrarPasoCita('agenda')">
+              <i class="bi bi-arrow-left"></i> Volver a intentar
+            </button>
+          </div>`;
       }
     }
 
+
+/* ===== Wizard de "Solicitar cita" ===== */
+function mostrarPasoCita(paso) {
+  const pasos = ['tramites', 'documentos', 'agenda', 'confirmacion'];
+  const mapa = {
+    tramites:     { div: 'pasoTramites',     ws: 'wsTramite' },
+    documentos:   { div: 'pasoDocumentos',   ws: 'wsDocumentos' },
+    agenda:       { div: 'pasoAgenda',       ws: 'wsAgenda' },
+    confirmacion: { div: 'pasoConfirmacion', ws: 'wsConfirmacion' }
+  };
+  // Mostrar/ocultar contenido
+  pasos.forEach(p => {
+    document.getElementById(mapa[p].div).classList.toggle('active', p === paso);
+  });
+  // Actualizar indicador de pasos
+  const idxActual = pasos.indexOf(paso);
+  pasos.forEach((p, i) => {
+    const el = document.getElementById(mapa[p].ws);
+    el.classList.remove('active', 'done');
+    if (i < idxActual) el.classList.add('done');
+    else if (i === idxActual) el.classList.add('active');
+  });
+}
+
+function iniciarSolicitudCita() {
+  // Reiniciar estado
+  document.getElementById('especialidadComboValue').value = '';
+  document.getElementById('sucuComboValue').value = '';
+  document.getElementById('salaComboValue').value = '';
+  document.getElementById('bloqueFecha').style.display = 'none';
+  document.getElementById('resultados').style.display = '';
+  document.getElementById('resultados').innerHTML = '';
+  document.getElementById('formularioDatos').style.display = 'none';
+  document.getElementById('formularioDatos').innerHTML = '';
+  document.getElementById('final').innerHTML = '';
+  document.querySelectorAll('.especialidad-card, .sucursal-card, .sala-card').forEach(c => c.classList.remove('selected'));
+  mostrarPasoCita('tramites');
+  document.getElementById('popupModal').style.display = 'block';
+  // Cargar sucursales y enlazar eventos en segundo plano
+  cargarCombosDesdeAPI();
+}
+window.iniciarSolicitudCita = iniciarSolicitudCita;
+
+function irADocumentos() { mostrarPasoCita('documentos'); }
+function volverATramites() { mostrarPasoCita('tramites'); }
+function irAAgenda() {
+  mostrarPasoCita('agenda');
+  // Reiniciar selección de sucursal/sala/fecha del paso agenda
+  document.getElementById('salaCombo').innerHTML = `<div class="loading-card"><i class="bi bi-arrow-clockwise spin"></i><span>Selecciona una sucursal para ver las agendas disponibles</span></div>`;
+  document.getElementById('bloqueFecha').style.display = 'none';
+  document.getElementById('resultados').innerHTML = '';
+}
+function volverADocumentos() { mostrarPasoCita('documentos'); }
+window.irADocumentos = irADocumentos;
+window.volverATramites = volverATramites;
+window.irAAgenda = irAAgenda;
+window.volverADocumentos = volverADocumentos;
+
+/* ===== Consultar cita (demo) ===== */
+function abrirConsultarCita() {
+  document.getElementById('consultarResultado').innerHTML = '';
+  document.getElementById('consultarDni').value = '';
+  document.getElementById('consultarModal').style.display = 'block';
+}
+window.abrirConsultarCita = abrirConsultarCita;
+
+function buscarCita() {
+  const dni = document.getElementById('consultarDni').value.trim();
+  const cont = document.getElementById('consultarResultado');
+  if (!dni) {
+    cont.innerHTML = `<div class="error-card"><i class="bi bi-exclamation-triangle"></i> Ingresa tu número de identificación.</div>`;
+    return;
+  }
+  cont.innerHTML = `<div class="loading-card"><i class="bi bi-arrow-clockwise spin"></i><span>Buscando tus citas...</span></div>`;
+  setTimeout(() => {
+    cont.innerHTML = `
+      <div class="turn-info-compact-grid">
+        <div class="turn-info-row"><span class="turn-info-label">Documento</span><span class="turn-info-value">${dni}</span></div>
+        <div class="turn-info-row"><span class="turn-info-label">Trámite</span><span class="turn-info-value">Médico Clínico</span></div>
+        <div class="turn-info-row"><span class="turn-info-label">Estado</span><span class="turn-info-value" style="color:#059669;">Confirmada</span></div>
+      </div>
+      <p style="color:#6b7280;font-size:0.88rem;margin-top:0.75rem;text-align:center;">Presenta tu documento el día de la cita.</p>`;
+  }, 700);
+}
+window.buscarCita = buscarCita;
 
 async function cargarCombosDesdeAPI() {
   const salaCombo = document.getElementById("salaCombo");
@@ -3690,16 +3802,11 @@ async function cargarCombosDesdeAPI() {
         
         // Actualizar el valor oculto
         document.getElementById('especialidadComboValue').value = this.dataset.value;
-        
-        // Mostrar el selector de sucursales
-        document.querySelector('.sucursal-selector').style.display = 'block';
-        
-        // Cargar salas basadas en especialidad y sucursal seleccionadas
-        cargarSalasPorEspecialidadYSucursal();
+
+        // Avanzar al paso de sugerencia de documentos
+        irADocumentos();
       });
     });
-
-    document.getElementById('popupModal').style.display='block';
 
   } catch (err) {
     console.error("Error al cargar sucursales:", err);
