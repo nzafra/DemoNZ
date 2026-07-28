@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Colsubsidio - Servicios Virtuales</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --verde:#009640;          /* verde institucional */
+      --verde-osc:#00702f;
+      --naranja:#F39200;
+      --gris-tx:#1f2a24;
+      --gris-lt:#6b7a72;
+      --bg:#f2f7f4;
+      --card:#ffffff;
+      --borde:#e2ece7;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      font-family:'Roboto',Arial,sans-serif;
+      background:var(--bg);
+      color:var(--gris-tx);
+      min-height:100vh;
+    }
+
+    /* ---------- Header ---------- */
+    .app-header{
+      background:var(--verde);
+      color:#fff;
+      padding:1rem 1.5rem;
+      display:flex;align-items:center;gap:.8rem;
+      border-bottom:4px solid var(--naranja);
+    }
+    .app-header .logo{
+      font-weight:700;font-size:1.5rem;letter-spacing:.5px;
+      display:flex;align-items:center;gap:.5rem;
+    }
+    .app-header .logo i{font-size:1.7rem;}
+    .app-header .sub{margin-left:auto;font-size:.9rem;opacity:.9;}
+
+    /* ---------- Layout ---------- */
+    .wrap{max-width:1100px;margin:0 auto;padding:2rem 1.5rem 6rem;}
+    .intro{text-align:center;margin-bottom:2rem;}
+    .intro h1{font-size:1.9rem;font-weight:700;color:var(--verde-osc);}
+    .intro p{color:var(--gris-lt);margin-top:.4rem;font-size:1.05rem;}
+
+    .grid-2{
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:1.5rem;
+      align-items:start;
+    }
+    @media (max-width:820px){ .grid-2{grid-template-columns:1fr;} }
+
+    .panel-title{
+      font-size:1.05rem;font-weight:600;color:var(--verde-osc);
+      margin:0 0 1rem;display:flex;align-items:center;gap:.5rem;
+    }
+    .panel-title i{color:var(--naranja);}
+
+    /* ---------- Tarjetas de servicio ---------- */
+    .servicios{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:1rem;
+    }
+    @media (max-width:560px){ .servicios{grid-template-columns:repeat(2,1fr);} }
+
+    .card-serv{
+      background:var(--card);
+      border:1.5px solid var(--borde);
+      border-radius:16px;
+      padding:1.4rem 1rem;
+      text-align:center;
+      cursor:pointer;
+      transition:.18s ease;
+      display:flex;flex-direction:column;align-items:center;gap:.7rem;
+      min-height:140px;justify-content:center;
+    }
+    .card-serv:hover{
+      border-color:var(--verde);
+      box-shadow:0 8px 22px rgba(0,150,64,.15);
+      transform:translateY(-3px);
+    }
+    .card-serv .ic{
+      width:56px;height:56px;border-radius:50%;
+      background:linear-gradient(135deg,#e6f6ec,#d4f0dd);
+      color:var(--verde);
+      display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+    }
+    .card-serv .tt{font-weight:600;font-size:.98rem;line-height:1.2;}
+
+    /* ---------- Panel presencial ---------- */
+    .side{
+      background:var(--card);
+      border:1.5px solid var(--borde);
+      border-radius:16px;
+      padding:1.3rem;
+    }
+    .btn-side{
+      width:100%;
+      border:none;border-radius:12px;
+      padding:1rem;
+      font-size:1rem;font-weight:600;
+      display:flex;align-items:center;gap:.7rem;
+      cursor:pointer;transition:.18s ease;
+      margin-bottom:.9rem;text-align:left;
+    }
+    .btn-side i{font-size:1.3rem;}
+    .btn-side.presencial{background:#fff4e2;color:#b56a00;border:1.5px solid #ffd79a;}
+    .btn-side.presencial:hover{background:#ffe9c9;}
+    .btn-side.consultar{background:#e9f2ff;color:#1157c9;border:1.5px solid #c3ddff;}
+    .btn-side.consultar:hover{background:#d7e8ff;}
+    .side .hint{font-size:.82rem;color:var(--gris-lt);margin-top:.3rem;line-height:1.35;}
+
+    /* ---------- Modal videollamada ---------- */
+    .modal-bg{
+      display:none;position:fixed;inset:0;z-index:9998;
+      background:rgba(15,30,22,.55);
+      align-items:center;justify-content:center;padding:1rem;
+    }
+    .modal-bg.show{display:flex;}
+    .modal-card{
+      background:#fff;border-radius:20px;max-width:520px;width:100%;
+      padding:1.8rem;text-align:center;position:relative;
+      box-shadow:0 20px 50px rgba(0,0,0,.3);
+      max-height:92vh;overflow:auto;
+    }
+    .modal-card .close-x{
+      position:absolute;top:12px;right:14px;border:none;background:none;
+      font-size:1.5rem;color:var(--gris-lt);cursor:pointer;
+    }
+    .modal-card h2{color:var(--verde-osc);font-size:1.35rem;margin-bottom:.4rem;}
+    .modal-card .serv-name{font-weight:600;color:var(--naranja);margin-bottom:1rem;}
+    .spinner{
+      width:46px;height:46px;border:4px solid #e2ece7;border-top-color:var(--verde);
+      border-radius:50%;animation:spin 1s linear infinite;margin:1.5rem auto;
+    }
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .wait-box{
+      background:#f2f7f4;border-radius:12px;padding:.8rem;margin:1rem 0;
+      font-size:.95rem;color:var(--gris-tx);
+    }
+    .wait-box b{color:var(--verde-osc);}
+    .btn-video{
+      display:inline-flex;align-items:center;gap:.6rem;justify-content:center;
+      width:100%;background:var(--verde);color:#fff;border:none;
+      padding:1rem;border-radius:12px;font-size:1.05rem;font-weight:600;
+      text-decoration:none;cursor:pointer;transition:.18s;
+    }
+    .btn-video:hover{background:var(--verde-osc);}
+    .video-frame{
+      width:100%;height:340px;border:none;border-radius:12px;margin-top:1rem;
+      background:#000;
+    }
+    .modal-err{color:#c0392b;font-size:.95rem;margin:1rem 0;}
+
+    /* ---------- Chatbot flotante ---------- */
+    .chat-launcher{
+      position:fixed;bottom:22px;right:22px;z-index:9990;
+      background:var(--naranja);color:#fff;border:none;border-radius:50px;
+      padding:.85rem 1.3rem;font-size:1rem;font-weight:600;
+      display:flex;align-items:center;gap:.5rem;cursor:pointer;
+      box-shadow:0 8px 24px rgba(243,146,0,.4);transition:.18s;
+    }
+    .chat-launcher:hover{background:#d97f00;}
+    .chat-panel{
+      display:none;position:fixed;bottom:88px;right:22px;z-index:9991;
+      width:380px;max-width:calc(100vw - 32px);
+      height:560px;max-height:calc(100vh - 130px);
+      background:#fff;border-radius:16px;overflow:hidden;
+      box-shadow:0 16px 44px rgba(0,0,0,.28);
+      border:1px solid var(--borde);
+    }
+    .chat-panel.show{display:block;}
+    .chat-panel .chat-head{
+      background:var(--verde);color:#fff;padding:.7rem 1rem;
+      display:flex;align-items:center;justify-content:space-between;font-weight:600;
+    }
+    .chat-panel .chat-head button{background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer;}
+    .chat-panel .chat-body{height:calc(100% - 46px);}
+    journey-builder-chat{display:block;width:100%;height:100%;}
+  </style>
+</head>
+<body>
+
+  <!-- ===== Header ===== -->
+  <header class="app-header">
+    <div class="logo"><i class="bi bi-heart-pulse-fill"></i> Colsubsidio</div>
+    <div class="sub">Punto de atención virtual</div>
+  </header>
+
+  <div class="wrap">
+    <div class="intro">
+      <h1>Hola 👋 ¿En qué te puedo ayudar hoy?</h1>
+      <p>Elegí un servicio para resolverlo por video llamada, o continuá de forma presencial.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- ===== Servicios virtuales ===== -->
+      <div>
+        <div class="panel-title"><i class="bi bi-camera-video-fill"></i> Servicios que puedo resolver virtualmente</div>
+        <div class="servicios" id="serviciosGrid">
+          <!-- Se generan por JS a partir de SERVICIOS -->
+        </div>
+      </div>
+
+      <!-- ===== Opciones presenciales / consultar ===== -->
+      <div class="side">
+        <div class="panel-title"><i class="bi bi-building"></i> ¿Preferís otra vía?</div>
+
+        <button class="btn-side presencial" data-servicio="Seguir presencial">
+          <i class="bi bi-person-walking"></i> Seguir presencial de todas formas
+        </button>
+        <button class="btn-side consultar" data-servicio="Consultar mi cita">
+          <i class="bi bi-calendar-check"></i> Consultar mi cita
+        </button>
+
+        <div class="hint">
+          Al elegir cualquiera de estas opciones te conectamos igualmente con un asesor por video llamada para orientarte.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Modal videollamada ===== -->
+  <div class="modal-bg" id="modalBg">
+    <div class="modal-card">
+      <button class="close-x" id="modalClose" title="Cerrar">&times;</button>
+      <h2>Conectando con un asesor</h2>
+      <div class="serv-name" id="modalServ"></div>
+      <div id="modalBody">
+        <div class="spinner"></div>
+        <p style="color:var(--gris-lt)">Generando tu video llamada…</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Chatbot flotante ===== -->
+  <button class="chat-launcher" id="chatLauncher">
+    <i class="bi bi-chat-dots-fill"></i> Agendar por chat
+  </button>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <span><i class="bi bi-robot"></i> Asistente de citas</span>
+      <button id="chatClose" title="Minimizar">&times;</button>
+    </div>
+    <div class="chat-body">
+      <journey-builder-chat
+        window_title="Arreglate solo"
+        flow_id="90b01563-07cb-43bf-8abe-60ca27de96cc"
+        host_url="https://api.journeybuilder.qa.numia.co"
+        api_key="sk-Rk4OMcG9oTc1PuylXykzJQmXV8Avi-P18Em9RBrikgI">
+      </journey-builder-chat>
+    </div>
+  </div>
+
+  <!-- Widget del chatbot -->
+  <script src="https://cdn.jsdelivr.net/gh/debmedia/numiajb-widget@1.0.17/dist/build/static/js/bundle.min.js"></script>
+
+  <script>
+    /* =======================================================
+       CONFIGURACIÓN  (editá acá lo que necesites)
+       ======================================================= */
+    const DEB = {
+      url:   'https://filavirtual2.debmedia.com/api/v1/queue/6183/branch/11/enqueue',
+      token: 'm7NCbNDBShZOV83fu6RGJV1DbkhSkWI6JSTxmT2e',
+      // Datos de ejemplo para la demo (cambialos por los reales cuando quieras)
+      demo: {
+        firstName: 'Juan',
+        lastName:  'Perez',
+        dni:       '777555',
+        email:     'mail@mail.com',
+        phone:     '12345678'
+      }
+    };
+
+    // Lista de servicios virtuales (editá nombre / ícono / orden libremente)
+    const SERVICIOS = [
+      { id:'certificados', tt:'Certificados y afiliaciones', ic:'bi-file-earmark-text' },
+      { id:'subsidios',    tt:'Consulta de subsidios',       ic:'bi-cash-coin' },
+      { id:'citas',        tt:'Agendar cita médica',         ic:'bi-calendar-heart' },
+      { id:'pagos',        tt:'Pagos y recaudos',            ic:'bi-credit-card' },
+      { id:'medicamentos', tt:'Medicamentos y fórmulas',     ic:'bi-capsule' },
+      { id:'orientacion',  tt:'Orientación y PQR',           ic:'bi-chat-left-dots' },
+    ];
+
+    /* =======================================================
+       RENDER de tarjetas de servicio
+       ======================================================= */
+    const grid = document.getElementById('serviciosGrid');
+    SERVICIOS.forEach(s=>{
+      const card=document.createElement('div');
+      card.className='card-serv';
+      card.dataset.servicio=s.tt;
+      card.innerHTML=`<div class="ic"><i class="bi ${s.ic}"></i></div><div class="tt">${s.tt}</div>`;
+      card.addEventListener('click',()=>iniciarVideollamada(s.tt));
+      grid.appendChild(card);
+    });
+
+    // Botones presencial / consultar
+    document.querySelectorAll('.btn-side').forEach(b=>{
+      b.addEventListener('click',()=>iniciarVideollamada(b.dataset.servicio));
+    });
+
+    /* =======================================================
+       MODAL + ENQUEUE a debmedia
+       ======================================================= */
+    const modalBg   = document.getElementById('modalBg');
+    const modalServ = document.getElementById('modalServ');
+    const modalBody = document.getElementById('modalBody');
+    document.getElementById('modalClose').addEventListener('click',cerrarModal);
+    modalBg.addEventListener('click',e=>{ if(e.target===modalBg) cerrarModal(); });
+
+    function cerrarModal(){ modalBg.classList.remove('show'); modalBody.innerHTML=''; }
+
+    function buildBody(){
+      return {
+        firstName: DEB.demo.firstName,
+        lastName:  DEB.demo.lastName,
+        dni:       DEB.demo.dni,
+        email:     DEB.demo.email,
+        phone:     DEB.demo.phone,
+        extraFields: [ { showable: [ { in:'workstation', format:'both' } ] } ],
+        customerExtraFields: [ { showable: [ { in:'workstation', format:'both' } ] } ]
+      };
+    }
+
+    async function iniciarVideollamada(servicio){
+      // abrir modal en estado "cargando"
+      modalServ.textContent = servicio;
+      modalBody.innerHTML = `<div class="spinner"></div><p style="color:var(--gris-lt)">Generando tu video llamada…</p>`;
+      modalBg.classList.add('show');
+
+      try{
+        const resp = await fetch(DEB.url,{
+          method:'POST',
+          headers:{ 'Content-Type':'application/json', 'x-api-token':DEB.token },
+          body: JSON.stringify(buildBody())
+        });
+        if(!resp.ok) throw new Error(`El servidor respondió ${resp.status}`);
+        const data = await resp.json();
+        console.log('Respuesta enqueue:', data);
+        mostrarResultado(data);
+      }catch(err){
+        console.error(err);
+        modalBody.innerHTML = `
+          <div class="modal-err"><i class="bi bi-exclamation-triangle"></i> No pudimos generar la video llamada.<br>${err.message}</div>
+          <button class="btn-video" onclick="location.reload()"><i class="bi bi-arrow-clockwise"></i> Reintentar</button>`;
+      }
+    }
+
+    function mostrarResultado(data){
+      // link de la video llamada
+      let videoUrl = data && (data.videoCallUrl || data.videocallUrl || data.videoUrl);
+      let waitHtml = '';
+      if(data && data.averageWaitingTime !== undefined && data.averageWaitingTime !== null){
+        const m = Math.floor(data.averageWaitingTime/60);
+        const s = data.averageWaitingTime%60;
+        waitHtml = `<div class="wait-box">Tiempo de espera estimado: <b>${m} min ${s} seg</b></div>`;
+      }
+
+      if(videoUrl){
+        const url = videoUrl + (videoUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
+        modalBody.innerHTML = `
+          <p style="color:var(--gris-lt);margin-bottom:.5rem">¡Listo! Tu asesor te espera.</p>
+          ${waitHtml}
+          <a class="btn-video" href="${url}" target="_blank" rel="noopener">
+            <i class="bi bi-camera-video-fill"></i> Iniciar video llamada
+          </a>
+          <iframe class="video-frame" src="${url}" allow="camera; microphone; autoplay; fullscreen"></iframe>`;
+      }else{
+        // Sin link de video: al menos confirmamos el turno
+        modalBody.innerHTML = `
+          <p style="color:var(--gris-lt)">Tu solicitud fue registrada. En breve un asesor te atenderá.</p>
+          ${waitHtml}
+          <button class="btn-video" onclick="document.getElementById('modalClose').click()">
+            <i class="bi bi-check-circle"></i> Entendido
+          </button>`;
+      }
+    }
+
+    /* =======================================================
+       Chatbot flotante (mostrar / ocultar)
+       ======================================================= */
+    const chatPanel = document.getElementById('chatPanel');
+    document.getElementById('chatLauncher').addEventListener('click',()=>chatPanel.classList.toggle('show'));
+    document.getElementById('chatClose').addEventListener('click',()=>chatPanel.classList.remove('show'));
+  </script>
+</body>
+</html>
