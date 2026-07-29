@@ -298,30 +298,30 @@
     }
     .vc-waiting i { font-size:1.9rem; color:var(--numia-azul); }
 
-    /* ===== Chatbot flotante ===== */
+    /* ===== Chatbot flotante (widget Numia) ===== */
     .chat-launcher {
-      position:fixed; bottom:26px; right:26px; z-index:9990;
-      width:74px; height:74px; border-radius:50%;
+      position:fixed; bottom:24px; right:24px; z-index:9990;
+      width:68px; height:68px; border-radius:50%;
       background:linear-gradient(135deg,#003087,#1f56b0); color:#fff; border:none;
-      font-size:2.2rem; display:flex; align-items:center; justify-content:center;
+      font-size:2rem; display:flex; align-items:center; justify-content:center;
       cursor:pointer; box-shadow:0 10px 28px rgba(0,48,135,.45); transition:.18s;
     }
     .chat-launcher:hover { transform:translateY(-3px) scale(1.05); box-shadow:0 14px 34px rgba(0,48,135,.5); }
     .chat-panel {
-      display:none; position:fixed; bottom:112px; right:26px; z-index:9991;
-      width:400px; max-width:calc(100vw - 40px);
-      height:580px; max-height:calc(100vh - 150px);
-      background:#fff; border-radius:18px; overflow:hidden;
+      display:none; position:fixed; bottom:104px; right:24px; z-index:9991;
+      width:380px; max-width:calc(100vw - 32px);
+      height:560px; max-height:calc(100vh - 150px);
+      background:#fff; border-radius:16px; overflow:hidden;
       box-shadow:0 18px 48px rgba(0,0,0,.3); border:1px solid var(--numia-border);
     }
     .chat-panel.show { display:block; }
     .chat-panel .chat-head {
       background:linear-gradient(135deg,#003087,#1f56b0); color:#fff;
-      padding:.85rem 1.1rem; display:flex; align-items:center; justify-content:space-between;
+      padding:.8rem 1rem; display:flex; align-items:center; justify-content:space-between;
       font-weight:700; font-size:1.05rem;
     }
     .chat-panel .chat-head button { background:none; border:none; color:#fff; font-size:1.4rem; cursor:pointer; line-height:1; }
-    .chat-panel .chat-body { height:calc(100% - 52px); }
+    .chat-panel .chat-body { height:calc(100% - 48px); }
     journey-builder-chat { display:block; width:100%; height:100%; }
 
     @media (max-width: 600px) {
@@ -972,12 +972,30 @@
   </script>
 
   <!-- ===== Chatbot Numia Journey Builder (también agenda citas) ===== -->
-  <journey-builder-chat
-    window_title="BOT Colsubsidio"
-    flow_id="90b01563-07cb-43bf-8abe-60ca27de96cc"
-    host_url="https://api.journeybuilder.qa.numia.co"
-    api_key="sk-Rk4OMcG9oTc1PuylXykzJQmXV8Avi-P18Em9RBrikgI">
-  </journey-builder-chat>
+  <button class="chat-launcher" id="chatLauncher" title="Chatea con BOT Colsubsidio">
+    <i class="bi bi-chat-dots-fill"></i>
+  </button>
+  <div class="chat-panel" id="chatPanel">
+    <div class="chat-head">
+      <span><i class="bi bi-robot"></i> BOT Colsubsidio</span>
+      <button id="chatClose" title="Minimizar">&times;</button>
+    </div>
+    <div class="chat-body">
+      <journey-builder-chat
+        window_title="BOT Colsubsidio"
+        flow_id="90b01563-07cb-43bf-8abe-60ca27de96cc"
+        host_url="https://api.journeybuilder.qa.numia.co"
+        api_key="sk-Rk4OMcG9oTc1PuylXykzJQmXV8Avi-P18Em9RBrikgI">
+      </journey-builder-chat>
+    </div>
+  </div>
   <script src="https://cdn.jsdelivr.net/gh/debmedia/numiajb-widget@1.0.17/dist/build/static/js/bundle.min.js"></script>
+  <script>
+    (function(){
+      const panel = document.getElementById('chatPanel');
+      document.getElementById('chatLauncher').addEventListener('click', ()=> panel.classList.toggle('show'));
+      document.getElementById('chatClose').addEventListener('click', ()=> panel.classList.remove('show'));
+    })();
+  </script>
 </body>
 </html>
