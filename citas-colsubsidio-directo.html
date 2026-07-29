@@ -298,12 +298,11 @@
     }
     .vc-waiting i { font-size:1.9rem; color:var(--numia-azul); }
 
-    /* ===== Chatbot Numia (solo el widget nativo, fijo abajo-derecha) ===== */
+    /* ===== Chatbot Numia (solo el widget nativo; lanzador pegado abajo-derecha) ===== */
+    /* Sin tamaño fijo: la caja se ajusta al lanzador y queda en la esquina;
+       al hacer click, el propio widget despliega el chat hacia arriba. */
     journey-builder-chat {
       position:fixed; bottom:20px; right:20px; z-index:9990;
-      display:block;
-      width:400px; height:620px;
-      max-width:calc(100vw - 32px); max-height:calc(100vh - 40px);
     }
 
     @media (max-width: 600px) {
