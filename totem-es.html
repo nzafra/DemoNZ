@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Numia Bank - Service Kiosk</title>
+  <title>Numia Bank - Tótem de Atención</title>
   <link rel="icon" type="image/png" href="images/N.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
@@ -129,7 +129,7 @@
     }
     
     .dni-display.empty:before {
-      content: 'Customer ID';
+      content: 'Número de cliente';
     }
     
     .keypad {
@@ -822,15 +822,15 @@
     <div class="totem-content">
       <!-- Pantalla inicial: Menú de selección (hidden on load) -->
       <div class="screen-menu-inicial hidden" id="screenMenuInicial">
-        <h2>Select an option</h2>
-        <p class="subtitle">Choose how you wish to proceed</p>
+        <h2>Selecciona una opción</h2>
+        <p class="subtitle">Elige cómo deseas continuar</p>
         <div class="opciones-grid" id="menuInicialGrid">
           <!-- Opción Options menu -->
           <div class="opcion-card" id="opcionMenu" style="cursor: pointer; border-color: var(--numia-azul); background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);">
             <div class="opcion-icon" style="color: var(--numia-azul);">
               <i class="bi bi-list-ul"></i>
             </div>
-            <div class="opcion-title">Options menu</div>
+            <div class="opcion-title">Menú de opciones</div>
           </div>
         </div>
       </div>
@@ -844,8 +844,8 @@
       <div class="screen-dni" id="screenDni" style="display: block;">
         <!-- Mensaje entre logo y teclado -->
         <div class="instruction" style="margin-bottom: 1.25rem; text-align: center;">
-          <div style="font-size: 1.6rem; color: var(--numia-text); font-weight: 700; margin-bottom: 0.25rem;">Welcome</div>
-          <div style="font-size: 1rem; color: var(--numia-azul); font-weight: 500;">Enter your customer ID</div>
+          <div style="font-size: 1.6rem; color: var(--numia-text); font-weight: 700; margin-bottom: 0.25rem;">Bienvenido</div>
+          <div style="font-size: 1rem; color: var(--numia-azul); font-weight: 500;">Ingresa tu número de cliente</div>
         </div>
         
         <div class="dni-display empty" id="dniDisplay"></div>
@@ -870,12 +870,12 @@
           </button>
         </div>
         
-        <button class="btn-continuar" id="btnContinuar" disabled>Continue</button>
+        <button class="btn-continuar" id="btnContinuar" disabled>Continuar</button>
       </div>
       
       <!-- Pantalla 2: Opciones de atención -->
       <div class="screen-opciones" id="screenOpciones">
-        <h2>Choose how you'd like to be served</h2>
+        <h2>¿Cómo prefieres que te atendamos?</h2>
         <div class="subtitle" style="display: none;"></div>
         
         <div class="opciones-grid" id="opcionesGrid">
@@ -888,36 +888,36 @@
         <div class="success-icon">
           <i class="bi bi-check-circle-fill"></i>
         </div>
-        <h2>Service requested!</h2>
+        <h2>¡Atención solicitada!</h2>
         <div class="message">
-          One of our advisors will be with you shortly.
+          Uno de nuestros asesores te atenderá en breve.
         </div>
 
         <div class="tiempo-espera" id="tiempoEspera" style="display: none;">
-          <div class="tiempo-espera-label">Estimated wait time</div>
+          <div class="tiempo-espera-label">Tiempo de espera estimado</div>
           <div class="tiempo-espera-valor" id="tiempoEsperaValor">--</div>
         </div>
 
         <div class="confirm-qr-block">
-          <div class="qr-title" id="qrTitle">Take your place in line with you</div>
-          <div class="qr-sub" id="qrSub">Scan the QR code to track your wait time and get notified when it&rsquo;s your turn.</div>
-          <img class="qr-img" id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEICAIAAAAslP2oAAAE80lEQVR4nO3dMW7sNhRA0TgIkCIbyf5Xk42kSDUpUgW4KgjwgZR9TvnhPyPbc0FAzxS/Pp/PL8D//Xr6AuBGwoAgDAjCgCAMCMKAIAwIwoAgDAjCgCAMCMKAIAwIwoAgDAi/rf6H3//4c+I6tvvn77/y35+uf/XrV9932q7rnP75nLL6e7FiQBAGBGFAEAYEYUAQBgRhQFieYzz5affvT9l1ndPf71s+D0+sGBCEAUEYEIQBQRgQhAFBGBC2zTGe7LqvfNs84cn0XGXX+57yls+DFQOCMCAIA4IwIAgDgjAgCAPC+BzjNrc9V2r6vv5b5hu3sWJAEAYEYUAQBgRhQBAGBGFA+HFzjCe3zSvefl7H21kxIAgDgjAgCAOCMCAIA4IwIIzPMd5yH33Xde7a/zB9fsWp80De8nmwYkAQBgRhQBAGBGFAEAYEYUDYNsf4rs8v2nW/f9f54rd9/ZO3fx6sGBCEAUEYEIQBQRgQhAFBGBCW5xhv+Xv6abftZzg1r/iunwcrBgRhQBAGBGFAEAYEYUAQBoTlOcZtzzu67TlOt13Prvc9ZdfPf/V1rBgQhAFBGBCEAUEYEIQBQRgQvj6fz+gb7LovPn0/+9R+hre7be7xxBwDNhAGBGFAEAYEYUAQBgRhQBg/53vaqTnJ9P6Q6fedvv5T85xd12/FgCAMCMKAIAwIwoAgDAjCgPD6c7533Y8/9Tyr1dc/NSd5Mn2dp+ZFVgwIwoAgDAjCgCAMCMKAIAwI2+YYp+43n3p+1JOf9jq3PUdr1/VYMSAIA4IwIAgDgjAgCAOCMCBcdz7G9Hnhq+97ap/Gk9vmBs7HgB9EGBCEAUEYEIQBQRgQhAFheT/G9PnWntf0n+86H3hy2/keVgwIwoAgDAjCgCAMCMKAIAwIy3OM6f0At73+6tzj1Lzi1PO1dn2/t815rBgQhAFBGBCEAUEYEIQBQRgQtp2PsWr6vvX0uRCrpucVb3HbnOqJFQOCMCAIA4IwIAgDgjAgCAPC8vkYp+YAq277u//pfQtvn888OfX9WjEgCAOCMCAIA4IwIAgDgjAgjD9X6rb9A7vmG7f9HKbPi7htTuJ8DDhAGBCEAUEYEIQBQRgQhAFheT/GLtP3xU/NT6bPl3hy2/kV0+zHgAOEAUEYEIQBQRgQhAFBGBCW92NMP2dp9fVve/7SqXO7V19n1W1zIfsx4ABhQBAGBGFAEAYEYUAQBoRj+zFOuW0OM+22/RhveX0rBgRhQBAGBGFAEAYEYUAQBoRj+zGmnXoO0m3346d/X6euc/r3a8WAIAwIwoAgDAjCgCAMCMKAsDzHeHJqbnDqOVG3zRlue+7T9OtM7+uwYkAQBgRhQBAGBGFAEAYEYUDYNsd4Mv0cp1VvOR9jl+lzSHZZnUvYjwEHCAOCMCAIA4IwIAgDgjAgjM8xbnPbc59WX3/XuebT+x+mfz5PnI8Bg4QBQRgQhAFBGBCEAUEYEH7cHGPV9L6F1fvrb9lf8fZ9LFYMCMKAIAwIwoAgDAjCgCAMCONzjFPnZqw6dR/9LfOEU3OJXXObVVYMCMKAIAwIwoAgDAjCgCAMCNvmGLf9Pf2T287HeMv56G+ZSzjnGwYJA4IwIAgDgjAgCAOCMCB8fT6f09cA17FiQBAGBGFAEAYEYUAQBgRhQBAGBGFAEAYEYUAQBgRhQBAGBGFA+Be+H+smRFly0AAAAABJRU5ErkJggg==" alt="QR code to follow your turn" />
-          <div class="qr-caption" id="qrCaption">Scan to follow your turn</div>
+          <div class="qr-title" id="qrTitle">Lleva tu turno contigo</div>
+          <div class="qr-sub" id="qrSub">Escanea el código QR para seguir tu tiempo de espera y recibir aviso cuando sea tu turno.</div>
+          <img class="qr-img" id="qrImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQgAAAEICAIAAAAslP2oAAAE80lEQVR4nO3dMW7sNhRA0TgIkCIbyf5Xk42kSDUpUgW4KgjwgZR9TvnhPyPbc0FAzxS/Pp/PL8D//Xr6AuBGwoAgDAjCgCAMCMKAIAwIwoAgDAjCgCAMCMKAIAwIwoAgDAi/rf6H3//4c+I6tvvn77/y35+uf/XrV9932q7rnP75nLL6e7FiQBAGBGFAEAYEYUAQBgRhQFieYzz5affvT9l1ndPf71s+D0+sGBCEAUEYEIQBQRgQhAFBGBC2zTGe7LqvfNs84cn0XGXX+57yls+DFQOCMCAIA4IwIAgDgjAgCAPC+BzjNrc9V2r6vv5b5hu3sWJAEAYEYUAQBgRhQBAGBGFA+HFzjCe3zSvefl7H21kxIAgDgjAgCAOCMCAIA4IwIIzPMd5yH33Xde7a/zB9fsWp80De8nmwYkAQBgRhQBAGBGFAEAYEYUDYNsf4rs8v2nW/f9f54rd9/ZO3fx6sGBCEAUEYEIQBQRgQhAFBGBCW5xhv+Xv6abftZzg1r/iunwcrBgRhQBAGBGFAEAYEYUAQBoTlOcZtzzu67TlOt13Prvc9ZdfPf/V1rBgQhAFBGBCEAUEYEIQBQRgQvj6fz+gb7LovPn0/+9R+hre7be7xxBwDNhAGBGFAEAYEYUAQBgRhQBg/53vaqTnJ9P6Q6fedvv5T85xd12/FgCAMCMKAIAwIwoAgDAjCgPD6c7533Y8/9Tyr1dc/NSd5Mn2dp+ZFVgwIwoAgDAjCgCAMCMKAIAwI2+YYp+43n3p+1JOf9jq3PUdr1/VYMSAIA4IwIAgDgjAgCAOCMCBcdz7G9Hnhq+97ap/Gk9vmBs7HgB9EGBCEAUEYEIQBQRgQhAFheT/G9PnWntf0n+86H3hy2/keVgwIwoAgDAjCgCAMCMKAIAwIy3OM6f0At73+6tzj1Lzi1PO1dn2/t815rBgQhAFBGBCEAUEYEIQBQRgQtp2PsWr6vvX0uRCrpucVb3HbnOqJFQOCMCAIA4IwIAgDgjAgCAPC8vkYp+YAq277u//pfQtvn888OfX9WjEgCAOCMCAIA4IwIAgDgjAgjD9X6rb9A7vmG7f9HKbPi7htTuJ8DDhAGBCEAUEYEIQBQRgQhAFheT/GLtP3xU/NT6bPl3hy2/kV0+zHgAOEAUEYEIQBQRgQhAFBGBCW92NMP2dp9fVve/7SqXO7V19n1W1zIfsx4ABhQBAGBGFAEAYEYUAQBoRj+zFOuW0OM+22/RhveX0rBgRhQBAGBGFAEAYEYUAQBoRj+zGmnXoO0m3346d/X6euc/r3a8WAIAwIwoAgDAjCgCAMCMKAsDzHeHJqbnDqOVG3zRlue+7T9OtM7+uwYkAQBgRhQBAGBGFAEAYEYUDYNsd4Mv0cp1VvOR9jl+lzSHZZnUvYjwEHCAOCMCAIA4IwIAgDgjAgjM8xbnPbc59WX3/XuebT+x+mfz5PnI8Bg4QBQRgQhAFBGBCEAUEYEH7cHGPV9L6F1fvrb9lf8fZ9LFYMCMKAIAwIwoAgDAjCgCAMCONzjFPnZqw6dR/9LfOEU3OJXXObVVYMCMKAIAwIwoAgDAjCgCAMCNvmGLf9Pf2T287HeMv56G+ZSzjnGwYJA4IwIAgDgjAgCAOCMCB8fT6f09cA17FiQBAGBGFAEAYEYUAQBgRhQBAGBGFAEAYEYUAQBgRhQBAGBGFA+Be+H+smRFly0AAAAABJRU5ErkJggg==" alt="Código QR para seguir tu turno" />
+          <div class="qr-caption" id="qrCaption">Escanea para seguir tu turno</div>
         </div>
       </div>
     </div>
   </div>
   
   <!-- Back to menu button - Always visible -->
-  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Back to menu">
+  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Volver al menú">
     <i class="bi bi-x-circle"></i>
-    Back to menu
+    Volver al menú
   </button>
   
   <!-- Contenedor de Logs a la derecha -->
   <div class="log-container">
     <div class="log-header">
-      Agentic Orchestration
+      Orquestación Agéntica
     </div>
     <div class="log-content">
       <div id="atencionSection" class="atencion-section">
@@ -937,9 +937,9 @@
   </div>
 
   <!-- Back to menu button - Always visible -->
-  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Back to menu">
+  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Volver al menú">
     <i class="bi bi-x-circle"></i>
-    Back to menu
+    Volver al menú
   </button>
 
   <!-- Mortgage pre-approval popup (after ID entry, before options) -->
@@ -947,13 +947,13 @@
     <div style="background:#fff; border-radius:20px; max-width:440px; width:100%; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.3); animation: mortgagePopIn 0.3s ease;">
       <div style="background:linear-gradient(135deg, var(--numia-azul) 0%, #6d2dd4 100%); padding:1.75rem 1.5rem; text-align:center; color:#fff;">
         <div style="font-size:2.75rem; margin-bottom:0.5rem;">🏡</div>
-        <div style="font-size:1.05rem; font-weight:600; opacity:0.95; margin-bottom:0.35rem;">Hi Gustavo!</div>
-        <h3 style="font-size:1.3rem; font-weight:700; line-height:1.3; margin:0;">Your new home may be closer than you think</h3>
+        <div style="font-size:1.05rem; font-weight:600; opacity:0.95; margin-bottom:0.35rem;">¡Hola Nicolás!</div>
+        <h3 style="font-size:1.3rem; font-weight:700; line-height:1.3; margin:0;">Tu nueva casa puede estar más cerca de lo que crees</h3>
       </div>
       <div style="padding:1.5rem;">
-        <p style="font-size:1rem; color:var(--numia-text); line-height:1.5; text-align:center; margin:0 0 1.5rem;">You're pre-approved for a mortgage of up to <strong>$750,000</strong>. Would you like to learn more about your options?</p>
-        <button id="btnMortgageYes" style="width:100%; background:var(--numia-azul); color:#fff; border:none; border-radius:12px; padding:1rem; font-size:1.05rem; font-weight:700; cursor:pointer; margin-bottom:0.75rem;">Yes, I'm interested</button>
-        <button id="btnMortgageNo" style="width:100%; background:#fff; color:var(--numia-text-light); border:1.5px solid #e5e7eb; border-radius:12px; padding:0.85rem; font-size:0.95rem; font-weight:600; cursor:pointer;">Not right now</button>
+        <p style="font-size:1rem; color:var(--numia-text); line-height:1.5; text-align:center; margin:0 0 1.5rem;">Estás pre-aprobado para una hipoteca de hasta <strong>$750,000</strong>. ¿Te gustaría conocer más sobre tus opciones?</p>
+        <button id="btnMortgageYes" style="width:100%; background:var(--numia-azul); color:#fff; border:none; border-radius:12px; padding:1rem; font-size:1.05rem; font-weight:700; cursor:pointer; margin-bottom:0.75rem;">Sí, me interesa</button>
+        <button id="btnMortgageNo" style="width:100%; background:#fff; color:var(--numia-text-light); border:1.5px solid #e5e7eb; border-radius:12px; padding:0.85rem; font-size:0.95rem; font-weight:600; cursor:pointer;">Ahora no</button>
       </div>
     </div>
   </div>
@@ -1002,13 +1002,13 @@
       const JOURNEY_API_URL = 'https://api.journeybuilder.numia.co/api/v1/run/d83a2fbd-f8d0-468f-9ecd-375709fd149f?stream=false';
       const JOURNEY_API_KEY = 'sk-WfTsCY302RrciqoVRYAZWruD9mpyPKatAo8GU8tyzIM';
       const PASOS_ANALISIS_UI = [
-        { titulo: '1 · Understand customer context', detalle: 'Analysing profile, digital behaviour and recent journey history.' },
-        { titulo: '2 · Identify intent and opportunity', detalle: 'Matching customer needs with relevant products and next-best actions.' },
-        { titulo: '3 · Evaluate real-time capacity', detalle: 'Comparing wait times, staff availability and remote service capacity.' },
-        { titulo: '4 · Recommend the best journey', detalle: 'Selecting the optimal channel based on customer context and operational conditions.' }
+        { titulo: '1 · Entender el contexto del cliente', detalle: 'Analizando perfil, comportamiento digital e historial reciente del recorrido.' },
+        { titulo: '2 · Identificar intención y oportunidad', detalle: 'Relacionando las necesidades del cliente con productos relevantes y próximas mejores acciones.' },
+        { titulo: '3 · Evaluar capacidad en tiempo real', detalle: 'Comparando tiempos de espera, disponibilidad de personal y capacidad de atención remota.' },
+        { titulo: '4 · Recomendar el mejor recorrido', detalle: 'Seleccionando el canal óptimo según el contexto del cliente y las condiciones operativas.' }
       ];
 
-      const DETALLE_EXTRA_FIELDS_DEFAULT = 'The client has a credit score >700. Additionally, abandonment of a digital onboarding process was recorded. It is recommended to offer a personal loan.';
+      const DETALLE_EXTRA_FIELDS_DEFAULT = 'El cliente tiene un puntaje crediticio >700. Además, se registró el abandono de un proceso de onboarding digital. Se recomienda ofrecer un préstamo personal.';
       let ultimoDetalleExtraFields = DETALLE_EXTRA_FIELDS_DEFAULT;
 
       function buildExtraFields(detalle) {
@@ -1025,6 +1025,8 @@
           detalle = MORTGAGE_INSIGHT + '\n\n\n' + detalle;
         }
         return {
+          firstName: 'Nicolás',
+          lastName: 'Zafra',
           dni: dni,
           extraFields: buildExtraFields(detalle)
         };
@@ -1041,10 +1043,10 @@
           const j = texto.indexOf(fin, desde);
           return texto.substring(desde, j === -1 ? texto.length : j).trim();
         };
-        const ctx = seccion('1 · Customer context', '2 · Intent & opportunity');
-        const intent = seccion('2 · Intent & opportunity', '3 · Real-time capacity');
+        const ctx = seccion('1 · Contexto del cliente', '2 · Intención y oportunidad');
+        const intent = seccion('2 · Intención y oportunidad', '3 · Capacidad en tiempo real');
         if (!ctx && !intent) return DETALLE_EXTRA_FIELDS_DEFAULT;
-        return 'Customer context\n\n' + ctx + '\n\n\nIntent & opportunity\n\n' + intent;
+        return 'Contexto del cliente\n\n' + ctx + '\n\n\nIntención y oportunidad\n\n' + intent;
       }
       
       // Variables de estado
@@ -1055,7 +1057,7 @@
       let mortgageSignal = false;
 
       // Insight de alta intención que verá el ejecutivo (pantalla debq2 / workstation)
-      const MORTGAGE_INSIGHT = '!! High-intent signal — Gustavo expressed interest in his pre-approved mortgage offer during check-in. Suggested action: Discuss mortgage options and offer a consultation with a mortgage specialist.';
+      const MORTGAGE_INSIGHT = '!! Señal de alta intención — Nicolás expresó interés en su oferta de hipoteca pre-aprobada durante el check-in. Acción sugerida: conversar sobre opciones de hipoteca y ofrecer una consultoría con un especialista hipotecario.';
       
       // Elementos del DOM
       const screenDni = document.getElementById('screenDni');
@@ -1215,10 +1217,10 @@
         const screenOpcionesTitle = screenOpciones.querySelector('h2');
         const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
         if (screenOpcionesTitle) {
-          screenOpcionesTitle.textContent = 'How can we help you?';
+          screenOpcionesTitle.textContent = '¿En qué podemos ayudarte?';
         }
         if (screenOpcionesSubtitle) {
-          screenOpcionesSubtitle.textContent = 'Select the service you need';
+          screenOpcionesSubtitle.textContent = 'Selecciona el servicio que necesitas';
         }
         
         // Opción Préstamos
@@ -1229,7 +1231,7 @@
           <div class="opcion-icon" style="color: var(--numia-azul);">
             <i class="bi bi-cash-coin"></i>
           </div>
-          <div class="opcion-title">Loans</div>
+          <div class="opcion-title">Préstamos</div>
         `;
         cardPrestamos.addEventListener('click', async () => {
           await llamarAgenteConOpcionTotem('prestamos');
@@ -1244,7 +1246,7 @@
           <div class="opcion-icon" style="color: var(--numia-azul);">
             <i class="bi bi-credit-card"></i>
           </div>
-          <div class="opcion-title">Credit Cards</div>
+          <div class="opcion-title">Tarjetas de crédito</div>
         `;
         cardTarjetas.addEventListener('click', async () => {
           await llamarAgenteConOpcionTotem('tarjetas');
@@ -1259,7 +1261,7 @@
           <div class="opcion-icon" style="color: var(--numia-azul);">
             <i class="bi bi-graph-up-arrow"></i>
           </div>
-          <div class="opcion-title">Investments</div>
+          <div class="opcion-title">Inversiones</div>
         `;
         cardInversiones.addEventListener('click', async () => {
           await llamarAgenteConOpcionTotem('inversiones');
@@ -1281,25 +1283,25 @@
         // Mostrar opciones
         opcionesPresencialContainer.innerHTML = `
           <div style="width: 100%; max-width: 500px; margin: 0 auto;">
-            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--numia-text); margin-bottom: 1.5rem; text-align: center;">How can we help you?</h3>
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--numia-text); margin-bottom: 1.5rem; text-align: center;">¿En qué podemos ayudarte?</h3>
             <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
               <div class="opcion-card" style="cursor: pointer;" data-opcion="prestamos">
                 <div class="opcion-icon" style="color: var(--numia-azul);">
                   <i class="bi bi-cash-coin"></i>
                 </div>
-                <div class="opcion-title">Loans</div>
+                <div class="opcion-title">Préstamos</div>
               </div>
               <div class="opcion-card" style="cursor: pointer;" data-opcion="tarjetas">
                 <div class="opcion-icon" style="color: var(--numia-azul);">
                   <i class="bi bi-credit-card"></i>
                 </div>
-                <div class="opcion-title">Credit Cards</div>
+                <div class="opcion-title">Tarjetas de crédito</div>
               </div>
               <div class="opcion-card" style="cursor: pointer;" data-opcion="inversiones">
                 <div class="opcion-icon" style="color: var(--numia-azul);">
                   <i class="bi bi-graph-up-arrow"></i>
                 </div>
-                <div class="opcion-title">Investments</div>
+                <div class="opcion-title">Inversiones</div>
               </div>
             </div>
           </div>
@@ -1326,15 +1328,15 @@
         const scoring = extraerScoring(messageText);
         const textoLower = messageText.toLowerCase();
         const diceNoOPresencial =
-          textoLower.includes('suggest video call: no') ||
-          textoLower.includes('suggested service type: in-person') ||
-          textoLower.includes('suggested service type: branch');
+          textoLower.includes('sugerir videollamada: no') ||
+          textoLower.includes('tipo de atención sugerida: presencial') ||
+          textoLower.includes('tipo de atención sugerida: sucursal');
         let tieneVideollamadaTexto = false;
         if (!diceNoOPresencial) {
           tieneVideollamadaTexto =
-            textoLower.includes('suggest video call: yes') ||
-            textoLower.includes('suggested service type: video call') ||
-            (textoLower.includes('suggested service type') && textoLower.includes('video call'));
+            textoLower.includes('sugerir videollamada: sí') ||
+            textoLower.includes('tipo de atención sugerida: videollamada') ||
+            (textoLower.includes('tipo de atención sugerida') && textoLower.includes('videollamada'));
         }
         const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
         recomendacionVideollamada = tieneVideollamada;
@@ -1377,132 +1379,132 @@
           });
 
           const HARDCODED_RESPONSES = {
-            prestamos: `Customer Journey Analysis — ID: ${dniIngresado}
+            prestamos: `Análisis del recorrido del cliente — ID: ${dniIngresado}
 
-1 · Customer context
-Gustavo is identified. Numia retrieves a personal loan application he started digitally and abandoned 14 days ago. Credit score: 742 — high-value segment.
+1 · Contexto del cliente
+Se identifica a Nicolás. Numia recupera una solicitud de préstamo personal que inició de forma digital y abandonó hace 14 días. Puntaje crediticio: 742 — segmento de alto valor.
 
-2 · Intent & opportunity
-Active loan intent detected. The pre-approved offer is still eligible:
-• Personal Loan up to $1,000,000
-• Preferential rate: 18.5% APR
-• Term: 12 to 48 installments
+2 · Intención y oportunidad
+Intención de préstamo activa detectada. La oferta pre-aprobada sigue vigente:
+• Préstamo personal de hasta $1,000,000
+• Tasa preferencial: 18.5% TNA
+• Plazo: 12 a 48 cuotas
 
-3 · Real-time capacity
-• Remote specialist: available now
-• Branch wait time: ~18 min
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~18 min
 
-4 · Recommended journey
-Suggested service type: Video call
-Suggest video call: Yes
-
-────────────────────
-DECISION
-Recommend video call
-
-WHY
-• Active loan intent detected
-• Eligible offer available
-• Remote specialist available now
-• Branch wait time: 18 min
-
-EXPECTED OUTCOME
-Faster resolution + higher conversion probability`,
-            tarjetas: `Customer Journey Analysis — ID: ${dniIngresado}
-
-1 · Customer context
-Gustavo is identified. Active checking account with consistent activity over the last 6 months. No credit card on file. Credit score: 718.
-
-2 · Intent & opportunity
-Card intent detected. High cross-sell fit:
-• Numia Bank Platinum Credit Card
-• Pre-approved limit: $500,000
-• First-year annual fee waived
-• 2x points on every purchase
-
-3 · Real-time capacity
-• Remote specialist: available now
-• Branch wait time: ~15 min
-
-4 · Recommended journey
-Suggested service type: Video call
-Suggest video call: Yes
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
 
 ────────────────────
-DECISION
-Recommend video call
+DECISIÓN
+Recomendar videollamada
 
-WHY
-• Active card intent detected
-• Pre-approved limit available
-• Remote specialist available now
-• Branch wait time: 15 min
+POR QUÉ
+• Intención de préstamo activa detectada
+• Oferta elegible disponible
+• Especialista remoto disponible ahora
+• Tiempo de espera en sucursal: 18 min
 
-EXPECTED OUTCOME
-Remote activation in under 10 min + higher conversion probability`,
-            inversiones: `Customer Journey Analysis — ID: ${dniIngresado}
+RESULTADO ESPERADO
+Resolución más rápida + mayor probabilidad de conversión`,
+            tarjetas: `Análisis del recorrido del cliente — ID: ${dniIngresado}
 
-1 · Customer context
-Gustavo is identified. Savings balance averaging $2,800,000 over the last 3 months, earning below-market returns. Credit score: 761.
+1 · Contexto del cliente
+Se identifica a Nicolás. Cuenta corriente activa con actividad constante en los últimos 6 meses. Sin tarjeta de crédito registrada. Puntaje crediticio: 718.
 
-2 · Intent & opportunity
-Investment intent detected. Strong migration opportunity:
-• Fixed-Term Investment (FTI) — 30/60/90 days
-• Current rate: 9.2% annual
-• Minimum: $100,000
-• 100% capital guarantee
+2 · Intención y oportunidad
+Intención de tarjeta detectada. Alta oportunidad de venta cruzada:
+• Tarjeta de Crédito Numia Bank Platinum
+• Límite pre-aprobado: $500,000
+• Cuota anual sin costo el primer año
+• 2x puntos en cada compra
 
-3 · Real-time capacity
-• Remote specialist: available now
-• Branch wait time: ~20 min
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~15 min
 
-4 · Recommended journey
-Suggested service type: Video call
-Suggest video call: Yes
-
-────────────────────
-DECISION
-Recommend video call
-
-WHY
-• Active investment intent detected
-• Preferential rate available now
-• Remote specialist available now
-• Branch wait time: 20 min
-
-EXPECTED OUTCOME
-Lock in preferential rate + higher assets under management`,
-            hipoteca: `Customer Journey Analysis — ID: ${dniIngresado}
-
-1 · Customer context
-Gustavo is identified. At check-in he expressed interest in his pre-approved mortgage offer. Credit score: 742 — high-value segment with strong repayment capacity.
-
-2 · Intent & opportunity
-Active mortgage intent detected. Pre-approved offer available:
-• Mortgage up to $750,000
-• Preferential rate for existing customers
-• Terms up to 20 years
-
-3 · Real-time capacity
-• Mortgage specialist: available now
-• Branch wait time: ~25 min
-
-4 · Recommended journey
-Suggested service type: Video call
-Suggest video call: Yes
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
 
 ────────────────────
-DECISION
-Recommend video call with a mortgage specialist
+DECISIÓN
+Recomendar videollamada
 
-WHY
-• Active mortgage intent expressed at check-in
-• Pre-approved offer up to $750,000 available
-• Mortgage specialist available now
-• Branch wait time: 25 min
+POR QUÉ
+• Intención de tarjeta activa detectada
+• Límite pre-aprobado disponible
+• Especialista remoto disponible ahora
+• Tiempo de espera en sucursal: 15 min
 
-EXPECTED OUTCOME
-Faster resolution + higher conversion on a high-value product`
+RESULTADO ESPERADO
+Activación remota en menos de 10 min + mayor probabilidad de conversión`,
+            inversiones: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Saldo de ahorro promedio de $2,800,000 en los últimos 3 meses, con rendimientos por debajo del mercado. Puntaje crediticio: 761.
+
+2 · Intención y oportunidad
+Intención de inversión detectada. Fuerte oportunidad de migración:
+• Inversión a Plazo Fijo (IPF) — 30/60/90 días
+• Tasa actual: 9.2% anual
+• Mínimo: $100,000
+• Garantía de capital del 100%
+
+3 · Capacidad en tiempo real
+• Especialista remoto: disponible ahora
+• Tiempo de espera en sucursal: ~20 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar videollamada
+
+POR QUÉ
+• Intención de inversión activa detectada
+• Tasa preferencial disponible ahora
+• Especialista remoto disponible ahora
+• Tiempo de espera en sucursal: 20 min
+
+RESULTADO ESPERADO
+Asegurar la tasa preferencial + mayor volumen de activos gestionados`,
+            hipoteca: `Análisis del recorrido del cliente — ID: ${dniIngresado}
+
+1 · Contexto del cliente
+Se identifica a Nicolás. Durante el check-in expresó interés en su oferta de hipoteca pre-aprobada. Puntaje crediticio: 742 — segmento de alto valor con fuerte capacidad de pago.
+
+2 · Intención y oportunidad
+Intención de hipoteca activa detectada. Oferta pre-aprobada disponible:
+• Hipoteca de hasta $750,000
+• Tasa preferencial para clientes existentes
+• Plazos de hasta 20 años
+
+3 · Capacidad en tiempo real
+• Especialista en hipotecas: disponible ahora
+• Tiempo de espera en sucursal: ~25 min
+
+4 · Recorrido recomendado
+Tipo de atención sugerida: Videollamada
+Sugerir videollamada: Sí
+
+────────────────────
+DECISIÓN
+Recomendar videollamada con un especialista en hipotecas
+
+POR QUÉ
+• Intención de hipoteca expresada en el check-in
+• Oferta pre-aprobada de hasta $750,000 disponible
+• Especialista en hipotecas disponible ahora
+• Tiempo de espera en sucursal: 25 min
+
+RESULTADO ESPERADO
+Resolución más rápida + mayor conversión en un producto de alto valor`
           };
 
           const messageText = HARDCODED_RESPONSES[opcion] || HARDCODED_RESPONSES['prestamos'];
@@ -1526,7 +1528,7 @@ Faster resolution + higher conversion on a high-value product`
         const screenOpcionesTitle = screenOpciones.querySelector('h2');
         const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
         if (screenOpcionesTitle) {
-          screenOpcionesTitle.textContent = "Choose how you'd like to be served";
+          screenOpcionesTitle.textContent = "¿Cómo prefieres que te atendamos?";
         }
         if (screenOpcionesSubtitle) {
           screenOpcionesSubtitle.textContent = '';
@@ -1543,10 +1545,10 @@ Faster resolution + higher conversion on a high-value product`
             <div class="opcion-icon">
               <i class="bi bi-camera-video"></i>
             </div>
-            <div class="opcion-title">Video call</div>
-            <div class="opcion-less-wait">Less wait!</div>
-            <div class="opcion-badge">Available now</div>
-            <div class="opcion-desc">Connect immediately with a remote specialist</div>
+            <div class="opcion-title">Videollamada</div>
+            <div class="opcion-less-wait">¡Menos espera!</div>
+            <div class="opcion-badge">Disponible ahora</div>
+            <div class="opcion-desc">Conéctate de inmediato con un especialista remoto</div>
           `;
           cardVideo.addEventListener('click', () => solicitarAtencion('videollamada'));
           opcionesGrid.appendChild(cardVideo);
@@ -1560,18 +1562,18 @@ Faster resolution + higher conversion on a high-value product`
             <div class="opcion-icon">
               <i class="bi bi-geo-alt"></i>
             </div>
-            <div class="opcion-title">Continue in person</div>
-            <div class="opcion-badge">Estimated wait: 15 min</div>
-            <div class="opcion-desc">Branch service</div>
+            <div class="opcion-title">Continuar presencial</div>
+            <div class="opcion-badge">Espera estimada: 15 min</div>
+            <div class="opcion-desc">Atención en sucursal</div>
           `;
         } else {
           cardPresencial.innerHTML = `
             <div class="opcion-icon">
               <i class="bi bi-geo-alt"></i>
             </div>
-            <div class="opcion-title">Continue in person</div>
-            <div class="opcion-badge">Estimated wait: 15 min</div>
-            <div class="opcion-desc">Branch service</div>
+            <div class="opcion-title">Continuar presencial</div>
+            <div class="opcion-badge">Espera estimada: 15 min</div>
+            <div class="opcion-desc">Atención en sucursal</div>
           `;
         }
         cardPresencial.addEventListener('click', () => solicitarAtencion('presencial'));
@@ -1660,16 +1662,16 @@ Faster resolution + higher conversion on a high-value product`
         if (tipo === 'videollamada' && data && data.videoCallUrl) {
           // QR que abre la videollamada del cliente al escanearlo
           const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
-          titleEl.textContent = 'Take your video call on your phone';
-          subEl.textContent = 'Scan the QR code to start your video call now.';
-          capEl.textContent = 'Scan to start your video call';
+          titleEl.textContent = 'Toma tu videollamada desde tu celular';
+          subEl.textContent = 'Escanea el código QR para iniciar tu videollamada ahora.';
+          capEl.textContent = 'Escanea para iniciar tu videollamada';
           imgEl.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=10&data=' + encodeURIComponent(videoUrl);
-          imgEl.alt = 'QR code to start your video call';
+          imgEl.alt = 'Código QR para iniciar tu videollamada';
         } else {
           // Presencial: seguir el turno
-          titleEl.textContent = 'Take your place in line with you';
-          subEl.textContent = "Scan the QR code to track your wait time and get notified when it's your turn.";
-          capEl.textContent = 'Scan to follow your turn';
+          titleEl.textContent = 'Lleva tu turno contigo';
+          subEl.textContent = 'Escanea el código QR para seguir tu tiempo de espera y recibir aviso cuando sea tu turno.';
+          capEl.textContent = 'Escanea para seguir tu turno';
           imgEl.src = QR_PRESENCIAL_SRC;
           imgEl.alt = 'QR code to follow your turn';
         }
