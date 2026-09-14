@@ -761,7 +761,7 @@
   <div class="totem-container">
     <!-- Header -->
     <div class="totem-header">
-      <img src="images/Banreservas.png" alt="Banreservas" style="height: 48px; object-fit: contain;">
+      <img src="https://raw.githubusercontent.com/nzafra/DemoNZ/main/images/Banreservas.png" alt="Banreservas" style="height: 48px; object-fit: contain;">
       
     </div>
     
@@ -887,6 +887,12 @@
     </div>
   </div>
 
+  <!-- Back to menu button - Always visible -->
+  <button class="btn-cerrar-avatar" id="btnCerrarAvatar" title="Back to menu">
+    <i class="bi bi-x-circle"></i>
+    Back to menu
+  </button>
+  
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
@@ -1236,6 +1242,55 @@
           await llamarAgenteConOpcionTotem('inversiones');
         });
         opcionesGrid.appendChild(cardInversiones);
+      }
+      
+      // Mostrar opciones presenciales en el tótem
+      function mostrarOpcionesPresencialTotem() {
+        const opcionesPresencialContainer = document.getElementById('opcionesPresencialContainerTotem');
+        if (!opcionesPresencialContainer) return;
+        
+        // Si ya está visible, ocultarlo
+        if (opcionesPresencialContainer.style.display === 'block') {
+          opcionesPresencialContainer.style.display = 'none';
+          return;
+        }
+        
+        // Mostrar opciones
+        opcionesPresencialContainer.innerHTML = `
+          <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--numia-text); margin-bottom: 1.5rem; text-align: center;">How can we help you?</h3>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
+              <div class="opcion-card" style="cursor: pointer;" data-opcion="prestamos">
+                <div class="opcion-icon" style="color: var(--numia-azul);">
+                  <i class="bi bi-cash-coin"></i>
+                </div>
+                <div class="opcion-title">Loans</div>
+              </div>
+              <div class="opcion-card" style="cursor: pointer;" data-opcion="tarjetas">
+                <div class="opcion-icon" style="color: var(--numia-azul);">
+                  <i class="bi bi-credit-card"></i>
+                </div>
+                <div class="opcion-title">Cards</div>
+              </div>
+              <div class="opcion-card" style="cursor: pointer;" data-opcion="inversiones">
+                <div class="opcion-icon" style="color: var(--numia-azul);">
+                  <i class="bi bi-graph-up-arrow"></i>
+                </div>
+                <div class="opcion-title">Investments</div>
+              </div>
+            </div>
+          </div>
+        `;
+        opcionesPresencialContainer.style.display = 'block';
+        
+        // Agregar event listeners a las tarjetas
+        const cardsOpcion = opcionesPresencialContainer.querySelectorAll('[data-opcion]');
+        cardsOpcion.forEach(card => {
+          card.addEventListener('click', async () => {
+            const opcion = card.getAttribute('data-opcion');
+            await llamarAgenteConOpcionTotem(opcion);
+          });
+        });
       }
       
       function aplicarResumenYFlujoTotem(messageText) {
