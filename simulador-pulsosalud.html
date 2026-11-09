@@ -59,6 +59,8 @@ button { font-family: inherit; -webkit-tap-highlight-color: transparent; }
 .opt:active { transform: translateY(1px); }
 .opt.on { background: #2e6b33; color: #ffffff; }
 .opt.on:hover { outline: none; }
+.opt.spec { display: flex; align-items: center; justify-content: flex-start; gap: 12px; text-align: left; padding: 0 14px; font-size: 17px; }
+.opt.spec .n { min-width: 22px; font-size: 14px; font-weight: 500; opacity: .6; }
 .opt.cont { background: #2e6b33; color: #ffffff; box-shadow: none; margin-top: 8px; }
 .opt.cont:hover { outline: none; filter: brightness(.94); }
 .opt.cont:disabled { background: #a8c9ab; color: #e9f1ea; cursor: default; filter: none; }
@@ -142,83 +144,21 @@ const TX = {
 };
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-/* ---------- Catálogo y procesos (copia de backend/src/config) ---------- */
-const SERVICES = [
-  { id: 'lab', base: ['lab'], images: false },
-  { id: 'vac', base: ['vac'], images: false },
-  { id: 'img', base: [], images: true },
-  { id: 'labimg', base: ['lab'], images: true },
-  { id: 'labvac', base: ['lab', 'vac'], images: false },
-  { id: 'labvacimg', base: ['lab', 'vac'], images: true },
-  { id: 'vacimg', base: ['vac'], images: true },
+/* ---------- Especialidades (trámites) seleccionables: [id, nombre, letra del turno] ---------- */
+const SPECS = [
+  ['lab', 'Laboratorio', 'L'], ['med', 'Medicina', 'M'], ['oft', 'Oftalmología', 'O'], ['aud', 'Audiometría', 'A'],
+  ['psi', 'Psicología', 'P'], ['odo', 'Odontología', 'D'], ['rx', 'Rayos X', 'R'], ['esp', 'Espirometría', 'E'],
+  ['ecg', 'Electrocardiograma', 'K'], ['psico', 'Psico sensométrico', 'S'], ['mus', 'Músculo esquelético', 'U'], ['esf', 'Prueba de esfuerzo', 'F'],
 ];
-const STEP_QUEUE = { lab: 'Toma de Muestra Pendiente', vac: 'Vacunas Pendientes', tomo: 'Tomografia', reso: 'Resonancia Magnética', rx: 'Rayos X', densi: 'Densitometría Osea', mamo: 'Mamografía', sono: 'Sonografía' };
-const GROUPS = ['sincita', 'concita'];
-const STUDIES = [['sono', 'sincita'], ['mamo', 'sincita'], ['densi', 'sincita'], ['rx', 'sincita'], ['tomo', 'concita'], ['reso', 'concita']];
-const STUDY_IDS = STUDIES.map((s) => s[0]);
-
-// [id, trámite en debQ, s = secuencial / a = aleatorio, pasos en orden]
-const P = [
-  [6,'Laboratorio, Vacunación','s','lab vac'],[7,'Laboratorio, Sonografía','s','lab sono'],[8,'Laboratorio, Mamografía','s','lab mamo'],
-  [9,'Laboratorio, Densitometría ósea','s','lab densi'],[10,'Laboratorio, Rayos X','s','lab rx'],[11,'Laboratorio, Tomografía','s','lab tomo'],
-  [12,'Laboratorio, Resonancia magnética','s','lab reso'],[13,'Resonancia, Tomografia','a','tomo reso'],[14,'Densitometría ósea + Rayos X','a','rx densi'],
-  [15,'Mamografía + Densitometría ósea','a','densi mamo'],[16,'Mamografía + Rayos X','a','rx mamo'],[17,'Sonografía + Densitometría ósea','a','densi sono'],
-  [18,'Sonografía + Mamografía','a','mamo sono'],[19,'Sonografía + Rayos X','a','rx sono'],[20,'Resonancia magnética, Densitometría ósea','s','reso densi'],
-  [21,'Resonancia magnética, Mamografía','s','reso mamo'],[22,'Resonancia magnética, Rayos X','s','reso rx'],[23,'Resonancia magnética, Sonografía','s','reso sono'],
-  [24,'Tomografía, Densitometría ósea','s','tomo densi'],[25,'Tomografía, Mamografía','s','tomo mamo'],[26,'Tomografía, Rayos X','s','tomo rx'],
-  [27,'Tomografía, Sonografía','s','tomo sono'],[28,'Laboratorio, Densi, Sono','s','lab densi sono'],[29,'Laboratorio, Mamo, Sono','s','lab mamo sono'],
-  [30,'Laboratorio, RX, Densi','s','lab rx densi'],[31,'Laboratorio, RX, Mamo','s','lab rx mamo'],[32,'Laboratorio, RX, Sono','s','lab rx sono'],
-  [33,'Laboratorio, Reso, Densi','s','lab reso densi'],[34,'Laboratorio, Reso, RX','s','lab reso rx'],[35,'Mamo + Densi + RX','a','rx densi mamo'],
-  [36,'Vacunación, Sonografía','s','vac sono'],[37,'Vacunación, Mamografía','s','vac mamo'],[38,'Vacunación, Densitometría ósea','s','vac densi'],
-  [39,'Vacunación, Rayos X','s','vac rx'],[40,'Vacunación, Tomografía','s','vac tomo'],[41,'Vacunación, Resonancia magnética','s','vac reso'],
-  [42,'Laboratorio, Reso, Sono','s','lab reso sono'],[43,'Laboratorio, Tomo, Densi','s','lab tomo densi'],[44,'Laboratorio, Tomografía, Rayos X','s','lab tomo rx'],
-  [45,'Laboratorio, Tomo, Reso','s','lab tomo reso'],[46,'Laboratorio, Tomografía, Sonografía','s','lab tomo sono'],[47,'Reso, Densi, Mamo','s','reso densi mamo'],
-  [48,'Reso, Mamo, Sono','s','reso mamo sono'],[49,'Reso, RX, Densi','s','reso rx densi'],[50,'Reso, RX, Mamo','s','reso rx mamo'],
-  [51,'Reso, RX, Sono','s','reso rx sono'],[52,'Sono + Densi + RX','a','sono densi rx'],[53,'Sono + Mamo + Densi','a','sono mamo densi'],
-  [54,'Sonografía + Mamografía + Rayos X','a','sono mamo rx'],[55,'Tomo, Densi, Sono','s','tomo densi sono'],[56,'Tomografía, Mamografía, Sonografía','s','tomo mamo sono'],
-  [57,'Tomografía, Rayos X, Densitometría ósea','s','tomo rx densi'],[58,'Tomografía, Rayos X, Sonografía','s','tomo rx sono'],[59,'Tomo, Reso, Densi','s','tomo reso densi'],
-  [60,'Tomo, Reso, Mamo','s','tomo reso mamo'],[61,'Tomo, Reso, RX','s','tomo reso rx'],[62,'Tomo, Reso, Sono','s','tomo reso sono'],
-  [63,'Laboratorio, Vacunación, Sonografía','s','lab vac sono'],[64,'Laboratorio, Vacunación, Mamografía','s','lab vac mamo'],[65,'Laboratorio, Vacunación, Densi','s','lab vac densi'],
-  [66,'Laboratorio, Vacunación, Rayos X','s','lab vac rx'],[67,'Laboratorio, Vacunación, Tomografía','s','lab vac tomo'],[68,'Laboratorio, Vacunación, Reso','s','lab vac reso'],
-  [69,'Laboratorio, Densi, Mamo','s','lab densi mamo'],[70,'Laboratorio, Tomografía, Mamografía','s','lab tomo mamo'],[71,'Laboratorio, Reso, Mamo','s','lab reso mamo'],
-  [72,'Vacunación, Mamografía, Sonografía','s','vac mamo sono'],[73,'Vacunación, Densi, Sono','s','vac densi sono'],[74,'Vacunación, Rayos X, Sonografía','s','vac rx sono'],
-  [75,'Vacunación, Tomografía, Sonografía','s','vac tomo sono'],[76,'Vacunación, Reso, Sono','s','vac reso sono'],[77,'Vacunación, Densi, Mamo','s','vac densi mamo'],
-  [78,'Vacunación, Rayos X, Mamografía','s','vac rx mamo'],[79,'Vacunación, Tomografía, Mamografía','s','vac tomo mamo'],[80,'Vacunación, Reso, Mamo','s','vac reso mamo'],
-  [81,'Vacunación, Rayos X, Densitometría ósea','s','vac rx densi'],[82,'Vacunación, Tomo, Densi','s','vac tomo densi'],[83,'Vacunación, Reso, Densi','s','vac reso densi'],
-  [84,'Vacunación, Tomografía, Rayos X','s','vac tomo rx'],[85,'Vacunación, Reso, RX','s','vac reso rx'],[86,'Vacunación, Tomo, Reso','s','vac tomo reso'],
-  [87,'Laboratorio, Densi, Mamo, Sono','s','lab densi mamo sono'],[88,'Laboratorio, RX, Densi, Sono','s','lab rx densi sono'],[89,'Laboratorio, RX, Mamo, Sono','s','lab rx mamo sono'],
-  [90,'Laboratorio, Reso, Mamo, Sono','s','lab reso mamo sono'],[91,'Laboratorio, Reso, RX, Densi','s','lab reso rx densi'],[92,'Laboratorio, Reso, RX, Sono','s','lab reso rx sono'],
-  [93,'Laboratorio, Tomo, Densi, Sono','s','lab tomo densi sono'],[94,'Laboratorio, Tomo, Mamo, Sono','s','lab tomo mamo sono'],[95,'Laboratorio, Tomo, RX, Densi','s','lab tomo rx densi'],
-  [96,'Laboratorio, Tomo, RX, Sono','s','lab tomo rx sono'],[97,'Laboratorio, Tomo, Reso, RX','s','lab tomo reso rx'],[98,'Laboratorio, Tomo, Reso, Sono','s','lab tomo reso sono'],
-  [99,'Reso, Densi, Mamo, Sono','s','reso densi mamo sono'],[100,'Reso, RX, Densi, Sono','s','reso rx densi sono'],[101,'Reso, RX, Mamo, Sono','s','reso rx mamo sono'],
-  [102,'Sono + Mamo + Densi + RX','a','sono mamo densi rx'],[103,'Tomo, Densi, Mamo, Sono','s','tomo densi mamo sono'],[104,'Tomo, RX, Mamo, Sono','s','tomo rx mamo sono'],
-  [105,'Tomo, Reso, Densi, Sono','s','tomo reso densi sono'],[106,'Tomo, Reso, Mamo, Sono','s','tomo reso mamo sono'],[107,'Tomo, Reso, RX, Densi','s','tomo reso rx densi'],
-  [108,'Tomo, Reso, RX, Mamo','s','tomo reso rx mamo'],[109,'Tomo, Reso, RX, Sono','s','tomo reso rx sono'],[110,'Laboratorio, RX, Densi, Mamo, Sono','s','lab rx densi mamo sono'],
-  [111,'Laboratorio, Reso, Densi, Mamo, Sono','s','lab reso densi mamo sono'],[112,'Laboratorio, Reso, RX, Densi, Sono','s','lab reso rx densi sono'],[113,'Laboratorio, Reso, RX, Mamo, Sono','s','lab reso rx mamo sono'],
-  [114,'Laboratorio, Tomo, Densi, Mamo, Sono','s','lab tomo densi mamo sono'],[115,'Laboratorio, Tomo, Reso, Densi, Sono','s','lab tomo reso densi sono'],[116,'Reso, RX, Densi, Mamo, Sono','s','reso rx densi mamo sono'],
-  [117,'Tomo, RX, Densi, Mamo, Sono','s','tomo rx densi mamo sono'],[118,'Tomo, Reso, RX, Mamo, Sono','s','tomo reso rx mamo sono'],[119,'Laboratorio, Reso, RX, Densi, Mamo, Sono','s','lab reso rx densi mamo sono'],
-  [120,'Laboratorio, Tomo, Reso, RX, Mamo, Sono','s','lab tomo reso rx mamo sono'],
-];
-const COMBOS = [
-  ...Object.keys(STEP_QUEUE).map((s) => ({ id: null, tramite: STEP_QUEUE[s], tipo: 'simple', steps: [s] })),
-  ...P.map(([id, tramite, tp, steps]) => ({ id, tramite, tipo: tp === 'a' ? 'aleatorio' : 'secuencial', steps: steps.split(' ') })),
-];
-
-/* ---------- Reglas (copia de frontend/src/utils/combos.ts) ---------- */
-const key = (steps) => [...steps].sort().join('+');
-const isBase = (s) => !STUDY_IDS.includes(s);
-const combosFor = (svc) => COMBOS.filter((c) => key(c.steps.filter(isBase)) === key(svc.base) && c.steps.some((s) => !isBase(s)) === svc.images);
-const exactCombo = (combos, svc, sel) => combos.find((c) => key(c.steps) === key([...svc.base, ...sel]));
-const canAdd = (combos, sel, study) => combos.some((c) => [...sel, study].every((s) => c.steps.includes(s)));
-const comboLabel = (c) => c.steps.map((s) => esc(TX['step.' + s])).join(c.tipo === 'aleatorio' ? ' + ' : ' &gt; ');
+const specOf = (id) => SPECS.find((x) => x[0] === id);
+// Se puede elegir una o varias; varias se atienden de forma secuencial, en el orden en que se marcaron.
+const buildCombo = (sel) => ({ steps: sel, names: sel.map((id) => specOf(id)[1]), tramite: sel.map((id) => specOf(id)[1]).join(', '), tipo: sel.length > 1 ? 'secuencial' : 'simple' });
+const comboLabel = (c) => c.names.map(esc).join(' &gt; ');
 const tipoText = (tipo) => (tipo === 'simple' ? '' : `<div class="flow">${esc(TX['tipo.' + tipo])}</div>`);
 
 /* ---------- Estado (como useKioskFlow) ---------- */
-const MIN = { cedula: 11, pasaporte: 5 };
-const MAX = { cedula: 11, pasaporte: 15 };
-// Flujo reducido: abre directo en Laboratorio + Imágenes (sin login ni cédula).
-const INITIAL = { screen: 'estudio', doc: 'cedula', value: '', sym: false, svc: 'labimg', sel: [], result: null };
-let logged = true;
+// Flujo reducido: abre directo en la selección de especialidades (sin login ni cédula).
+const INITIAL = { screen: 'estudio', sel: [], result: null };
 let st = { ...INITIAL };
 let hist = [];
 let busy = false;
@@ -230,7 +170,6 @@ const app = $('app');
 const go = (patch) => { error = null; hist.push({ ...st, sel: [...st.sel] }); st = { ...st, ...patch }; render(); };
 const back = () => { error = null; const prev = hist.pop(); if (prev) { st = prev; render(); } };
 const reset = () => { hist = []; error = null; busy = false; st = { ...INITIAL }; render(); };
-const validDoc = () => st.value.length >= MIN[st.doc];
 
 /* ---------- Componentes ---------- */
 const IconBack = '<svg viewBox="0 0 14 20"><path d="M11 2 3 10l8 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -242,90 +181,22 @@ const backBtn = () => !hist.length ? '' : `<button type="button" class="back" da
 const feedback = () => (busy ? '<p class="busy" role="status">Emitiendo turno…</p>' : error ? `<p class="alert" role="alert">${esc(error)}</p>` : '');
 
 /* ---------- Pantallas ---------- */
-function viewLogin() {
-  return `<section class="screen">${logo()}
-    <h1>Pantalla de Recepción</h1>
-    <form class="login-form" id="login-form">
-      <label for="user">Usuario</label>
-      <input id="user" autocomplete="username">
-      <label for="pass">Contraseña</label>
-      <input id="pass" type="password" autocomplete="current-password">
-      <button type="submit" class="continue" id="login-btn" disabled>Ingresar</button>
-    </form>
-  </section>`;
-}
-
-function viewId() {
-  const ced = st.doc === 'cedula';
-  const can = validDoc();
-  let pad;
-  if (ced) {
-    pad = `<div class="pad num">${'123456789'.split('').map((n) => `<button type="button" class="k" data-key="${n}">${n}</button>`).join('')}
-      <button type="button" class="k" data-act="clear" aria-label="Borrar todo">${IconX}</button>
-      <button type="button" class="k" data-key="0">0</button>
-      <button type="button" class="k" data-act="del" aria-label="Borrar">${IconDel}</button></div>
-      <button type="button" class="continue" data-act="go-id" ${can ? '' : 'disabled'}>Continuar</button>`;
-  } else {
-    const rows = st.sym ? ['1234567890', '-_/.#&()*+', '!?$%=:;,'] : ['QWERTYUIOP', 'ASDFGHJKLÑ', 'ZXCVBNM'];
-    const k1 = (c) => `<button type="button" class="k" data-key="${esc(c)}">${esc(c)}</button>`;
-    pad = `<div class="pad alpha">${rows[0].split('').map(k1).join('')}${rows[1].split('').map(k1).join('')}
-      <button type="button" class="k" data-act="sym" style="grid-column: span 1">${st.sym ? 'ABC' : '@!#'}</button>
-      ${rows[2].split('').map(k1).join('')}
-      <button type="button" class="k" data-act="del" aria-label="Borrar" style="grid-column: span ${st.sym ? 1 : 2}">${IconDel}</button>
-      <button type="button" class="k" data-act="clear" aria-label="Borrar todo">${IconX}</button>
-      ${k1('@')}<button type="button" class="k" data-key=" " aria-label="Espacio" style="grid-column: span 4"></button>${k1('.')}
-      <button type="button" class="continue" data-act="go-id" style="grid-column: span 3" ${can ? '' : 'disabled'}>Continuar</button></div>`;
-  }
-  return `<section class="screen">
-    <button type="button" class="logout" data-act="logout">Cerrar sesión</button>
-    ${logo()}
-    <h1>¡Le damos la bienvenida!</h1>
-    <p class="prompt">Por favor ingrese su ${ced ? 'cédula de identidad' : 'pasaporte'}:</p>
-    <div class="idwrap">
-      <div class="doc-tabs">
-        <button type="button" class="tab ${ced ? 'on' : ''}" data-act="doc" data-doc="cedula">Cédula de Identidad</button>
-        <button type="button" class="tab ${ced ? '' : 'on'}" data-act="doc" data-doc="pasaporte">Pasaporte</button>
-      </div>
-      <div><div class="field" aria-live="polite">${esc(st.value)}<span class="caret"></span></div>${pad}</div>
-    </div>
-  </section>`;
-}
-
-function viewServicio() {
-  const btns = SERVICES.map((s) => `<button type="button" class="opt" data-act="svc" data-svc="${s.id}" ${busy || combosFor(s).length === 0 ? 'disabled' : ''}>${esc(TX['svc.' + s.id])}</button>`).join('');
-  return `<section class="screen">${backBtn()}${logo()}
-    <p class="hint">¿Qué servicios se facturaron al paciente?</p>
-    <div class="svc-grid">${btns}</div>${feedback()}
-  </section>`;
-}
-
 function viewEstudios() {
-  const svc = SERVICES.find((s) => s.id === st.svc);
-  const combos = combosFor(svc);
   const sel = st.sel;
-  const match = sel.length ? exactCombo(combos, svc, sel) : undefined;
-  const extendable = STUDY_IDS.some((s) => !sel.includes(s) && canAdd(combos, sel, s));
-  let status;
-  if (!sel.length) status = 'Todavía no elegiste estudios.';
-  else if (match) status = comboLabel(match);
-  else status = 'Esta combinación no tiene proceso. Sumá o quitá estudios.';
-
-  const groups = GROUPS.map((g) => `<div class="study-group"><h2>${esc(TX['group.' + g])}</h2>
-    <div class="svc-grid">${STUDIES.filter((s) => s[1] === g).map(([id]) => {
-      const on = sel.includes(id);
-      return `<button type="button" class="opt${on ? ' on' : ''}" aria-pressed="${on}" data-act="study" data-study="${id}" ${busy || (!on && !canAdd(combos, sel, id)) ? 'disabled' : ''}>${esc(TX['step.' + id])}</button>`;
-    }).join('')}</div></div>`).join('');
-
+  const btns = SPECS.map(([id, name], i) => {
+    const on = sel.includes(id);
+    return `<button type="button" class="opt spec${on ? ' on' : ''}" aria-pressed="${on}" data-act="study" data-study="${id}" ${busy ? 'disabled' : ''}><span class="n">${i + 1}</span>${esc(name)}</button>`;
+  }).join('');
+  const combo = sel.length ? buildCombo(sel) : null;
   return `<section class="screen">${backBtn()}${logo()}
-    <p class="hint">${esc(TX['svc.' + svc.id])}: marcá los estudios facturados y pulsá Continuar.<br>Los que quedan en gris no se pueden combinar con lo ya elegido.</p>
-    ${groups}
-    <div class="preview${match ? ' ok' : ''}" aria-live="polite">
-      <div class="lbl">Proceso a emitir</div>
-      <div class="seq">${status}</div>
-      ${match ? tipoText(match.tipo) : ''}
-      ${match && !extendable && sel.length > 0 ? '<div class="flow">No se pueden sumar más estudios.</div>' : ''}
+    <p class="hint">Especialidades: marcá una o varias y pulsá Continuar.</p>
+    <div class="study-group"><h2>Especialidades</h2><div class="svc-grid">${btns}</div></div>
+    <div class="preview${combo ? ' ok' : ''}" aria-live="polite">
+      <div class="lbl">Trámite a emitir</div>
+      <div class="seq">${combo ? comboLabel(combo) : 'Todavía no elegiste especialidades.'}</div>
+      ${combo ? tipoText(combo.tipo) : ''}
     </div>
-    <div class="list compact"><button type="button" class="opt cont" data-act="finish" ${!match || busy ? 'disabled' : ''}>Continuar</button></div>
+    <div class="list compact"><button type="button" class="opt cont" data-act="finish" ${!combo || busy ? 'disabled' : ''}>Continuar</button></div>
     ${feedback()}
   </section>`;
 }
@@ -383,7 +254,7 @@ let idleMs = 0;
 function armIdle() {
   clearTimeout(idleTimer);
   idleTimer = null;
-  if (!logged || (st.screen === 'estudio' && !st.sel.length && !hist.length)) return;
+  if (st.screen === 'estudio' && !st.sel.length) return;
   idleMs = (st.screen === 'done' ? 6 : 45) * 1000;
   idleTimer = setTimeout(reset, idleMs);
 }
@@ -393,28 +264,22 @@ function armIdle() {
 let lastScreen = null;
 let lastHasValue = false;
 function render() {
-  if (!logged) app.innerHTML = viewLogin();
-  else if (st.screen === 'id') app.innerHTML = viewId();
-  else if (st.screen === 'servicio') app.innerHTML = viewServicio();
-  else if (st.screen === 'estudio') app.innerHTML = viewEstudios();
+  if (st.screen === 'estudio') app.innerHTML = viewEstudios();
   else if (st.screen === 'done') app.innerHTML = viewTicket();
-  if (st.screen !== 'done' || !logged) unmountPrintTicket();
-  const screen = logged ? st.screen : 'login';
+  if (st.screen !== 'done') unmountPrintTicket();
+  const screen = st.screen;
   if (screen === lastScreen) app.querySelector('.screen')?.classList.add('same');
-  const hasValue = st.value.length > 0 || st.sel.length > 0;
+  const hasValue = st.sel.length > 0;
   if (screen !== lastScreen || hasValue !== lastHasValue) armIdle();
   lastScreen = screen;
   lastHasValue = hasValue;
 }
 
 /* ---------- Emisión (respuesta de debQ simulada) ---------- */
-function emit(svcId, sel) {
-  if (busy) return;
-  const svc = SERVICES.find((s) => s.id === svcId);
-  const combo = exactCombo(combosFor(svc), svc, sel);
-  if (!combo) { error = 'Esa combinación de servicios no tiene un proceso en debQ.'; render(); return; }
+function emit(sel) {
+  if (busy || !sel.length) return;
+  const combo = buildCombo(sel);
   busy = true; error = null;
-  st = { ...st, svc: svcId };
   render();
   setTimeout(() => {
     busy = false;
@@ -422,62 +287,26 @@ function emit(svcId, sel) {
     const now = new Date();
     const p2 = (n) => String(n).padStart(2, '0');
     const date = `${p2(now.getDate())}/${p2(now.getMonth() + 1)}/${now.getFullYear()} ${p2(now.getHours())}:${p2(now.getMinutes())}`;
-    const result = { code: (combo.id === 13 ? 'PC' : 'LI') + counter, combo, date, wait: 'Tiempo de espera aproximado: 10 min' };
-    go({ svc: svcId, sel, screen: 'done', result });
+    const result = { code: specOf(sel[0])[2] + counter, combo, date, wait: 'Tiempo de espera aproximado: 10 min' };
+    go({ screen: 'done', result });
     mountPrintTicket(result);
   }, 700);
 }
 
 /* ---------- Eventos ---------- */
-function setValue(v) { if (v.length <= MAX[st.doc]) { st = { ...st, value: v }; render(); } }
-
 app.addEventListener('click', (e) => {
   const b = e.target.closest('button');
-  if (!b || b.disabled || b.type === 'submit') return;
-  if (b.dataset.key !== undefined) return setValue(st.value + b.dataset.key);
+  if (!b || b.disabled) return;
   switch (b.dataset.act) {
-    case 'del': return setValue(st.value.slice(0, -1));
-    case 'clear': return setValue('');
-    case 'sym': st = { ...st, sym: !st.sym }; return render();
-    case 'doc': st = { ...st, doc: b.dataset.doc, value: '', sym: false }; return render();
-    case 'go-id': if (validDoc()) go({ screen: 'servicio' }); return;
-    case 'logout': logged = false; reset(); return;
     case 'back': return back();
-    case 'svc': {
-      const svc = SERVICES.find((s) => s.id === b.dataset.svc);
-      if (!svc.images) return emit(svc.id, []);
-      return go({ svc: svc.id, sel: [], screen: 'estudio' });
-    }
     case 'study': {
       const id = b.dataset.study;
       st = { ...st, sel: st.sel.includes(id) ? st.sel.filter((x) => x !== id) : [...st.sel, id] };
       return render();
     }
-    case 'finish': if (st.svc && st.sel.length) emit(st.svc, st.sel); return;
+    case 'finish': return emit(st.sel);
     case 'reprint': return window.print();
   }
-});
-
-// Login: el botón se habilita con usuario y contraseña; en el simulador cualquier combinación entra.
-app.addEventListener('input', (e) => {
-  if (e.target.id !== 'user' && e.target.id !== 'pass') return;
-  $('login-btn').disabled = !$('user').value || !$('pass').value;
-});
-app.addEventListener('submit', (e) => {
-  if (e.target.id !== 'login-form') return;
-  e.preventDefault();
-  if (!$('user').value || !$('pass').value) return;
-  logged = true;
-  reset();
-});
-
-// Teclado físico en Identificación (como el custom).
-document.addEventListener('keydown', (e) => {
-  if (!logged || st.screen !== 'id') return;
-  if (e.key === 'Backspace') return setValue(st.value.slice(0, -1));
-  if (e.key === 'Enter' && validDoc()) return go({ screen: 'servicio' });
-  const ok = st.doc === 'cedula' ? /^[0-9]$/.test(e.key) : /^[a-zA-ZñÑ0-9@. ]$/.test(e.key);
-  if (ok) setValue(st.value + e.key.toUpperCase());
 });
 
 render();
